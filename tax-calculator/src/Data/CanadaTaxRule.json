@@ -1,0 +1,347 @@
+{
+    "federalTax": [
+        {
+            "min": 0,
+            "max": 48535,
+            "taxRate": 15
+        },
+        {
+            "min": 48536,
+            "max": 97069,
+            "taxRate": 20.5
+        },
+        {
+            "min": 97070,
+            "max": 150473,
+            "taxRate": 26
+        },
+        {
+            "min": 150474,
+            "max": 214368,
+            "taxRate": 29
+        },
+        {
+            "min": 214369,
+            "max": null,
+            "taxRate": 33
+        }
+    ],
+    "provincialTax": {
+        "al": [
+            {
+                "min": 0,
+                "max": 131220,
+                "taxRate": 10
+            },
+            {
+                "min": 131221,
+                "max": 157464,
+                "taxRate": 12
+            },
+            {
+                "min": 157465,
+                "max": 209952,
+                "taxRate": 13
+            },
+            {
+                "min": 209953,
+                "max": 314928,
+                "taxRate": 14
+            },
+            {
+                "min": 314929,
+                "max": null,
+                "taxRate": 15
+            }
+        ],
+        "bc": [
+            {
+                "min": 0,
+                "max": 41725,
+                "taxRate": 5.06
+            },
+            {
+                "min": 41726,
+                "max": 83451,
+                "taxRate": 7.7
+            },
+            {
+                "min": 83452,
+                "max": 95812,
+                "taxRate": 10.5
+            },
+            {
+                "min": 95813,
+                "max": 116344,
+                "taxRate": 12.29
+            },
+            {
+                "min": 116345,
+                "max": 157748,
+                "taxRate": 14.7
+            },
+            {
+                "min": 157749,
+                "max": null,
+                "taxRate": 16.7
+            }
+        ],
+        "ma": [
+            {
+                "min": 0,
+                "max": 33389,
+                "taxRate": 10.8
+            },
+            {
+                "min": 33390,
+                "max": 72164,
+                "taxRate": 12.75
+            },
+            {
+                "min": 72165,
+                "max": null,
+                "taxRate": 17.4
+            }
+        ],
+        "nb": [
+            {
+                "min": 0,
+                "max": 43401,
+                "taxRate": 9.68
+            },
+            {
+                "min": 43402,
+                "max": 86803,
+                "taxRate": 14.82
+            },
+            {
+                "min": 86804,
+                "max": 141122,
+                "taxRate": 16.52
+            },
+            {
+                "min": 141123,
+                "max": 160776,
+                "taxRate": 17.84
+            },
+            {
+                "min": 160777,
+                "max": null,
+                "taxRate": 20.3
+            }
+        ],
+        "ns": [
+            {
+                "min": 0,
+                "max": 131220,
+                "taxRate": 10
+            },
+            {
+                "min": 131221,
+                "max": 157464,
+                "taxRate": 12
+            },
+            {
+                "min": 157465,
+                "max": 209952,
+                "taxRate": 13
+            },
+            {
+                "min": 209953,
+                "max": 314928,
+                "taxRate": 14
+            },
+            {
+                "min": 314929,
+                "max": null,
+                "taxRate": 15
+            }
+        ],
+        "on": [
+            {
+                "min": 0,
+                "max": 44740,
+                "taxRate": 5.05
+            },
+            {
+                "min": 44741,
+                "max": 89482,
+                "taxRate": 9.15
+            },
+            {
+                "min": 89483,
+                "max": 150000,
+                "taxRate": 11.16
+            },
+            {
+                "min": 150001,
+                "max": 220000,
+                "taxRate": 12.16
+            },
+            {
+                "min": 220001,
+                "max": null,
+                "taxRate": 13.16
+            }
+        ],
+        "qc": [
+            {
+                "min": 0,
+                "max": 131220,
+                "taxRate": 10
+            },
+            {
+                "min": 131221,
+                "max": 157464,
+                "taxRate": 12
+            },
+            {
+                "min": 157465,
+                "max": 209952,
+                "taxRate": 13
+            },
+            {
+                "min": 209953,
+                "max": 314928,
+                "taxRate": 14
+            },
+            {
+                "min": 314929,
+                "max": null,
+                "taxRate": 15
+            }
+        ],
+        "sk": [
+            {
+                "min": 0,
+                "max": 45225,
+                "taxRate": 10.5
+            },
+            {
+                "min": 45226,
+                "max": 129214,
+                "taxRate": 12.5
+            },
+            {
+                "min": 129215,
+                "max": null,
+                "taxRate": 14.5
+            }
+        ],
+        "nl": [
+            {
+                "min": 0,
+                "max": 37929,
+                "taxRate": 8.7
+            },
+            {
+                "min": 37930,
+                "max": 75858,
+                "taxRate": 14.5
+            },
+            {
+                "min": 75859,
+                "max": 135432,
+                "taxRate": 15.8
+            },
+            {
+                "min": 135433,
+                "max": 189604,
+                "taxRate": 17.3
+            },
+            {
+                "min": 189605,
+                "max": null,
+                "taxRate": 18.3
+            }
+        ],
+        "pei": [
+            {
+                "min": 0,
+                "max": 31984,
+                "taxRate": 9.8
+            },
+            {
+                "min": 31985,
+                "max": 63969,
+                "taxRate": 13.8
+            },
+            {
+                "min": 63970,
+                "max": null,
+                "taxRate": 16.7
+            }
+        ],
+        "yk": [
+            {
+                "min": 0,
+                "max": 48535,
+                "taxRate": 6.4
+            },
+            {
+                "min": 48536,
+                "max": 97069,
+                "taxRate": 9
+            },
+            {
+                "min": 97070,
+                "max": 151473,
+                "taxRate": 10.9
+            },
+            {
+                "min": 151474,
+                "max": 501000,
+                "taxRate": 12.8
+            },
+            {
+                "min": 501001,
+                "max": null,
+                "taxRate": 15
+            }
+        ],
+        "nt": [
+            {
+                "min": 0,
+                "max": 43957,
+                "taxRate": 5.9
+            },
+            {
+                "min": 43958,
+                "max": 87916,
+                "taxRate": 8.6
+            },
+            {
+                "min": 87917,
+                "max": 149232,
+                "taxRate": 12.2
+            },
+            {
+                "min": 149233,
+                "max": null,
+                "taxRate": 14.05
+            }
+        ],
+        "nv": [
+            {
+                "min": 0,
+                "max": 46277,
+                "taxRate": 4
+            },
+            {
+                "min": 46278,
+                "max": 92555,
+                "taxRate": 7
+            },
+            {
+                "min": 92556,
+                "max": 150473,
+                "taxRate": 9
+            },
+            {
+                "min": 150474,
+                "max": null,
+                "taxRate": 11.5
+            }
+        ]
+    }
+}
