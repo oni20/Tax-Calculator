@@ -7,6 +7,14 @@ This is a Single Page Application (SPA) showing tax calculation of a single pers
 
 Tax rules are leveraged from [CRA Website](https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html)
 
+## UX link
+Checkout latest [Design](https://xd.adobe.com/view/70389bcf-c86b-4d70-49a4-26169b8f5501-0609/screen/a190558d-f10c-49ec-beea-5312b044a48a/)
+
+Password
+```bash
+Taxcal@2020
+```
+
 ## In-scope development
 We will develop
 - Few form fields as Input box to collect user's salary criteria.
