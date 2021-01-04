@@ -1,9 +1,6 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 
-/* Import custom stylesheet */
-import HeaderStyle from '../../styles/Header.module.css';
-
 const Header = props => {
 
   const handleSelect = (eventKey) => props.handleLanguageToggle(props.language == "en" ? "fr" : "en");

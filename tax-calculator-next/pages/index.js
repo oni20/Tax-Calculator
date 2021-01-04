@@ -11,7 +11,7 @@ import Dictionary from '../data/Translator';
 import CanadaTaxRule from '../data/CanadaTaxRule.json';
 
 /* Import custom stylesheet */
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 
 const currYear = new Date().getFullYear();
 
