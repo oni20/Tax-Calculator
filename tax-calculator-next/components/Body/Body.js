@@ -8,7 +8,7 @@ import InputControlList from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
 
-import BodyStyle from '../../styles/Body.module.css';
+import BodyStyle from '../../styles/Body.module.scss';
 
 const Body = props => {
   const [validated, setValidated] = useState(false),
