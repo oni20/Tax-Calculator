@@ -11,7 +11,8 @@ import Dictionary from '../data/Translator';
 import CanadaTaxRule from '../data/CanadaTaxRule.json';
 
 /* Import custom stylesheet */
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
+import '../styles/App.scss';  
 
 const currYear = new Date().getFullYear();
 
@@ -41,7 +42,6 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
       </Head>
 
       <main className={styles.main}>

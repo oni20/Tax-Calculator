@@ -19,6 +19,16 @@ a {
   box-sizing: border-box;
 }
 
+body .no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+body .no-margin {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 /* Materialize Icons */
 .icon-block {
   padding: 0 15px;
