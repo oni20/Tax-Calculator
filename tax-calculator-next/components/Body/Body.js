@@ -21,28 +21,6 @@ const Body = props => {
     this.setState({ setDDVal: event.target.value });
   }
 
-  const adjustInputChangeByRange = (id, value) =>{
-    setInputState(prevState => ({
-      ...prevState, [id]: value
-    }));
-
-    setRangeState(prevState => ({
-      ...prevState, [id + "Range"]: value
-    }));
-  }
-
-  const handleInputChange = event => {
-    const { id, value } = event.target;
-
-    setInputState(prevState => ({
-      ...prevState, [id]: value
-    }));
-
-    setRangeState(prevState => ({
-      ...prevState, [id + "Range"]: value
-    }));
-  }
-
   const handleSubmit = (event) => {
     const form = event.currentTarget;
 
@@ -92,6 +70,7 @@ const Body = props => {
               {/* Hourly Rate */}
               <FormInputRange
                 controlId="formHourlYRate"
+                iconName="monetization_on"
                 label={props.bodyContent.hourlyRateLabel}
                 errorMessage={props.bodyContent.errorMessage.missingHourlyRate}
                 rangeMax="1000"
@@ -100,6 +79,7 @@ const Body = props => {
               {/* Working hour in a week */}
               <FormInputRange
                 controlId="formWorkingWeeklyHour"
+                iconName="hourglass_top"
                 label={props.bodyContent.workingHoursInWeekLabel}
                 errorMessage={props.bodyContent.errorMessage.missingWeeklyHours}
                 rangeMax="60"
@@ -108,6 +88,7 @@ const Body = props => {
               {/* Working weeks in a year */}
               <FormInputRange
                 controlId="formWorkingWeekAnnual"
+                iconName="date_range"
                 label={props.bodyContent.totalWorkingWeeksInAYear}
                 errorMessage={props.bodyContent.errorMessage.missingAnnualWeeks}
                 rangeMax="52"

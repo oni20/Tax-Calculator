@@ -15,7 +15,7 @@ const FormInputRange = props => {
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <InputGroup.Text id="hourly_rate" className="no-bg">
-                            <i className="material-icons prefix">monetization_on</i>
+                            <i className="material-icons prefix">{props.iconName}</i>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
