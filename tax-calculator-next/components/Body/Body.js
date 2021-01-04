@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../common/Table';
-import Radio from '../common/Radio';
+
+/* React Bootstrap */
+import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup } from 'react-bootstrap';
+
+/* Custom component */
+import IncomeTable from '../common/IncomeTable';
+import FormInputRange from './FormInputRange';
 
 const Body = props => {
-  const [provinceDDVal, setProvinceDDVal] = useState(""),
+  const [validated, setValidated] = useState(false),    
+    [provinceDDVal, setProvinceDDVal] = useState(""),
     [currentProvinceTaxRule, setCurrentProvinceTaxRule] = useState([]),
-    [rangeVal, setRangeVal] = useState(0),
     [ddVal, setDDVal] = useState("");
 
   useEffect(() => {
@@ -16,10 +21,38 @@ const Body = props => {
     this.setState({ setDDVal: event.target.value });
   }
 
-  const calculateTax = (event) => {
-    event.preventDefault();
+  const adjustInputChangeByRange = (id, value) =>{
+    setInputState(prevState => ({
+      ...prevState, [id]: value
+    }));
+
+    setRangeState(prevState => ({
+      ...prevState, [id + "Range"]: value
+    }));
   }
 
+  const handleInputChange = event => {
+    const { id, value } = event.target;
+
+    setInputState(prevState => ({
+      ...prevState, [id]: value
+    }));
+
+    setRangeState(prevState => ({
+      ...prevState, [id + "Range"]: value
+    }));
+  }
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  }
 
   let dummy = {
     "annual": 50,
@@ -30,77 +63,83 @@ const Body = props => {
 
   return (
     <>
-      <div className="section no-pad-bot" id="index-banner">
-        <h1 className="header center orange-text">{props.bodyContent.introTitle}</h1>
-        <blockquote>
-          <h5>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</h5>
-        </blockquote>
-      </div>
+      <Jumbotron fluid>
+        <Container>
+          <h1>{props.bodyContent.introTitle}</h1>
+          <p>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
+        </Container>
+      </Jumbotron>
 
-      <div className="section">
-        <div className="row">
-          <div className="col s12 m5">
+      <Container>
+        <Row>
+          <Col xs={12} sm={5} md={5} lg={5}>
+            <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} >
+              <Form.Group controlId="formSelectProvince">
+                <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
+                <Form.Control as="select" required>
+                  <option value="">{props.bodyContent.provinceDD}</option>
+                  {
+                    props.bodyContent.provinceList.map((province, index) => {
+                      return <option key={index} value={province.id}>{province.displayText}</option>
+                    })
+                  }
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {props.bodyContent.errorMessage.missingProvince}
+                </Form.Control.Feedback>
+              </Form.Group>
 
-            <form action="#">
-              <div className="input-field">
-                <i className="material-icons prefix">monetization_on</i>
-                <input id="hourly_rate" type="text" className="validate" />
-                <label htmlFor="hourly_rate">{props.bodyContent.hourlyRateLabel}</label>
-              </div>
+              {/* Hourly Rate */}
+              <FormInputRange
+                controlId="formHourlYRate"
+                label={props.bodyContent.hourlyRateLabel}
+                errorMessage={props.bodyContent.errorMessage.missingHourlyRate}
+                rangeMax="1000"
+              />
 
-              <div className="input-field">
-                <i className="material-icons prefix">hourglass_full</i>
-                <input id="working_hour" type="text" className="validate" />
-                <label htmlFor="working_hour">{props.bodyContent.workingHoursInWeekLabel}</label>
-              </div>
+              {/* Working hour in a week */}
+              <FormInputRange
+                controlId="formWorkingWeeklyHour"
+                label={props.bodyContent.workingHoursInWeekLabel}
+                errorMessage={props.bodyContent.errorMessage.missingWeeklyHours}
+                rangeMax="60"
+              />
+              
+              {/* Working weeks in a year */}
+              <FormInputRange
+                controlId="formWorkingWeekAnnual"
+                label={props.bodyContent.totalWorkingWeeksInAYear}
+                errorMessage={props.bodyContent.errorMessage.missingAnnualWeeks}
+                rangeMax="52"
+              />
 
-              <div className="input-field">
-                <i className="material-icons prefix">date_range</i>
-                <input id="working_week" type="text" className="validate" />
-                <label htmlFor="working_week">{props.bodyContent.totalWorkingWeeksInAYear}</label>
-              </div>
-
-              <fieldset className="input-field">
-                <legend>{props.bodyContent.provinceDD}</legend>
-                {
-                  props.bodyContent.provinceList.map((province, index) => {
-                    return (
-                      <Radio
-                        key={index}
-                        value={province.id}
-                        displayText={province.displayText}
-                      />
-                    )
-                  })
-                }
-              </fieldset>
-
-              <button type="submit" className="green waves-effect waves-light btn">
+              <Button variant="success" size="sm" block type="submit">
                 {props.bodyContent.calculateBtn}
-              </button>
-            </form>
-          </div>
+              </Button>
+            </Form>
+          </Col>
 
-          <div className="col s12 m7">
-            <div className="row">
-              <div className="col s12">
-                <Table
+          <Col>
+            <h2>{props.bodyContent.resultTitle}</h2>
+            <Row>
+              <Col xs={12}>
+                <IncomeTable
                   caption={props.bodyContent.resultTable.beforeTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
                   tableBody={dummy}
                 />
-              </div>
-              <div className="col s12">
-                <Table
+              </Col>
+              <Col>
+                <IncomeTable
                   caption={props.bodyContent.resultTable.afterTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
                   tableBody={dummy}
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
