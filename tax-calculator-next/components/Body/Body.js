@@ -1,106 +1,145 @@
-import React, { useState, useEffect } from 'react';
-import Table from '../common/Table';
-import Radio from '../common/Radio';
+import { React, useState } from 'react';
+
+/* React Bootstrap */
+import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup } from 'react-bootstrap';
+
+/* Custom component */
+import InputControlList from '../../utility/config';
+import IncomeTable from '../common/IncomeTable';
+import FormInputRange from './FormInputRange';
+
+import BodyStyle from '../../styles/Body.module.scss';
 
 const Body = props => {
-  const [provinceDDVal, setProvinceDDVal] = useState(""),
-    [currentProvinceTaxRule, setCurrentProvinceTaxRule] = useState([]),
-    [rangeVal, setRangeVal] = useState(0),
-    [ddVal, setDDVal] = useState("");
-
-  useEffect(() => {
-
-  });
+  const [validated, setValidated] = useState(false),
+    [resultSetBeforeTax, setResultSetBeforeTax] = useState({
+      "annual": 0,
+      "monthly": 0,
+      "biWeekly": 0,
+      "weekly": 0
+    }),
+    [resultSetAfterTax, setResultSetAfterTax] = useState({
+      "annual": 0,
+      "monthly": 0,
+      "biWeekly": 0,
+      "weekly": 0
+    }),
+    [provinceDDVal, setProvinceDDVal] = useState("");
 
   const handleDDChange = event => {
-    this.setState({ setDDVal: event.target.value });
+    setProvinceDDVal(event.target.value);
   }
 
-  const calculateTax = (event) => {
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+
     event.preventDefault();
+    event.stopPropagation();
+
+    if (form.checkValidity() !== false) {
+      // Calculate tax information
+      calculateSalary(event);
+    }
+    setValidated(true);
   }
 
+  const calculateSalary = event => {
+    const form = event.currentTarget;
 
-  let dummy = {
-    "annual": 50,
-    "monthly": 20,
-    "biWeekly": 10,
-    "weekly": 5
-  };
+    if (form.formSelectProvince.value !== "" &&
+      (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0") &&
+      (form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0") &&
+      (form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0")
+    ) {
+      let selectedProvince = form.formSelectProvince.value,
+        hourlyRate = form.formHourlyRate.value,
+        weeklyHours = form.formWorkingWeeklyHour.value,
+        annualHours = form.formWorkingWeekAnnual.value,
+        totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
+
+      setResultSetBeforeTax({
+        "annual": (totalIncomeBeforeTax).toLocaleString(),
+        "monthly": (totalIncomeBeforeTax / 12).toLocaleString(),
+        "biWeekly": (totalIncomeBeforeTax / 26).toLocaleString(),
+        "weekly": (totalIncomeBeforeTax / 52).toLocaleString()
+      });
+    }
+  }
 
   return (
     <>
-      <div className="section no-pad-bot" id="index-banner">
-        <h1 className="header center orange-text">{props.bodyContent.introTitle}</h1>
-        <blockquote>
-          <h5>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</h5>
-        </blockquote>
-      </div>
+      <Jumbotron fluid>
+        <Container>
+          <h1>{props.bodyContent.introTitle}</h1>
+          <p>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
+        </Container>
+      </Jumbotron>
 
-      <div className="section">
-        <div className="row">
-          <div className="col s12 m5">
+      <Container>
+        <Row>
+          <Col xs={12} sm={5} md={5} lg={5}>
+            <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
+              <Form.Group controlId="formSelectProvince">
+                <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
+                <Form.Control as="select" size="sm" required value={provinceDDVal} onChange={handleDDChange} custom>
+                  <option value="">{props.bodyContent.provinceDD}</option>
+                  {
+                    props.bodyContent.provinceList.map((province, index) => {
+                      return <option key={index} value={province.id}>{province.displayText}</option>
+                    })
+                  }
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {props.bodyContent.errorMessage.missingProvince}
+                </Form.Control.Feedback>
+              </Form.Group>
 
-            <form action="#">
-              <div className="input-field">
-                <i className="material-icons prefix">monetization_on</i>
-                <input id="hourly_rate" type="text" className="validate" />
-                <label htmlFor="hourly_rate">{props.bodyContent.hourlyRateLabel}</label>
-              </div>
+              {/* Input controls with Range */}
+              {
+                InputControlList.map((inputObj, idx) => {
+                  return (
+                    <FormInputRange
+                      key={idx}
+                      inputClass={BodyStyle.customInput}
+                      controlId={inputObj.controlId}
+                      iconName={inputObj.iconName}
+                      label={props.bodyContent[inputObj.labelKeyName]}
+                      errorMessage={props.bodyContent.errorMessage[inputObj.errorMessageKeyName]}
+                      rangeMax={inputObj.rangeMax}
+                    />
+                  )
+                })
+              }
 
-              <div className="input-field">
-                <i className="material-icons prefix">hourglass_full</i>
-                <input id="working_hour" type="text" className="validate" />
-                <label htmlFor="working_hour">{props.bodyContent.workingHoursInWeekLabel}</label>
-              </div>
-
-              <div className="input-field">
-                <i className="material-icons prefix">date_range</i>
-                <input id="working_week" type="text" className="validate" />
-                <label htmlFor="working_week">{props.bodyContent.totalWorkingWeeksInAYear}</label>
-              </div>
-
-              <fieldset className="input-field">
-                <legend>{props.bodyContent.provinceDD}</legend>
-                {
-                  props.bodyContent.provinceList.map((province, index) => {
-                    return (
-                      <Radio
-                        key={index}
-                        value={province.id}
-                        displayText={province.displayText}
-                      />
-                    )
-                  })
-                }
-              </fieldset>
-
-              <button type="submit" className="green waves-effect waves-light btn">
+              <Button variant="success" size="sm" block type="submit">
                 {props.bodyContent.calculateBtn}
-              </button>
-            </form>
-          </div>
+              </Button>
+            </Form>
+          </Col>
 
-          <div className="col s12 m7">
-            <div className="row">
-              <div className="col s12">
-                <Table
+          <Col>
+            <h2>{props.bodyContent.resultTitle}</h2>
+            <Row>
+              <Col xs={12}>
+                {/* Before tax */}
+                <IncomeTable
                   caption={props.bodyContent.resultTable.beforeTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
-                  tableBody={dummy}
+                  tableBody={resultSetBeforeTax}
                 />
-              </div>
-              <div className="col s12">
-                <Table
+              </Col>
+              <Col>
+                {/* After tax */}
+                <IncomeTable
                   caption={props.bodyContent.resultTable.afterTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
-                  tableBody={dummy}
+                  tableBody={resultSetAfterTax}
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

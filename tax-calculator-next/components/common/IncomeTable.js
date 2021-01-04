@@ -1,16 +1,18 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 
-const Table = props => {
+const IncomeTable = props => {
     return (
-        <table className="responsive-table">
-            <caption><p>{props.caption}</p></caption>
-            <thead>
+        <Table striped bordered hover responsive>
+            <caption>{props.caption}</caption>
+            <thead className="green">
                 <tr>
                     {Object.keys(props.theader).map((head, index) => {
                         return <th key={index}>{props.theader[head]}</th>
                     })}
                 </tr>
             </thead>
+
             <tbody>
                 <tr>
                     {Object.keys(props.tableBody).map((body, index) => {
@@ -18,8 +20,8 @@ const Table = props => {
                     })}
                 </tr>
             </tbody>
-        </table>
+        </Table>
     );
 };
 
-export default Table;
+export default IncomeTable;
