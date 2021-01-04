@@ -1,65 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import { React, useState } from 'react';
 
 /* React Bootstrap */
 import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup } from 'react-bootstrap';
 
 /* Custom component */
+import InputControlList from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
 
+import BodyStyle from '../../styles/Body.module.css';
+
 const Body = props => {
-  const [validated, setValidated] = useState(false),    
-    [provinceDDVal, setProvinceDDVal] = useState(""),
-    [currentProvinceTaxRule, setCurrentProvinceTaxRule] = useState([]),
-    [ddVal, setDDVal] = useState("");
-
-  useEffect(() => {
-
-  });
+  const [validated, setValidated] = useState(false),
+    [resultSetBeforeTax, setResultSetBeforeTax] = useState({
+      "annual": 0,
+      "monthly": 0,
+      "biWeekly": 0,
+      "weekly": 0
+    }),
+    [resultSetAfterTax, setResultSetAfterTax] = useState({
+      "annual": 0,
+      "monthly": 0,
+      "biWeekly": 0,
+      "weekly": 0
+    }),
+    [provinceDDVal, setProvinceDDVal] = useState("");
 
   const handleDDChange = event => {
-    this.setState({ setDDVal: event.target.value });
-  }
-
-  const adjustInputChangeByRange = (id, value) =>{
-    setInputState(prevState => ({
-      ...prevState, [id]: value
-    }));
-
-    setRangeState(prevState => ({
-      ...prevState, [id + "Range"]: value
-    }));
-  }
-
-  const handleInputChange = event => {
-    const { id, value } = event.target;
-
-    setInputState(prevState => ({
-      ...prevState, [id]: value
-    }));
-
-    setRangeState(prevState => ({
-      ...prevState, [id + "Range"]: value
-    }));
+    setProvinceDDVal(event.target.value);
   }
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
 
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
 
+    if (form.checkValidity() !== false) {
+      // Calculate tax information
+      calculateSalary(event);
+    }
     setValidated(true);
   }
 
-  let dummy = {
-    "annual": 50,
-    "monthly": 20,
-    "biWeekly": 10,
-    "weekly": 5
-  };
+  const calculateSalary = event => {
+    const form = event.currentTarget;
+
+    if (form.formSelectProvince.value !== "" &&
+      (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0") &&
+      (form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0") &&
+      (form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0")
+    ) {
+      let selectedProvince = form.formSelectProvince.value,
+        hourlyRate = form.formHourlyRate.value,
+        weeklyHours = form.formWorkingWeeklyHour.value,
+        annualHours = form.formWorkingWeekAnnual.value,
+        totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
+
+      setResultSetBeforeTax({
+        "annual": (totalIncomeBeforeTax).toLocaleString(),
+        "monthly": (totalIncomeBeforeTax / 12).toLocaleString(),
+        "biWeekly": (totalIncomeBeforeTax / 26).toLocaleString(),
+        "weekly": (totalIncomeBeforeTax / 52).toLocaleString()
+      });
+    }
+  }
 
   return (
     <>
@@ -73,10 +78,10 @@ const Body = props => {
       <Container>
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
-            <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} >
+            <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
               <Form.Group controlId="formSelectProvince">
                 <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
-                <Form.Control as="select" required>
+                <Form.Control as="select" size="sm" required value={provinceDDVal} onChange={handleDDChange} custom>
                   <option value="">{props.bodyContent.provinceDD}</option>
                   {
                     props.bodyContent.provinceList.map((province, index) => {
@@ -89,29 +94,22 @@ const Body = props => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              {/* Hourly Rate */}
-              <FormInputRange
-                controlId="formHourlYRate"
-                label={props.bodyContent.hourlyRateLabel}
-                errorMessage={props.bodyContent.errorMessage.missingHourlyRate}
-                rangeMax="1000"
-              />
-
-              {/* Working hour in a week */}
-              <FormInputRange
-                controlId="formWorkingWeeklyHour"
-                label={props.bodyContent.workingHoursInWeekLabel}
-                errorMessage={props.bodyContent.errorMessage.missingWeeklyHours}
-                rangeMax="60"
-              />
-              
-              {/* Working weeks in a year */}
-              <FormInputRange
-                controlId="formWorkingWeekAnnual"
-                label={props.bodyContent.totalWorkingWeeksInAYear}
-                errorMessage={props.bodyContent.errorMessage.missingAnnualWeeks}
-                rangeMax="52"
-              />
+              {/* Input controls with Range */}
+              {
+                InputControlList.map((inputObj, idx) => {
+                  return (
+                    <FormInputRange
+                      key={idx}
+                      inputClass={BodyStyle.customInput}
+                      controlId={inputObj.controlId}
+                      iconName={inputObj.iconName}
+                      label={props.bodyContent[inputObj.labelKeyName]}
+                      errorMessage={props.bodyContent.errorMessage[inputObj.errorMessageKeyName]}
+                      rangeMax={inputObj.rangeMax}
+                    />
+                  )
+                })
+              }
 
               <Button variant="success" size="sm" block type="submit">
                 {props.bodyContent.calculateBtn}
@@ -123,17 +121,19 @@ const Body = props => {
             <h2>{props.bodyContent.resultTitle}</h2>
             <Row>
               <Col xs={12}>
+                {/* Before tax */}
                 <IncomeTable
                   caption={props.bodyContent.resultTable.beforeTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
-                  tableBody={dummy}
+                  tableBody={resultSetBeforeTax}
                 />
               </Col>
               <Col>
+                {/* After tax */}
                 <IncomeTable
                   caption={props.bodyContent.resultTable.afterTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
-                  tableBody={dummy}
+                  tableBody={resultSetAfterTax}
                 />
               </Col>
             </Row>

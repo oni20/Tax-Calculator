@@ -10,16 +10,17 @@ const FormInputRange = props => {
 
     return (
         <>
-            <Form.Group controlId="formHourlYRate">
+            <Form.Group controlId={props.controlId}>
                 <Form.Label>{props.label}</Form.Label>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <InputGroup.Text id="hourly_rate" className="no-bg">
-                            <i className="material-icons prefix">monetization_on</i>
+                            <i className="material-icons prefix">{props.iconName}</i>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
                         type="text"
+                        className={props.inputClass}
                         value={inputState}
                         placeholder={props.label}
                         aria-label={props.label}
