@@ -11,8 +11,7 @@ import Dictionary from '../data/Translator';
 import CanadaTaxRule from '../data/CanadaTaxRule.json';
 
 /* Import custom stylesheet */
-import styles from '../styles/Home.module.scss';
-import '../styles/App.scss';  
+import styles from '../styles/Home.module.css';
 
 const currYear = new Date().getFullYear();
 
@@ -35,35 +34,36 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
         <title>{content.pageTitle.replace("$currYear$", currYear)}</title>
 
         <link rel="icon" href="/favicon.ico" />
-
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+        />
       </Head>
 
-      <main className={styles.main}>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <Header
-          language={language}
-          headerTitle={content.headerTitle}
-          handleLanguageToggle={handleLanguageToggle}
-        />
-        <Body
-          bodyContent={content.body}
-        />
-      </main>
+      <noscript>{content.jsDisabledMsg}</noscript>
 
+      <Header
+        language={language}
+        headerTitle={content.headerTitle}
+        handleLanguageToggle={handleLanguageToggle}
+      />
+      <Body
+        bodyContent={content.body}
+      />
       <Footer
         footerContent={content.footerContent}
       />
 
-      {/* Scripts */}
-      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-      <script src="/init.js"></script>
     </div>
   );
 }

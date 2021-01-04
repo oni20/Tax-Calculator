@@ -6,6 +6,11 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+footer{
+  margin-top: 20px;
+  padding: 20px;
+}
+
 h1{
   margin-top: 10px;
 }
@@ -19,21 +24,26 @@ a {
   box-sizing: border-box;
 }
 
-body .no-padding {
-  padding-left: 0;
-  padding-right: 0;
+.no-bg{
+  background: none !important;
 }
 
-body .no-margin {
-  margin-left: 0;
-  margin-right: 0;
+.mar-right-5{
+  margin-right: 5px;
 }
 
 /* Materialize Icons */
-.icon-block {
-  padding: 0 15px;
+form .material-icons {
+  font-size: inherit;
+  color: #28a745;
 }
 
-.icon-block .material-icons {
-  font-size: inherit;
+.green {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+.form-control:focus{
+  border-color: #28a745;
+  box-shadow: none;
 }

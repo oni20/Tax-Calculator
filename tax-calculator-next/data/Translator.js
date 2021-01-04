@@ -1,13 +1,14 @@
 const dictionary = {
     "EN": {
+        "jsDisabledMsg": "You need to enable JavaScript to run this app.",
         "pageTitle": "Find tax: $currYear$ Canadian income tax",
         "headerTitle": "GoTax",
         "body": {
-            "introTitle": "Tax Calculator",
+            "introTitle": "Income Tax Calculator",
             "introDesc": "Use our tax calculator to estimate your $currYear$ federal and provincial taxes.",
-            "hourlyRateLabel": "Enter hourly rate",
-            "workingHoursInWeekLabel": "Enter total hours in a week",
-            "totalWorkingWeeksInAYear": "Enter total working weeks (annual basis)",
+            "hourlyRateLabel": "Hourly rate",
+            "workingHoursInWeekLabel": "Total hours in a week",
+            "totalWorkingWeeksInAYear": "Total working weeks (annually)",
             "provinceDD": "Select province or territory",
             "provinceList": [
                 {
@@ -64,6 +65,7 @@ const dictionary = {
                 }
             ],
             "calculateBtn": "Calculate",
+            "resultTitle": "Results",
             "resultTable": {
                 "beforeTaxCaption": "Income before tax",
                 "afterTaxCaption": "Income after tax",
@@ -73,6 +75,12 @@ const dictionary = {
                     "biWeekly": "Bi-weekly",
                     "weekly": "Weekly"
                 }
+            },
+            "errorMessage":{
+                "missingProvince": "Choose province or territory",
+                "missingHourlyRate": "Please insert hourly rate",
+                "missingWeeklyHours": "Please insert weekly working hours",
+                "missingAnnualWeeks": "Please insert total annual working weeks"
             }
         },
         "footerContent": {
@@ -83,6 +91,7 @@ const dictionary = {
         }
     },
     "FR": {
+        "jsDisabledMsg": "Vous devez activer JavaScript pour exécuter cette application.",
         "pageTitle": "Rechercher un impôt: $currYear$ Impôt sur le revenu canadien",
         "headerTitle": "GoTax",
         "body": {
@@ -147,6 +156,7 @@ const dictionary = {
                 }
             ],
             "calculateBtn": "Calculer",
+            "resultTitle": "Résultats",
             "resultTable": {
                 "beforeTaxCaption": "Revenu avant impôt",
                 "afterTaxCaption": "Revenu après impôt",
@@ -156,6 +166,12 @@ const dictionary = {
                     "biWeekly": "Aux deux semaines",
                     "weekly": "Hebdomadaire"
                 }
+            },
+            "errorMessage":{
+                "missingProvince": "Choisissez la province ou le territoire",
+                "missingHourlyRate": "Veuillez insérer le taux horaire",
+                "missingWeeklyHours": "Veuillez insérer les heures de travail hebdomadaires",
+                "missingAnnualWeeks": "Veuillez insérer le nombre total de semaines de travail annuelles"
             }
         },
         "footerContent": {
