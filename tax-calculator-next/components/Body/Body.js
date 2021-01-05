@@ -7,6 +7,7 @@ import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup }
 import InputControlList from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
+import { convertStringToNumber } from '../../utility/helper';
 
 import BodyStyle from '../../styles/Body.module.scss';
 
@@ -24,9 +25,11 @@ const Body = props => {
       "biWeekly": 0,
       "weekly": 0
     }),
+    [isDisableControl, setIsDisableControl] = useState(true),
     [provinceDDVal, setProvinceDDVal] = useState("");
 
   const handleDDChange = event => {
+    setIsDisableControl(event.target.value == "");
     setProvinceDDVal(event.target.value);
   }
 
@@ -44,24 +47,45 @@ const Body = props => {
   }
 
   const calculateSalary = event => {
-    const form = event.currentTarget;
+    const form = event.currentTarget,
+      targetElementID = event.target.id;
 
-    if (form.formSelectProvince.value !== "" &&
-      (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0") &&
-      (form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0") &&
-      (form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0")
-    ) {
-      let selectedProvince = form.formSelectProvince.value,
-        hourlyRate = form.formHourlyRate.value,
-        weeklyHours = form.formWorkingWeeklyHour.value,
-        annualHours = form.formWorkingWeekAnnual.value,
-        totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
+    let income;
 
+    if (targetElementID === "formEmploymentIncome") {
+      // Perform reverse calculation
+      let employmentIncomeBeforeTax = convertStringToNumber(event.target.value);
+
+      form.formWorkingWeekAnnual.value = 52;
+      form.formWorkingWeeklyHour.value = 40;
+      form.formHourlyRate.value = Math.ceil(employmentIncomeBeforeTax / 2080);
+
+      form.formWorkingWeekAnnualRange.value = 52;
+      form.formWorkingWeeklyHourRange.value = 40;
+      form.formHourlyRateRange.value = Math.ceil(employmentIncomeBeforeTax / 2080);
+
+      income = employmentIncomeBeforeTax;
+    } else {
+      if (form.formSelectProvince.value !== "" &&
+        (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0") &&
+        (form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0") &&
+        (form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0")
+      ) {
+        let selectedProvince = form.formSelectProvince.value,
+          hourlyRate = convertStringToNumber(form.formHourlyRate.value),
+          weeklyHours = convertStringToNumber(form.formWorkingWeeklyHour.value),
+          annualHours = convertStringToNumber(form.formWorkingWeekAnnual.value),
+          totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
+
+        income = totalIncomeBeforeTax;
+      }
+    }
+    if (income !== undefined) {
       setResultSetBeforeTax({
-        "annual": (totalIncomeBeforeTax).toLocaleString(),
-        "monthly": (totalIncomeBeforeTax / 12).toLocaleString(),
-        "biWeekly": (totalIncomeBeforeTax / 26).toLocaleString(),
-        "weekly": (totalIncomeBeforeTax / 52).toLocaleString()
+        "annual": (income).toLocaleString(),
+        "monthly": (income / 12).toLocaleString(),
+        "biWeekly": (income / 26).toLocaleString(),
+        "weekly": (income / 52).toLocaleString()
       });
     }
   }
@@ -100,12 +124,18 @@ const Body = props => {
                   return (
                     <FormInputRange
                       key={idx}
+                      isRequired={inputObj.isRequired ? inputObj.isRequired : false}
+                      isDisabled={isDisableControl}
                       inputClass={BodyStyle.customInput}
                       controlId={inputObj.controlId}
                       iconName={inputObj.iconName}
                       label={props.bodyContent[inputObj.labelKeyName]}
-                      errorMessage={props.bodyContent.errorMessage[inputObj.errorMessageKeyName]}
-                      rangeMax={inputObj.rangeMax}
+                      errorMessage={
+                        inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ""
+                          ? ""
+                          : props.bodyContent.errorMessage[inputObj.errorMessageKeyName]
+                      }
+                      rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
                     />
                   )
                 })

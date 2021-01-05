@@ -6,9 +6,11 @@ const dictionary = {
         "body": {
             "introTitle": "Income Tax Calculator",
             "introDesc": "Use our tax calculator to estimate your $currYear$ federal and provincial taxes.",
+            "employmentIncomeLabel":"Employment income",
             "hourlyRateLabel": "Hourly rate",
             "workingHoursInWeekLabel": "Total hours in a week",
             "totalWorkingWeeksInAYear": "Total working weeks (annually)",
+            "rrspDeductionLabel":"RRSP deduction",
             "provinceDD": "Select province or territory",
             "provinceList": [
                 {
@@ -97,9 +99,11 @@ const dictionary = {
         "body": {
             "introTitle": "Calculateur de taxes",
             "introDesc": "Utilisez notre calculateur de taxes pour estimer votre $currYear$ de taxes fédérales et provinciales.",
+            "employmentIncomeLabel":"Revenu d'emploi",
             "hourlyRateLabel": "Entrez le taux horaire",
             "workingHoursInWeekLabel": "Entrez le nombre total d'heures dans une semaine",
             "totalWorkingWeeksInAYear": "Entrez le nombre total de semaines de travail (base annuelle)",
+            "rrspDeductionLabel":"RRSP deduction",
             "provinceDD": "Sélectionnez une province ou un territoire",
             "provinceList": [
                 {

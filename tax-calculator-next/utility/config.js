@@ -3,10 +3,16 @@ to keep translation mechanism working */
 
 const InputControlList = [
     {
+        "controlId": "formEmploymentIncome",
+        "iconName": "monetization_on",
+        "labelKeyName": "employmentIncomeLabel"        
+    },
+    {
         "controlId": "formHourlyRate",
         "iconName": "monetization_on",
         "labelKeyName": "hourlyRateLabel",
         "errorMessageKeyName": "missingHourlyRate",
+        "isRequired": true,
         "rangeMax": "1000"
     },
     {
@@ -14,6 +20,7 @@ const InputControlList = [
         "iconName": "hourglass_top",
         "labelKeyName": "workingHoursInWeekLabel",
         "errorMessageKeyName": "missingWeeklyHours",
+        "isRequired": true,
         "rangeMax": "60"
     },
     {
@@ -21,6 +28,7 @@ const InputControlList = [
         "iconName": "date_range",
         "labelKeyName": "totalWorkingWeeksInAYear",
         "errorMessageKeyName": "missingAnnualWeeks",
+        "isRequired": true,
         "rangeMax": "52"
     }
 ];

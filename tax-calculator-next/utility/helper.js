@@ -1,0 +1,1 @@
+export const convertStringToNumber = param => parseInt(param.replace(/,/g, ''));

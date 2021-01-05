@@ -12,7 +12,6 @@ import CanadaTaxRule from '../data/CanadaTaxRule.json';
 
 /* Import custom stylesheet */
 import styles from '../styles/Home.module.scss';
-import '../styles/app.scss'
 
 const currYear = new Date().getFullYear();
 
