@@ -1,10 +1,14 @@
 import { React, useState } from 'react';
 
 /* React Bootstrap */
-import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, Jumbotron, Form } from 'react-bootstrap';
 
 /* Custom component */
-import InputControlList from '../../utility/config';
+import {
+  DEFAULT_ANNUAL_WEEKS,
+  DEFAULT_ANNUAL_BI_WEEKS,
+  InputControlList
+} from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
 import { convertStringToNumber } from '../../utility/helper';
@@ -13,17 +17,20 @@ import BodyStyle from '../../styles/Body.module.scss';
 
 const Body = props => {
   const [validated, setValidated] = useState(false),
+    [isEmploymentIncomeQuery, setIsEmploymentIncomeQuery] = useState(""),
     [resultSetBeforeTax, setResultSetBeforeTax] = useState({
       "annual": 0,
       "monthly": 0,
       "biWeekly": 0,
-      "weekly": 0
+      "weekly": 0,
+      "hourly": 0
     }),
     [resultSetAfterTax, setResultSetAfterTax] = useState({
       "annual": 0,
       "monthly": 0,
       "biWeekly": 0,
-      "weekly": 0
+      "weekly": 0,
+      "hourly": 0
     }),
     [isDisableControl, setIsDisableControl] = useState(true),
     [provinceDDVal, setProvinceDDVal] = useState("");
@@ -31,6 +38,10 @@ const Body = props => {
   const handleDDChange = event => {
     setIsDisableControl(event.target.value == "");
     setProvinceDDVal(event.target.value);
+  }
+
+  const handleEmploymentTypeRadio = event => {
+    setIsEmploymentIncomeQuery(event.target.value === "incomeTypeRadio0");
   }
 
   const handleSubmit = (event) => {
@@ -46,46 +57,69 @@ const Body = props => {
     setValidated(true);
   }
 
-  const calculateSalary = event => {
-    const form = event.currentTarget,
-      targetElementID = event.target.id;
+  const calculateSelfIncomeSal = (form) => {
+    let retVal;
 
-    let income;
+    if (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0" &&
+      form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0" &&
+      form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0"
+    ) {
+      let hourlyRate = convertStringToNumber(form.formHourlyRate.value),
+        weeklyHours = convertStringToNumber(form.formWorkingWeeklyHour.value),
+        annualHours = convertStringToNumber(form.formWorkingWeekAnnual.value),
+        totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
 
-    if (targetElementID === "formEmploymentIncome") {
-      // Perform reverse calculation
-      let employmentIncomeBeforeTax = convertStringToNumber(event.target.value);
-
-      form.formWorkingWeekAnnual.value = 52;
-      form.formWorkingWeeklyHour.value = 40;
-      form.formHourlyRate.value = Math.ceil(employmentIncomeBeforeTax / 2080);
-
-      form.formWorkingWeekAnnualRange.value = 52;
-      form.formWorkingWeeklyHourRange.value = 40;
-      form.formHourlyRateRange.value = Math.ceil(employmentIncomeBeforeTax / 2080);
-
-      income = employmentIncomeBeforeTax;
+      retVal = totalIncomeBeforeTax;
     } else {
-      if (form.formSelectProvince.value !== "" &&
-        (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0") &&
-        (form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0") &&
-        (form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0")
-      ) {
-        let selectedProvince = form.formSelectProvince.value,
-          hourlyRate = convertStringToNumber(form.formHourlyRate.value),
-          weeklyHours = convertStringToNumber(form.formWorkingWeeklyHour.value),
-          annualHours = convertStringToNumber(form.formWorkingWeekAnnual.value),
-          totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
-
-        income = totalIncomeBeforeTax;
-      }
+      retVal = null;
     }
-    if (income !== undefined) {
+
+    return retVal;
+  }
+
+  const calculateSalary = event => {
+    const form = event.currentTarget, targetElementID = event.target.id;
+    let selectedProvince = form.formSelectProvince.value, income,
+      selectedHoursForEmpIncome = isEmploymentIncomeQuery ? form.formEmploymentIncomeHourly.value : "";
+
+    switch (targetElementID) {
+      case "formSelectProvince":
+        if (form.formSelectProvince.value !== "" && isEmploymentIncomeQuery !== "") {
+          income = isEmploymentIncomeQuery
+            ? convertStringToNumber(form.formEmploymentIncome.value)
+            : calculateSelfIncomeSal(form);
+        }
+        break;
+
+      case "formEmploymentIncome":
+      case "formEmploymentIncomeHourly":
+      case "formEmploymentIncomeHourlyRange":
+        income = form.formEmploymentIncome.value === "" ? null : convertStringToNumber(form.formEmploymentIncome.value);
+        break;
+
+      case "formHourlyRate":
+      case "formHourlyRateRange":
+      case "formWorkingWeeklyHour":
+      case "formWorkingWeeklyHourRange":
+      case "formWorkingWeekAnnual":
+      case "formWorkingWeekAnnualRange":
+        income = calculateSelfIncomeSal(form);
+        break;
+      default:
+        income = null;
+        break;
+    }
+
+    if (income !== null && income !== undefined) {
+      let weeklyAmount = (income / DEFAULT_ANNUAL_WEEKS),
+          hourlyAmount = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmount / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+
       setResultSetBeforeTax({
         "annual": (income).toLocaleString(),
         "monthly": (income / 12).toLocaleString(),
-        "biWeekly": (income / 26).toLocaleString(),
-        "weekly": (income / 52).toLocaleString()
+        "biWeekly": (income / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+        "weekly": weeklyAmount.toLocaleString(),
+        "hourly": hourlyAmount
       });
     }
   }
@@ -118,15 +152,41 @@ const Body = props => {
                 </Form.Control.Feedback>
               </Form.Group>
 
+              {/* Employment Type */}
+              <fieldset>
+                <Form.Group controlId="formSelectIncomeType">
+                  <Form.Label as="legend">{props.bodyContent.incomeType.labelText}</Form.Label>
+                  <Col sm={10}>
+                    {
+                      props.bodyContent.incomeType.type.map((radioVal, index) => {
+                        return (
+                          <Form.Check
+                            key={index}
+                            type="radio"
+                            label={radioVal}
+                            name="incomeTypeRadio"
+                            value={"incomeTypeRadio" + index}
+                            id={"incomeTypeRadio" + index}
+                            onChange={handleEmploymentTypeRadio}
+                            disabled={isDisableControl}
+                          />
+                        )
+                      })
+                    }
+                  </Col>
+                </Form.Group>
+              </fieldset>
+
               {/* Input controls with Range */}
               {
                 InputControlList.map((inputObj, idx) => {
                   return (
+                    isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
                     <FormInputRange
                       key={idx}
                       isRequired={inputObj.isRequired ? inputObj.isRequired : false}
                       isDisabled={isDisableControl}
-                      inputClass={BodyStyle.customInput}
+                      inputclassName={BodyStyle.customInput}
                       controlId={inputObj.controlId}
                       iconName={inputObj.iconName}
                       label={props.bodyContent[inputObj.labelKeyName]}
@@ -156,6 +216,7 @@ const Body = props => {
                   caption={props.bodyContent.resultTable.beforeTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
                   tableBody={resultSetBeforeTax}
+                  isShowHourly={isEmploymentIncomeQuery === "" ? false : isEmploymentIncomeQuery}
                 />
               </Col>
               <Col>
@@ -164,6 +225,7 @@ const Body = props => {
                   caption={props.bodyContent.resultTable.afterTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
                   tableBody={resultSetAfterTax}
+                  isShowHourly={isEmploymentIncomeQuery === "" ? false : isEmploymentIncomeQuery}
                 />
               </Col>
             </Row>

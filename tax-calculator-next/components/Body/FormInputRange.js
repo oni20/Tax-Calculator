@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
-import ReactNumeric from 'react-numeric';
 
 import {convertStringToNumber} from '../../utility/helper';
 
@@ -22,23 +21,18 @@ const FormInputRange = props => {
                 <Form.Label>{props.label}</Form.Label>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
-                        <InputGroup.Text id="hourly_rate" className="no-bg">
+                        <InputGroup.Text id={props.controlId + "_icon"} className="no-bg">
                             <i className="material-icons prefix">{props.iconName}</i>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
-
-                    <ReactNumeric
+                    
+                    <FormControl
                         className={props.inputClass}
-                        id={props.controlId}
-                        currencySymbol=""
-                        minimumValue="0"
-                        decimalCharacter="."
+                        disabled={props.isDisabled}
+                        required={props.isRequired}
                         value={inputState}
                         onChange={handleInputChange}
-                        inputMode="numeric"
-                        outputMode="string"
-                        decimalPlaces={0}
-                        disabled={props.isDisabled}
+                        aria-describedby={props.controlId + "_icon"}
                     />
                     <Form.Control.Feedback type="invalid">
                         {props.errorMessage}
@@ -56,7 +50,7 @@ const FormInputRange = props => {
                         //value={inputState == '' ? '0' : inputState}
                         disabled={props.isDisabled}
                         min="0" max={props.rangeMax}
-                        onChange={handleInputChange} />
+                        onChange={handleInputChange} custom/>
                 </Form.Group>
             }
         </>

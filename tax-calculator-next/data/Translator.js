@@ -66,6 +66,10 @@ const dictionary = {
                     "displayText": "Nunavut"
                 }
             ],
+            "incomeType":{
+                "labelText": "Income type",
+                "type":["Employment Income", "Self-employment Income"]
+            },
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
             "resultTable": {
@@ -75,7 +79,8 @@ const dictionary = {
                     "annual": "Annual",
                     "monthly": "Monthly",
                     "biWeekly": "Bi-weekly",
-                    "weekly": "Weekly"
+                    "weekly": "Weekly",
+                    "hourly": "Hourly"
                 }
             },
             "errorMessage":{
@@ -159,6 +164,10 @@ const dictionary = {
                     "displayText": "Nunavut"
                 }
             ],
+            "incomeType":{
+                "labelText": "Type de revenu",
+                "type":["Revenu d'emploi", "Revenu du travail indépendant"]
+            },
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
             "resultTable": {
@@ -168,7 +177,8 @@ const dictionary = {
                     "annual": "Annuel",
                     "monthly": "Mensuel",
                     "biWeekly": "Aux deux semaines",
-                    "weekly": "Hebdomadaire"
+                    "weekly": "Hebdomadaire",
+                    "hourly": "À l'heure"
                 }
             },
             "errorMessage":{

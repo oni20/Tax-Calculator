@@ -8,7 +8,11 @@ const IncomeTable = props => {
             <thead className="green">
                 <tr>
                     {Object.keys(props.theader).map((head, index) => {
-                        return <th key={index}>{props.theader[head]}</th>
+                        return (
+                            (head === "hourly")
+                                ? props.isShowHourly && <th key={index}>{props.theader[head]}</th>
+                                : <th key={index}>{props.theader[head]}</th>
+                        )
                     })}
                 </tr>
             </thead>
@@ -16,7 +20,10 @@ const IncomeTable = props => {
             <tbody>
                 <tr>
                     {Object.keys(props.tableBody).map((body, index) => {
-                        return <td key={index}>$ {props.tableBody[body]}</td>
+                        return (
+                            (body === "hourly")
+                                ? props.isShowHourly && <td key={index}>$ {props.tableBody[body]}</td>
+                                : <td key={index}>$ {props.tableBody[body]}</td>)
                     })}
                 </tr>
             </tbody>
