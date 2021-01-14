@@ -57,6 +57,8 @@ const Home = () => {
         language={language}
         headerTitle={content.headerTitle}
         handleLanguageToggle={handleLanguageToggle}
+        logoUrl={content.logoUrl}
+        logoAlt={content.logoAlt}
       />
       <Body
         bodyContent={content.body}
