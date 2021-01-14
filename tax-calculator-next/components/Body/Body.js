@@ -73,20 +73,16 @@ const Body = props => {
     introTitle={props.bodyContent.introTitle}
     introDesc={props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}
     ></Hero>
-      {/* <Jumbotron fluid>
-        <Container>
-          <h1>{props.bodyContent.introTitle}</h1>
-          <p>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
-        </Container>
-      </Jumbotron> */}
 
-      <Container>
+      <Container className="mt-5">
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
+            <div className="card-up"> 
+            <h2 className = "text-center font-weight-bold heading__h2 mb-5" > Enter your details </h2>  
             <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
               <Form.Group controlId="formSelectProvince">
                 <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
-                <Form.Control as="select" size="sm" required value={provinceDDVal} onChange={handleDDChange} custom>
+                <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange}>
                   <option value="">{props.bodyContent.provinceDD}</option>
                   {
                     props.bodyContent.provinceList.map((province, index) => {
@@ -115,11 +111,13 @@ const Body = props => {
                   )
                 })
               }
-
-              <Button variant="success" size="sm" block type="submit">
+              <div className="d-flex justify-content-center">
+              <button className="button__primary" type="submit">
                 {props.bodyContent.calculateBtn}
-              </Button>
+              </button>
+              </div>
             </Form>
+            </div>
           </Col>
 
           <Col>
