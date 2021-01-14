@@ -181,9 +181,7 @@ const Slider = props => {
 
     return (
         <>
-            <div id="idRed" className={SliderStyle.label}>
-                Red
-            </div>
+            <div id="sliderID" className={SliderStyle.label}>Range</div>
             <div className={SliderStyle.aria_widget_slider}>
                 <div className={SliderStyle.rail} ref={raildomNode} onClick={handleClick}>
                     <div
@@ -195,7 +193,7 @@ const Slider = props => {
                         aria-valuemin="0"
                         aria-valuenow="0"
                         aria-valuemax="255"
-                        aria-labelledby="idRed"
+                        aria-labelledby="sliderID"
                         onKeyDown={handleKeyDown}
                         onMouseDown={handleMouseDown}
                         onFocus={handleFocus}
