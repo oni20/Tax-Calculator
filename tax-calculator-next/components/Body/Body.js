@@ -7,7 +7,8 @@ import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup }
 import InputControlList from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
-import Hero from '../common/Hero'
+import Hero from '../common/Hero';
+import CardUp from '../common/CardUp';
 
 import BodyStyle from '../../styles/Body.module.scss';
 
@@ -120,9 +121,8 @@ const Body = props => {
             </div>
           </Col>
 
-          <Col>
-            <h2>{props.bodyContent.resultTitle}</h2>
-            <Row>
+          <Col xs={{span: 6, offset: 1}}>
+              <CardUp cardTitle={props.bodyContent.resultTitle}>
               <Col xs={12}>
                 {/* Before tax */}
                 <IncomeTable
@@ -139,7 +139,7 @@ const Body = props => {
                   tableBody={resultSetAfterTax}
                 />
               </Col>
-            </Row>
+              </CardUp>
           </Col>
         </Row>
       </Container>

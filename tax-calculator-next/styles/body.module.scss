@@ -2,6 +2,8 @@
     font-size: 24px;
     font-weight: 400;
 }
+
+//CardUp component 
 .card-up{
     background-color: #FFF;
     padding: 3em 2em 2em 2em;
@@ -23,3 +25,29 @@
     font-weight: 600;
     margin: 1.5em 0 0.5em 0;
 }
+
+//Income table component 
+.income{
+&__container{
+&:first-of-type{
+    margin-bottom: 40px;
+}
+}
+&__caption{
+    font-size: 1em;
+    margin-bottom: 20px;
+    &:after{
+        display: block;
+        content: "";
+        border-bottom: 5px solid grey;
+        width: 10%;
+        padding: 0 0 5px 0;
+    }
+}
+&__amount{
+    border-bottom: 1px dotted grey;
+    width: 250px;
+    text-align: center;
+}
+}
+
