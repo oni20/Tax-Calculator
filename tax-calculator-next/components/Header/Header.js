@@ -6,7 +6,7 @@ const Header = props => {
   const handleSelect = (eventKey) => props.handleLanguageToggle(props.language == "en" ? "fr" : "en");
 
   return (
-    <Navbar collapseOnSelect expand="lg" variant="dark" className="green">
+    <Navbar collapseOnSelect expand="lg" variant="dark">
       <Container>
       <Navbar.Brand href="#home" className="brand-logo">
         <img

@@ -7,6 +7,7 @@ import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup }
 import InputControlList from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
+import Hero from '../common/Hero'
 
 import BodyStyle from '../../styles/Body.module.scss';
 
@@ -68,12 +69,16 @@ const Body = props => {
 
   return (
     <>
-      <Jumbotron fluid>
+    <Hero
+    introTitle={props.bodyContent.introTitle}
+    introDesc={props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}
+    ></Hero>
+      {/* <Jumbotron fluid>
         <Container>
           <h1>{props.bodyContent.introTitle}</h1>
           <p>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
         </Container>
-      </Jumbotron>
+      </Jumbotron> */}
 
       <Container>
         <Row>
