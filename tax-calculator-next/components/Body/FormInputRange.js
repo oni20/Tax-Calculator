@@ -1,7 +1,7 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 
-import {convertStringToNumber} from '../../utility/helper';
+import { convertStringToNumber } from '../../utility/helper';
 
 const FormInputRange = props => {
     const [inputState, setInputState] = useState('');
@@ -9,7 +9,7 @@ const FormInputRange = props => {
     const handleInputChange = event => {
         if (!event.target.id.includes('Range') && event.target.id !== "formEmploymentIncome") {
             let inputVal = convertStringToNumber(event.target.value);
-            
+
             document.getElementById(event.target.id + 'Range').value = inputVal;
         }
         setInputState(event.target.value);
@@ -25,7 +25,7 @@ const FormInputRange = props => {
                             <i className="material-icons prefix">{props.iconName}</i>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
-                    
+
                     <FormControl
                         className={props.inputClass}
                         disabled={props.isDisabled}
@@ -50,7 +50,7 @@ const FormInputRange = props => {
                         //value={inputState == '' ? '0' : inputState}
                         disabled={props.isDisabled}
                         min="0" max={props.rangeMax}
-                        onChange={handleInputChange} custom/>
+                        onChange={handleInputChange} custom />
                 </Form.Group>
             }
         </>

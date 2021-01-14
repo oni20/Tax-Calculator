@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 
 /* React Bootstrap */
 import { Container, Row, Col, Button, Jumbotron, Form } from 'react-bootstrap';
@@ -12,6 +12,7 @@ import {
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
 import { convertStringToNumber } from '../../utility/helper';
+import Slider from "../common/Slider";
 
 import BodyStyle from '../../styles/Body.module.scss';
 
@@ -112,7 +113,7 @@ const Body = props => {
 
     if (income !== null && income !== undefined) {
       let weeklyAmount = (income / DEFAULT_ANNUAL_WEEKS),
-          hourlyAmount = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmount / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+        hourlyAmount = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmount / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
       setResultSetBeforeTax({
         "annual": (income).toLocaleString(),
@@ -201,6 +202,7 @@ const Body = props => {
                 })
               }
 
+              <Slider />
               <Button variant="success" size="sm" block type="submit">
                 {props.bodyContent.calculateBtn}
               </Button>
