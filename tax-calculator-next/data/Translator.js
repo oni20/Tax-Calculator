@@ -68,6 +68,7 @@ const dictionary = {
             ],
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
+            "CalculationTitle": "Enter your details",
             "resultTable": {
                 "beforeTaxCaption": "Income before tax",
                 "afterTaxCaption": "Income after tax",
@@ -161,6 +162,7 @@ const dictionary = {
             ],
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
+            "CalculationTitle": "Entrez vos coordonnées",
             "resultTable": {
                 "beforeTaxCaption": "Revenu avant impôt",
                 "afterTaxCaption": "Revenu après impôt",

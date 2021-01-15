@@ -78,8 +78,7 @@ const Body = props => {
       <Container className="mt-5">
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
-            <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent="card-up__color--teal">
-            <h2 className = "text-center font-weight-bold heading__h2 mb-5" > Enter your details </h2>  
+            <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent="card-up__color--teal"> 
             <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
               <Form.Group controlId="formSelectProvince">
                 <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
