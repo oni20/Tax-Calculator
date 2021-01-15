@@ -5,6 +5,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+body, html{
+  overflow-x: hidden;
+}
 
 footer{
   margin-top: 20px;
@@ -35,7 +38,7 @@ a {
 /* Materialize Icons */
 form .material-icons {
   font-size: 23px;
-  color: #28a745;
+  color: #46B7C5;
 }
 
 .green {

@@ -1,26 +1,22 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
 
 const IncomeTable = props => {
     return (
-        <Table striped bordered hover responsive>
-            <caption>{props.caption}</caption>
-            <thead className="green">
-                <tr>
-                    {Object.keys(props.theader).map((head, index) => {
-                        return <th key={index}>{props.theader[head]}</th>
-                    })}
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    {Object.keys(props.tableBody).map((body, index) => {
-                        return <td key={index}>$ {props.tableBody[body]}</td>
-                    })}
-                </tr>
-            </tbody>
-        </Table>
+        <React.Fragment>
+        <h3 className="income__caption">{props.caption}</h3>
+        <div className = "income__container d-flex justify-content-between" > 
+            <div className="income__title">
+              {Object.keys(props.theader).map((head, index) => {
+                return <p key={index}>{props.theader[head]}</p>
+              })}
+            </div>
+            <div>
+              {Object.keys(props.tableBody).map((body, index) => {
+                return <p className="income__amount" key={index}>$ {props.tableBody[body]}</p>
+              })}
+            </div>
+        </div>
+        </React.Fragment>
     );
 };
 

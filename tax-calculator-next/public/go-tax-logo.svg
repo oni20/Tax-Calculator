@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="133.5" height="41" viewBox="0 0 133.5 41">
+  <g id="Group_7" data-name="Group 7" transform="translate(-344 -26)">
+    <g id="Group_1" data-name="Group 1" transform="translate(334 -197.764)">
+      <path id="Subtraction_1" data-name="Subtraction 1" d="M20.5,41c-.186,0-.375,0-.562-.008L40.655,16.736A20.676,20.676,0,0,1,41,20.5,20.483,20.483,0,0,1,20.5,41Zm-2.787-.188h0A20.5,20.5,0,1,1,40.128,14.567L17.713,40.812Z" transform="translate(10 223.764)" fill="#fff"/>
+      <text id="GT" transform="translate(15 250.764)" font-size="18" font-family="Krungthep"><tspan x="0" y="0">GT</tspan></text>
+    </g>
+    <text id="GOTAX" transform="translate(397 57)" fill="#fff" stroke="#fff" stroke-width="0.5" font-size="31" font-family="Noway" letter-spacing="-0.045em"><tspan x="0" y="0">GOTAX</tspan></text>
+  </g>
+</svg>

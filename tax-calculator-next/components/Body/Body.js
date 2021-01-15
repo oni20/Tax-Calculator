@@ -7,6 +7,8 @@ import { Container, Row, Col, Button, Jumbotron, Form, FormControl, InputGroup }
 import InputControlList from '../../utility/config';
 import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
+import Hero from '../common/Hero';
+import CardUp from '../common/CardUp';
 
 import BodyStyle from '../../styles/Body.module.scss';
 
@@ -68,20 +70,19 @@ const Body = props => {
 
   return (
     <>
-      <Jumbotron fluid>
-        <Container>
-          <h1>{props.bodyContent.introTitle}</h1>
-          <p>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
-        </Container>
-      </Jumbotron>
+    <Hero
+    introTitle={props.bodyContent.introTitle}
+    introDesc={props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}
+    ></Hero>
 
-      <Container>
+      <Container className="mt-5">
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
+            <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent="card-up__color--teal"> 
             <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
               <Form.Group controlId="formSelectProvince">
                 <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
-                <Form.Control as="select" size="sm" required value={provinceDDVal} onChange={handleDDChange} custom>
+                <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange}>
                   <option value="">{props.bodyContent.provinceDD}</option>
                   {
                     props.bodyContent.provinceList.map((province, index) => {
@@ -110,16 +111,17 @@ const Body = props => {
                   )
                 })
               }
-
-              <Button variant="success" size="sm" block type="submit">
+              <div className="d-flex justify-content-center">
+              <button className="button__primary" type="submit">
                 {props.bodyContent.calculateBtn}
-              </Button>
+              </button>
+              </div>
             </Form>
+            </CardUp>
           </Col>
 
-          <Col>
-            <h2>{props.bodyContent.resultTitle}</h2>
-            <Row>
+          <Col xs={{span: 6, offset: 1}}>
+              <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent="card-up__color--beige">
               <Col xs={12}>
                 {/* Before tax */}
                 <IncomeTable
@@ -136,7 +138,7 @@ const Body = props => {
                   tableBody={resultSetAfterTax}
                 />
               </Col>
-            </Row>
+              </CardUp>
           </Col>
         </Row>
       </Container>
