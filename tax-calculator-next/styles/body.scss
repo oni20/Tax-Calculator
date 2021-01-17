@@ -1,17 +1,20 @@
-caption p{
-  font-size: 25px;
-  margin-top: 15px;
+$theme-color: #28a745;
+
+caption {
+  p {
+    font-size: 25px;
+    margin-top: 15px;
+  }
 }
 
-fieldset{
-  border: 2px solid #4CAF50;
-}
-
-fieldset p {
+fieldset {
+  border: 2px solid $theme-color;
+  p {
     margin: 5px;
+  }
 }
 
-legend{
+legend {
   color: #9e9e9e;
   font-size: 15px;
   padding: 0 10px;

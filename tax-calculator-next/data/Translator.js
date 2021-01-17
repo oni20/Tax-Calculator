@@ -8,9 +8,11 @@ const dictionary = {
         "body": {
             "introTitle": "Income Tax Calculator",
             "introDesc": "Use our tax calculator to estimate your $currYear$ federal and provincial taxes.",
+            "employmentIncomeLabel":"Employment income",
             "hourlyRateLabel": "Hourly rate",
             "workingHoursInWeekLabel": "Total hours in a week",
             "totalWorkingWeeksInAYear": "Total working weeks (annually)",
+            "rrspDeductionLabel":"RRSP deduction",
             "provinceDD": "Select province or territory",
             "provinceList": [
                 {
@@ -66,6 +68,10 @@ const dictionary = {
                     "displayText": "Nunavut"
                 }
             ],
+            "incomeType":{
+                "labelText": "Income type",
+                "type":["Employment Income", "Self-employment Income"]
+            },
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
             "CalculationTitle": "Enter your details",
@@ -76,7 +82,8 @@ const dictionary = {
                     "annual": "Annual",
                     "monthly": "Monthly",
                     "biWeekly": "Bi-weekly",
-                    "weekly": "Weekly"
+                    "weekly": "Weekly",
+                    "hourly": "Hourly"
                 }
             },
             "errorMessage":{
@@ -102,9 +109,11 @@ const dictionary = {
         "body": {
             "introTitle": "Calculateur de taxes",
             "introDesc": "Utilisez notre calculateur de taxes pour estimer votre $currYear$ de taxes fédérales et provinciales.",
+            "employmentIncomeLabel":"Revenu d'emploi",
             "hourlyRateLabel": "Entrez le taux horaire",
             "workingHoursInWeekLabel": "Entrez le nombre total d'heures dans une semaine",
             "totalWorkingWeeksInAYear": "Entrez le nombre total de semaines de travail (base annuelle)",
+            "rrspDeductionLabel":"RRSP deduction",
             "provinceDD": "Sélectionnez une province ou un territoire",
             "provinceList": [
                 {
@@ -160,6 +169,10 @@ const dictionary = {
                     "displayText": "Nunavut"
                 }
             ],
+            "incomeType":{
+                "labelText": "Type de revenu",
+                "type":["Revenu d'emploi", "Revenu du travail indépendant"]
+            },
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
             "CalculationTitle": "Entrez vos coordonnées",
@@ -170,7 +183,8 @@ const dictionary = {
                     "annual": "Annuel",
                     "monthly": "Mensuel",
                     "biWeekly": "Aux deux semaines",
-                    "weekly": "Hebdomadaire"
+                    "weekly": "Hebdomadaire",
+                    "hourly": "À l'heure"
                 }
             },
             "errorMessage":{

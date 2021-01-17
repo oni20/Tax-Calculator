@@ -1,0 +1,66 @@
+/* CSS Document */
+
+div.aria_widget_slider {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  height: 4em;
+
+  .rail {
+    width: 300px;
+    margin: 2px;
+    padding: 4px;
+    border-radius: 10px;
+    background-color: #ebebeb;    
+    position: relative;
+    top: 2em;
+    height: 4px;
+  }
+
+  .thumb {
+    border-radius: 50%;
+    background-color: #28a745;
+    border: 1px solid #888;
+    border-top-color: #666;
+    border-left-color: #666;
+    position: relative;
+    box-shadow: -1px 2px 4px 1px grey;
+  }
+
+  .rail {
+    .thumb {
+      &.focus,
+      &:hover {
+        cursor: pointer;
+        background-color: #1ecc47f7;
+      }
+    }
+
+    &.focus {
+      background-color: #aaa;
+    }
+  }
+
+  .value {
+    width: 2em;
+    text-align: right;
+    position: absolute;
+  }
+}
+
+.label {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#idColorBox {
+  width: 200px;
+  height: 200px;
+  border: black solid medium;
+  text-align: center;
+  padding: 0.25em;
+}
+
+#idColorInfo {
+  padding-top: 5px;
+}
