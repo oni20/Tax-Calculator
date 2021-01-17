@@ -13,6 +13,8 @@ import IncomeTable from '../common/IncomeTable';
 import FormInputRange from './FormInputRange';
 import { convertStringToNumber } from '../../utility/helper';
 import Slider from "../common/Slider";
+import Hero from '../common/Hero';
+import CardUp from '../common/CardUp';
 
 import BodyStyle from '../../styles/Body.module.scss';
 
@@ -127,91 +129,93 @@ const Body = props => {
 
   return (
     <>
-      <Jumbotron fluid>
-        <Container>
-          <h1>{props.bodyContent.introTitle}</h1>
-          <p>{props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
-        </Container>
-      </Jumbotron>
+      <Hero
+        introTitle={props.bodyContent.introTitle}
+        introDesc={props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}
+      ></Hero>
 
-      <Container>
+      <Container className="mt-5">
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
-            <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
-              <Form.Group controlId="formSelectProvince">
-                <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
-                <Form.Control as="select" size="sm" required value={provinceDDVal} onChange={handleDDChange} custom>
-                  <option value="">{props.bodyContent.provinceDD}</option>
-                  {
-                    props.bodyContent.provinceList.map((province, index) => {
-                      return <option key={index} value={province.id}>{province.displayText}</option>
-                    })
-                  }
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  {props.bodyContent.errorMessage.missingProvince}
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              {/* Employment Type */}
-              <fieldset>
-                <Form.Group controlId="formSelectIncomeType">
-                  <Form.Label as="legend">{props.bodyContent.incomeType.labelText}</Form.Label>
-                  <Col sm={10}>
+            <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent="card-up__color--teal">
+              <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
+                <Form.Group controlId="formSelectProvince">
+                  <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
+                  <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange}>
+                    <option value="">{props.bodyContent.provinceDD}</option>
                     {
-                      props.bodyContent.incomeType.type.map((radioVal, index) => {
-                        return (
-                          <Form.Check
-                            key={index}
-                            type="radio"
-                            label={radioVal}
-                            name="incomeTypeRadio"
-                            value={"incomeTypeRadio" + index}
-                            id={"incomeTypeRadio" + index}
-                            onChange={handleEmploymentTypeRadio}
-                            disabled={isDisableControl}
-                          />
-                        )
+                      props.bodyContent.provinceList.map((province, index) => {
+                        return <option key={index} value={province.id}>{province.displayText}</option>
                       })
                     }
-                  </Col>
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {props.bodyContent.errorMessage.missingProvince}
+                  </Form.Control.Feedback>
                 </Form.Group>
-              </fieldset>
 
-              {/* Input controls with Range */}
-              {
-                InputControlList.map((inputObj, idx) => {
-                  return (
-                    isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
-                    <FormInputRange
-                      key={idx}
-                      isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                      isDisabled={isDisableControl}
-                      inputclassName={BodyStyle.customInput}
-                      controlId={inputObj.controlId}
-                      iconName={inputObj.iconName}
-                      label={props.bodyContent[inputObj.labelKeyName]}
-                      errorMessage={
-                        inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ""
-                          ? ""
-                          : props.bodyContent.errorMessage[inputObj.errorMessageKeyName]
+                {/* Employment Type */}
+                <fieldset>
+                  <Form.Group controlId="formSelectIncomeType">
+                    <Form.Label as="legend">{props.bodyContent.incomeType.labelText}</Form.Label>
+                    <Col sm={10}>
+                      {
+                        props.bodyContent.incomeType.type.map((radioVal, index) => {
+                          return (
+                            <Form.Check
+                              key={index}
+                              type="radio"
+                              label={radioVal}
+                              name="incomeTypeRadio"
+                              value={"incomeTypeRadio" + index}
+                              id={"incomeTypeRadio" + index}
+                              onChange={handleEmploymentTypeRadio}
+                              disabled={isDisableControl}
+                            />
+                          )
+                        })
                       }
-                      rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
-                    />
-                  )
-                })
-              }
+                    </Col>
+                  </Form.Group>
+                </fieldset>
 
-              <Slider />
-              <Button variant="success" size="sm" block type="submit">
-                {props.bodyContent.calculateBtn}
-              </Button>
-            </Form>
+                {/* Input controls with Range */}
+                {
+                  InputControlList.map((inputObj, idx) => {
+                    return (
+                      isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
+                      <FormInputRange
+                        key={idx}
+                        isRequired={inputObj.isRequired ? inputObj.isRequired : false}
+                        isDisabled={isDisableControl}
+                        inputclassName={BodyStyle.customInput}
+                        controlId={inputObj.controlId}
+                        iconName={inputObj.iconName}
+                        label={props.bodyContent[inputObj.labelKeyName]}
+                        errorMessage={
+                          inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ""
+                            ? ""
+                            : props.bodyContent.errorMessage[inputObj.errorMessageKeyName]
+                        }
+                        rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
+                      />
+                    )
+                  })
+                }
+
+                <Slider />
+                <Button variant="success" size="sm" block type="submit" />
+                <div className="d-flex justify-content-center">
+                  <button className="button__primary" type="submit">
+                    {props.bodyContent.calculateBtn}
+                  </button>
+                </div>
+              </Form>
+            </CardUp>
           </Col>
 
-          <Col>
-            <h2>{props.bodyContent.resultTitle}</h2>
-            <Row>
+          <Col xs={{ span: 6, offset: 1 }}>
+            <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent="card-up__color--beige">
               <Col xs={12}>
                 {/* Before tax */}
                 <IncomeTable
@@ -230,7 +234,7 @@ const Body = props => {
                   isShowHourly={isEmploymentIncomeQuery === "" ? false : isEmploymentIncomeQuery}
                 />
               </Col>
-            </Row>
+            </CardUp>
           </Col>
         </Row>
       </Container>

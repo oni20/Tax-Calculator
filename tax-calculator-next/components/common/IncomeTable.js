@@ -1,33 +1,30 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
 
 const IncomeTable = props => {
     return (
-        <Table striped bordered hover responsive>
-            <caption>{props.caption}</caption>
-            <thead className="green">
-                <tr>
+        <>
+            <h3 className="income__caption">{props.caption}</h3>
+            <div className="income__container d-flex justify-content-between" >
+                <div className="income__title">
                     {Object.keys(props.theader).map((head, index) => {
                         return (
                             (head === "hourly")
-                                ? props.isShowHourly && <th key={index}>{props.theader[head]}</th>
-                                : <th key={index}>{props.theader[head]}</th>
+                                ? props.isShowHourly && <p key={index}>{props.theader[head]}</p>
+                                : <p key={index}>{props.theader[head]}</p>
                         )
                     })}
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
+                </div>
+                <div>
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
                             (body === "hourly")
-                                ? props.isShowHourly && <td key={index}>$ {props.tableBody[body]}</td>
-                                : <td key={index}>$ {props.tableBody[body]}</td>)
+                                ? props.isShowHourly && <p className="income__amount" key={index}>$ {props.tableBody[body]}</p>
+                                : <p className="income__amount" key={index}>$ {props.tableBody[body]}</p>
+                        )
                     })}
-                </tr>
-            </tbody>
-        </Table>
+                </div>
+            </div>
+        </>
     );
 };
 

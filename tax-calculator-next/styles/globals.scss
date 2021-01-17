@@ -12,6 +12,11 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
 		Helvetica Neue, sans-serif;
 }
+body,
+html {
+	overflow-x: hidden;
+}
+
 footer {
 	margin-top: 20px;
 	padding: 20px;
@@ -32,11 +37,11 @@ a {
 .mar-right-5 {
 	margin-right: 5px;
 }
-form {
-	.material-icons {
-		font-size: 23px;
-		color: $theme-color;
-	}
+
+/* Materialize Icons */
+form .material-icons {
+	font-size: 23px;
+	color: #46b7c5;
 }
 .green {
 	background-color: $theme-color;

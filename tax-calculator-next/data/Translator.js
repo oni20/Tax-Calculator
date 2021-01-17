@@ -3,6 +3,8 @@ const dictionary = {
         "jsDisabledMsg": "You need to enable JavaScript to run this app.",
         "pageTitle": "Find tax: $currYear$ Canadian income tax",
         "headerTitle": "GoTax",
+        "logoUrl": "go-tax-logo.svg",
+        "logoAlt": "GoTax logo",
         "body": {
             "introTitle": "Income Tax Calculator",
             "introDesc": "Use our tax calculator to estimate your $currYear$ federal and provincial taxes.",
@@ -72,6 +74,7 @@ const dictionary = {
             },
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
+            "CalculationTitle": "Enter your details",
             "resultTable": {
                 "beforeTaxCaption": "Income before tax",
                 "afterTaxCaption": "Income after tax",
@@ -101,6 +104,8 @@ const dictionary = {
         "jsDisabledMsg": "Vous devez activer JavaScript pour exécuter cette application.",
         "pageTitle": "Rechercher un impôt: $currYear$ Impôt sur le revenu canadien",
         "headerTitle": "GoTax",
+        "logoUrl": "go-tax-logo.svg",
+        "logoAlt": "GoTax logo",
         "body": {
             "introTitle": "Calculateur de taxes",
             "introDesc": "Utilisez notre calculateur de taxes pour estimer votre $currYear$ de taxes fédérales et provinciales.",
@@ -170,6 +175,7 @@ const dictionary = {
             },
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
+            "CalculationTitle": "Entrez vos coordonnées",
             "resultTable": {
                 "beforeTaxCaption": "Revenu avant impôt",
                 "afterTaxCaption": "Revenu après impôt",
