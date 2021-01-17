@@ -6,17 +6,17 @@
 }
 
 //CardUp component
-.card-up {
+.card_up {
     background-color: $white;
     padding: 3em 2em 2em 2em;
     border-radius: 20px;
     margin: 0;
     box-shadow: 0px 2px 26px 4px rgba(0, 0, 0, 0.2);
     &__color {
-        &--beige {
+        &__beige {
             border-top: solid 20px $beige;
         }
-        &--teal {
+        &__teal {
             border-top: solid 20px $teal;
         }
     }
@@ -54,7 +54,7 @@
         }
     }
     &__amount {
-        border-bottom: 1px dotted $grey--dark;
+        border-bottom: 1px dotted $grey__dark;
         width: 250px;
         text-align: center;
     }

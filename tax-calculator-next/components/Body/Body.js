@@ -137,7 +137,7 @@ const Body = props => {
       <Container className="mt-5">
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
-            <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent="card-up__color--teal">
+            <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
               <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
                 <Form.Group controlId="formSelectProvince">
                   <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
@@ -204,7 +204,7 @@ const Body = props => {
                 }
 
                 <Slider />
-                <Button variant="success" size="sm" block type="submit" />
+
                 <div className="d-flex justify-content-center">
                   <button className="button__primary" type="submit">
                     {props.bodyContent.calculateBtn}
@@ -215,7 +215,7 @@ const Body = props => {
           </Col>
 
           <Col xs={{ span: 6, offset: 1 }}>
-            <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent="card-up__color--beige">
+            <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
               <Col xs={12}>
                 {/* Before tax */}
                 <IncomeTable

@@ -11,7 +11,7 @@ import Dictionary from '../data/Translator';
 import CanadaTaxRule from '../data/CanadaTaxRule.json';
 
 /* Import custom stylesheet */
-import styles from '../styles/Home.module.scss';
+import HomeStyle from '../styles/Home.module.scss';
 
 const currYear = new Date().getFullYear();
 
@@ -32,7 +32,7 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={HomeStyle.container}>
       <Head>
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />

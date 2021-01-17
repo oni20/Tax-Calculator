@@ -1,6 +1,6 @@
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import React from 'react';
-import './Hero.scss';
+import HeroStyle from '../../styles/Hero.module.scss';
 
 const Hero = props => {
     return (
@@ -15,8 +15,8 @@ const Hero = props => {
                     <Image src="hero-illustration.svg" width="100%" fluid/>
                 </Col>
             </Row>
-            <div className="curve__container">
-                <Image src="curve-background.svg" className="curve__image" />
+            <div className={HeroStyle.curve__container}>
+                <Image src="curve-background.svg" className={HeroStyle.curve__image} />
             </div>
         </Container>
     )
