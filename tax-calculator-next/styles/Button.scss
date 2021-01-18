@@ -6,6 +6,7 @@
         font-weight: 800;
         position: relative;
         transition: 0.3s;
+        border: none;
         &:hover{
             background-color: darken($hover_bg_color, 10%);
             color: $hover_color;
