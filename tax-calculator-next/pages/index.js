@@ -16,18 +16,20 @@ import HomeStyle from '../styles/Home.module.scss';
 const currYear = new Date().getFullYear();
 
 const Home = () => {
-  const [language, setLanguage] = useState("en"),
+  const [language, setLanguage] = useState(""),
     [content, setContent] = useState(Dictionary.EN),
     [currentProvinceTaxRule, setCurrentProvinceTaxRule] = useState([]);
 
   useEffect(() => {
     const currentLang = window.sessionStorage.getItem("lang");
     let content = ["fr", "fr_CA", "fr_ca", "fr-CA"].includes(currentLang) ? Dictionary.FR : Dictionary.EN;
+    
+    setLanguage(currentLang == undefined ? "en" : currentLang);
     setContent(content);
   });
 
   const handleLanguageToggle = newLang => {
-    sessionStorage.setItem("lang", newLang);
+    window.sessionStorage.setItem("lang", newLang);
     setLanguage(newLang)
   }
 
@@ -46,20 +48,23 @@ const Home = () => {
 
       <noscript>{content.jsDisabledMsg}</noscript>
 
-      <Header
-        language={language}
-        headerTitle={content.headerTitle}
-        handleLanguageToggle={handleLanguageToggle}
-        logoUrl={content.logoUrl}
-        logoAlt={content.logoAlt}
-      />
-      <Body
-        bodyContent={content.body}
-      />
-      <Footer
-        footerContent={content.footerContent}
-      />
+      <div role="main">
+        <a href="#maincontent" className="sr-only">{content.skipToContent}</a>
 
+        <Header
+          language={language}
+          headerTitle={content.headerTitle}
+          handleLanguageToggle={handleLanguageToggle}
+          logoUrl={content.logoUrl}
+          logoAlt={content.logoAlt}
+        />
+        <Body
+          bodyContent={content.body}
+        />
+        <Footer
+          footerContent={content.footerContent}
+        />
+      </div>
     </div>
   );
 }

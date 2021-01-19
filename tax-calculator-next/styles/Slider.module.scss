@@ -1,42 +1,47 @@
-/* CSS Document */
+@import "./variables.scss";
+
+:export {
+  white: $white;
+  blue: $blue;
+  teal: $teal;
+  beige: $beige;
+  grey__dark: $grey__dark;
+}
 
 div.aria_widget_slider {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  height: 4em;
+  padding: 0 20px;
 
   .rail {
-    width: 300px;
+    /* width: 300px; */
     margin: 2px;
     padding: 4px;
     border-radius: 10px;
-    background-color: #ebebeb;    
-    position: relative;
+    background-color: #ebebeb;
+    position: inherit;
     top: 2em;
     height: 4px;
-  }
 
-  .thumb {
-    border-radius: 50%;
-    background-color: #28a745;
-    border: 1px solid #888;
-    border-top-color: #666;
-    border-left-color: #666;
-    position: relative;
-    box-shadow: -1px 2px 4px 1px grey;
-  }
-
-  .rail {
     .thumb {
+      border-radius: 50%;
+      background-color: $blue;
+      position: relative;
+      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 63%);
+
+      &:focus {
+        outline: 0;
+        box-shadow: 0px 0px 6px 9px #6d62f942;
+      }
+
       &.focus,
       &:hover {
         cursor: pointer;
-        background-color: #1ecc47f7;
+        background-color: $blue;
       }
     }
 
     &.focus {
       background-color: #aaa;
+      outline: 0;
     }
   }
 

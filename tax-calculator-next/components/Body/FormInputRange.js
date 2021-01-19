@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 
 import { convertStringToNumber } from '../../utility/helper';
+import Slider from '../common/Slider';
+
+/* Styling */
+import BodyStyle from '../../styles/Body.module.scss';
 
 const FormInputRange = props => {
-    const [inputState, setInputState] = useState('');
+    const [inputState, setInputState] = useState(0);
+
+    const updateControlValue = newVal => {
+        setInputState(newVal);
+    }
 
     const handleInputChange = event => {
         if (!event.target.id.includes('Range') && event.target.id !== "formEmploymentIncome") {
@@ -12,14 +20,14 @@ const FormInputRange = props => {
 
             document.getElementById(event.target.id + 'Range').value = inputVal;
         }
-        setInputState(event.target.value);
+        updateControlValue(event.target.value);
     }
 
     return (
-        <>
+        <div className={BodyStyle.input_range_group}>
             <Form.Group controlId={props.controlId}>
                 <Form.Label>{props.label}</Form.Label>
-                <InputGroup className="mb-3">
+                <InputGroup className={"mb-3 " + BodyStyle.customInput_group}>
                     <InputGroup.Prepend>
                         <InputGroup.Text id={props.controlId + "_icon"} className="no-bg">
                             <i className="material-icons prefix">{props.iconName}</i>
@@ -27,7 +35,7 @@ const FormInputRange = props => {
                     </InputGroup.Prepend>
 
                     <FormControl
-                        className={props.inputClass}
+                        className={props.inputclassName}
                         disabled={props.isDisabled}
                         required={props.isRequired}
                         value={inputState}
@@ -43,17 +51,16 @@ const FormInputRange = props => {
             {/* Range */}
             {(props.rangeMax && props.rangeMax !== "") &&
                 <Form.Group controlId={props.controlId + "Range"}>
-                    <Form.Label className="sr-only">{props.label}</Form.Label>
-                    <Form.Control
-                        type="range"
-                        defaultValue="0"
-                        //value={inputState == '' ? '0' : inputState}
-                        disabled={props.isDisabled}
-                        min="0" max={props.rangeMax}
-                        onChange={handleInputChange} custom />
+                    <Slider
+                        uniqueID={props.controlId + "Range"}
+                        label={props.label}
+                        labelClass="sr-only"
+                        valueNow={inputState == "" ? 0 : parseInt(inputState)}
+                        max={parseInt(props.rangeMax)}
+                        updateControlValue={updateControlValue} />
                 </Form.Group>
             }
-        </>
+        </div>
     );
 };
 

@@ -21,6 +21,7 @@ a {
 }
 .no-bg {
 	background: none !important;
+	border: none !important;
 }
 .mar-right-5 {
 	margin-right: 5px;
@@ -40,6 +41,20 @@ form .material-icons {
 	&:focus {
 		border-color: $theme-color;
 		box-shadow: none;
+	}
+}
+.form-group {
+	legend {
+		font-size: 16px;
+		font-weight: 500;
+	}
+	label {
+		font-size: 14px;
+	}
+	.invalid-feedback {
+		margin: auto 36px;
+		font-weight: bold;
+		font-size: 12px;
 	}
 }
 

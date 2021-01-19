@@ -9,13 +9,13 @@ import {
   DEFAULT_ANNUAL_BI_WEEKS,
   InputControlList
 } from '../../utility/config';
-import IncomeTable from '../common/IncomeTable';
+import SalaryContainer from '../common/SalaryContainer';
 import FormInputRange from './FormInputRange';
 import { convertStringToNumber } from '../../utility/helper';
-import Slider from "../common/Slider";
 import Hero from '../common/Hero';
 import CardUp from '../common/CardUp';
 
+/* Styling */
 import BodyStyle from '../../styles/Body.module.scss';
 
 const Body = props => {
@@ -141,7 +141,7 @@ const Body = props => {
               <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
                 <Form.Group controlId="formSelectProvince">
                   <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
-                  <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange}>
+                  <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
                     <option value="">{props.bodyContent.provinceDD}</option>
                     {
                       props.bodyContent.provinceList.map((province, index) => {
@@ -185,9 +185,9 @@ const Body = props => {
                     return (
                       isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
                       <FormInputRange
-                        key={idx}
+                        key={idx}                        
                         isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                        isDisabled={isDisableControl}
+                        isDisabled={isDisableControl}                        
                         inputclassName={BodyStyle.customInput}
                         controlId={inputObj.controlId}
                         iconName={inputObj.iconName}
@@ -203,9 +203,7 @@ const Body = props => {
                   })
                 }
 
-                <Slider />
-
-                <div className="d-flex justify-content-center">
+                <div className="mt-5 d-flex justify-content-center">
                   <button className="button__primary" type="submit">
                     {props.bodyContent.calculateBtn}
                   </button>
@@ -218,7 +216,7 @@ const Body = props => {
             <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
               <Col xs={12}>
                 {/* Before tax */}
-                <IncomeTable
+                <SalaryContainer
                   caption={props.bodyContent.resultTable.beforeTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
                   tableBody={resultSetBeforeTax}
@@ -227,7 +225,7 @@ const Body = props => {
               </Col>
               <Col>
                 {/* After tax */}
-                <IncomeTable
+                <SalaryContainer
                   caption={props.bodyContent.resultTable.afterTaxCaption}
                   theader={props.bodyContent.resultTable.headers}
                   tableBody={resultSetAfterTax}
