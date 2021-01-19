@@ -19,7 +19,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             "isEmploymentIncomeQuery": true,
             "errorMessageKeyName": "missingWeeklyHours",
             "isRequired": true,
-            "rangeMax": "60"
+            "rangeMax": "40"
         },
         {
             "controlId": "formHourlyRate",
@@ -37,7 +37,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             "isEmploymentIncomeQuery": false,
             "errorMessageKeyName": "missingWeeklyHours",
             "isRequired": true,
-            "rangeMax": "60"
+            "rangeMax": "40"
         },
         {
             "controlId": "formWorkingWeekAnnual",

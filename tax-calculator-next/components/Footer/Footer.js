@@ -14,7 +14,7 @@ const Footer = props => {
             <p className="grey-text text-lighten-4">{props.footerContent.desc}</p>
           </Col>
           <Col className="d-flex justify-content-end">
-            <a href="" className="button__secondary">Contact Us</a>
+            <a href="" className="button__secondary">{props.footerContent.contactUsLinkText}</a>
           </Col>
         </Row>
         <Row>
@@ -33,7 +33,7 @@ const Footer = props => {
         <Row>
           <Col md={{ span: 7, offset: 5 }} className="text-right">
             <p className="text-right mb-1">{copyrightText}</p>
-            <a href="#" className="text-right link">Terms of use and privacy policy.</a>
+            <a href="#" className="text-right link">{props.footerContent.policyLinkText}</a>
           </Col>
         </Row>
       </Container>

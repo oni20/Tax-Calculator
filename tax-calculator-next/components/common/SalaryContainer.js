@@ -1,7 +1,7 @@
 import React from 'react';
 import CardUpStyles from '../../styles/CardUp.module.scss';
 
-const IncomeTable = props => {
+const SalaryContainer = props => {
     return (
         <>
             <h3 className={CardUpStyles.income__caption}>{props.caption}</h3>
@@ -19,7 +19,7 @@ const IncomeTable = props => {
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
                             (body === "hourly")
-                                ? props.isShowHourly && <p key={index}>$ {props.tableBody[body]}</p>
+                                ? props.isShowHourly && <p className={CardUpStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
                                 : <p className={CardUpStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
                         )
                     })}
@@ -29,4 +29,4 @@ const IncomeTable = props => {
     );
 };
 
-export default IncomeTable;
+export default SalaryContainer;

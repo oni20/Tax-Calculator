@@ -4,7 +4,7 @@ import HeroStyle from '../../styles/Hero.module.scss';
 
 const Hero = props => {
     return (
-        <Container className="mt-5">
+        <Container className="mt-5" id="maincontent">
             <Row>
                 <Col xs={5} className="d-flex flex-column justify-content-center">
                 <h1 className="text-white">{props.introTitle}</h1>
@@ -12,11 +12,11 @@ const Hero = props => {
                 </Col>  
                 
                 <Col xs={{ span: 5, offset: 2 }} className="d-flex flex-row justify-content-end">
-                    <Image src="hero-illustration.svg" width="100%" fluid/>
+                    <Image src="hero-illustration.svg" alt="" width="100%" fluid/>                    
                 </Col>
             </Row>
             <div className={HeroStyle.curve__container}>
-                <Image src="curve-background.svg" className={HeroStyle.curve__image} />
+                <Image src="curve-background.svg" alt="" className={HeroStyle.curve__image} />
             </div>
         </Container>
     )

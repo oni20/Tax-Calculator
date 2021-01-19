@@ -1,6 +1,7 @@
 const dictionary = {
     "EN": {
         "jsDisabledMsg": "You need to enable JavaScript to run this app.",
+        "skipToContent": "Skip to the main content",
         "pageTitle": "Find tax: $currYear$ Canadian income tax",
         "headerTitle": "GoTax",
         "logoUrl": "go-tax-logo.svg",
@@ -97,11 +98,14 @@ const dictionary = {
             "desc": "GoTax provide this free calculator to estimate tax amount from your total gross income which helps you to plan financial stuff ahead. GoTax will also have some project in pipeline to estimate your regular cost.",
             "useFulLinkText": "Useful Links",
             "socialMediaText": "Social Media",
-            "copyrightText": "Copyright © $currYear$ R and D project of Canada. All rights reserved"
+            "copyrightText": "Copyright © $currYear$ R and D project of Canada. All rights reserved",
+            "policyLinkText": "Terms of use and privacy policy.",
+            "contactUsLinkText": "Contact Us"
         }
     },
     "FR": {
         "jsDisabledMsg": "Vous devez activer JavaScript pour exécuter cette application.",
+        "skipToContent": "Passez au contenu principal",
         "pageTitle": "Rechercher un impôt: $currYear$ Impôt sur le revenu canadien",
         "headerTitle": "GoTax",
         "logoUrl": "go-tax-logo.svg",
@@ -198,7 +202,9 @@ const dictionary = {
             "desc": "GoTax fournit ce calculateur gratuit pour estimer le montant de la taxe à partir de votre revenu brut total, ce qui vous aide à planifier vos finances à l'avance. GoTax aura également un projet en cours pour estimer votre coût régulier.",
             "useFulLinkText": "Liens utiles",
             "socialMediaText": "Des médias sociaux",
-            "copyrightText": "Copyright © $currYear$ Projet de R et D du Canada. Tous les droits sont réservés."
+            "copyrightText": "Copyright © $currYear$ Projet de R et D du Canada. Tous les droits sont réservés.",
+            "policyLinkText": "Conditions d'utilisation et politique de confidentialité.",
+            "contactUsLinkText": "Nous contacter"
         },
     }
 }
