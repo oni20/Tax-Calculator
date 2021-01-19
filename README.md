@@ -3,7 +3,7 @@ This is a Single Page Application (SPA) showing tax calculation of a single pers
 - Hourly rate
 - Hours per week
 - Working weeks in a year
-- Province
+- Province (Canada)
 
 Tax rules are leveraged from [CRA Website](https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html)
 
@@ -23,30 +23,25 @@ We will develop
 - Follow AA standard accessibility compliance
 - Support translation (Only from English to French or vice-versa)
 
+Checkout feature [document](https://drive.google.com/file/d/1_-W8j9YhU49u-X0lTmwTFNDK2IkwZX1V/view?usp=sharing)
+
 ### Known limitation
 Right now we only support Canada.
 
 ## Technology stack
-We will use
+We are leveraging following application to build responsive UI
 - UI
 ```bash
-HTML5, Bootstrap 4 CSS, React/Redux
+HTML5, Bootstrap 4 CSS, React/Redux, JavaScript, Next JS
 ```
 -Module Builder
 ```bash
-Node, NPM, WebPack
-```
-## Installation
-1) Install node JS from their official [website](https://nodejs.org/en/)
-2) Clone this repo to your local workstation
-3) Navigate to root folder where package.json file exist
-4) Run below command
-```bash
-npm start
+Node, NPM, Next JS
 ```
 ## Future enhancement
-- Support multiple countries and their native language
-- Use 3rd party API to retrieve salary market data for certain profession and compare with calculated value. Also graphical representation will be used to show the comparison. We will leverage function from HighChart JS library.
+- Deploy project using Expo SDK to create cross platform application supporting android, iOS
+- Use 3rd party API to retrieve salary market data for certain profession and compare with calculated value. 
+- Also graphical representation will be used to show the comparison. We will leverage function from HighChart JS library.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
