@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 /* React Bootstrap */
-import { Container, Row, Col, Button, Jumbotron, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 
 /* Custom component */
 import {
@@ -9,32 +9,22 @@ import {
   DEFAULT_ANNUAL_BI_WEEKS,
   InputControlList
 } from '../../utility/config';
-import SalaryContainer from '../common/SalaryContainer';
 import FormInputRange from './FormInputRange';
 import { convertStringToNumber } from '../../utility/helper';
 import Hero from '../common/Hero';
 import CardUp from '../common/CardUp';
+import ResultCard from './ResultCard';
+import { GlobalContext } from '../Context/GlobalContext';
+import { ResultContext } from './ResultContext';
 
 /* Styling */
 import BodyStyle from '../../styles/Body.module.scss';
 
-const Body = props => {
-  const [validated, setValidated] = useState(false),
+const Body = () => {
+  const { content } = useContext(GlobalContext),
+    { setSalaryStatus } = useContext(ResultContext),
+    [validated, setValidated] = useState(false),
     [isEmploymentIncomeQuery, setIsEmploymentIncomeQuery] = useState(""),
-    [resultSetBeforeTax, setResultSetBeforeTax] = useState({
-      "annual": 0,
-      "monthly": 0,
-      "biWeekly": 0,
-      "weekly": 0,
-      "hourly": 0
-    }),
-    [resultSetAfterTax, setResultSetAfterTax] = useState({
-      "annual": 0,
-      "monthly": 0,
-      "biWeekly": 0,
-      "weekly": 0,
-      "hourly": 0
-    }),
     [isDisableControl, setIsDisableControl] = useState(true),
     [provinceDDVal, setProvinceDDVal] = useState("");
 
@@ -117,50 +107,58 @@ const Body = props => {
       let weeklyAmount = (income / DEFAULT_ANNUAL_WEEKS),
         hourlyAmount = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmount / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
-      setResultSetBeforeTax({
+      let salBeforeTax = {
         "annual": (income).toLocaleString(),
         "monthly": (income / 12).toLocaleString(),
         "biWeekly": (income / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
         "weekly": weeklyAmount.toLocaleString(),
         "hourly": hourlyAmount
-      });
+      },
+        salAfterTax = {
+          "annual": 0,
+          "monthly": 0,
+          "biWeekly": 0,
+          "weekly": 0,
+          "hourly": 0
+        };
+      setSalaryStatus(salBeforeTax, salAfterTax);
     }
   }
 
   return (
     <>
       <Hero
-        introTitle={props.bodyContent.introTitle}
-        introDesc={props.bodyContent.introDesc.replace("$currYear$", new Date().getFullYear())}
+        introTitle={content.body.introTitle}
+        introDesc={content.body.introDesc.replace("$currYear$", new Date().getFullYear())}
       ></Hero>
 
       <Container className="mt-5">
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
-            <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
+            <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
               <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
                 <Form.Group controlId="formSelectProvince">
-                  <Form.Label>{props.bodyContent.provinceDD}</Form.Label>
+                  <Form.Label>{content.body.provinceDD}</Form.Label>
                   <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
-                    <option value="">{props.bodyContent.provinceDD}</option>
+                    <option value="">{content.body.provinceDD}</option>
                     {
-                      props.bodyContent.provinceList.map((province, index) => {
+                      content.body.provinceList.map((province, index) => {
                         return <option key={index} value={province.id}>{province.displayText}</option>
                       })
                     }
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
-                    {props.bodyContent.errorMessage.missingProvince}
+                    {content.body.errorMessage.missingProvince}
                   </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Employment Type */}
                 <fieldset>
                   <Form.Group controlId="formSelectIncomeType">
-                    <Form.Label as="legend">{props.bodyContent.incomeType.labelText}</Form.Label>
+                    <Form.Label as="legend">{content.body.incomeType.labelText}</Form.Label>
                     <Col sm={10}>
                       {
-                        props.bodyContent.incomeType.type.map((radioVal, index) => {
+                        content.body.incomeType.type.map((radioVal, index) => {
                           return (
                             <Form.Check
                               key={index}
@@ -185,17 +183,17 @@ const Body = props => {
                     return (
                       isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
                       <FormInputRange
-                        key={idx}                        
+                        key={idx}
                         isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                        isDisabled={isDisableControl}                        
+                        isDisabled={isDisableControl}
                         inputclassName={BodyStyle.customInput}
                         controlId={inputObj.controlId}
                         iconName={inputObj.iconName}
-                        label={props.bodyContent[inputObj.labelKeyName]}
+                        label={content.body[inputObj.labelKeyName]}
                         errorMessage={
                           inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ""
                             ? ""
-                            : props.bodyContent.errorMessage[inputObj.errorMessageKeyName]
+                            : content.body.errorMessage[inputObj.errorMessageKeyName]
                         }
                         rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
                       />
@@ -205,7 +203,7 @@ const Body = props => {
 
                 <div className="mt-5 d-flex justify-content-center">
                   <button className="button__primary" type="submit">
-                    {props.bodyContent.calculateBtn}
+                    {content.body.calculateBtn}
                   </button>
                 </div>
               </Form>
@@ -213,26 +211,9 @@ const Body = props => {
           </Col>
 
           <Col xs={{ span: 6, offset: 1 }}>
-            <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
-              <Col xs={12}>
-                {/* Before tax */}
-                <SalaryContainer
-                  caption={props.bodyContent.resultTable.beforeTaxCaption}
-                  theader={props.bodyContent.resultTable.headers}
-                  tableBody={resultSetBeforeTax}
-                  isShowHourly={isEmploymentIncomeQuery === "" ? false : isEmploymentIncomeQuery}
-                />
-              </Col>
-              <Col>
-                {/* After tax */}
-                <SalaryContainer
-                  caption={props.bodyContent.resultTable.afterTaxCaption}
-                  theader={props.bodyContent.resultTable.headers}
-                  tableBody={resultSetAfterTax}
-                  isShowHourly={isEmploymentIncomeQuery === "" ? false : isEmploymentIncomeQuery}
-                />
-              </Col>
-            </CardUp>
+            <ResultCard
+              isEmploymentIncomeQuery={isEmploymentIncomeQuery}
+            />
           </Col>
         </Row>
       </Container>

@@ -3,17 +3,19 @@ const dictionary = {
         "jsDisabledMsg": "You need to enable JavaScript to run this app.",
         "skipToContent": "Skip to the main content",
         "pageTitle": "Find tax: $currYear$ Canadian income tax",
-        "headerTitle": "GoTax",
-        "logoUrl": "go-tax-logo.svg",
-        "logoAlt": "GoTax logo",
+        "header": {
+            "headerTitle": "GoTax",
+            "logoUrl": "go-tax-logo.svg",
+            "logoAlt": "GoTax logo"
+        },
         "body": {
             "introTitle": "Income Tax Calculator",
             "introDesc": "Use our tax calculator to estimate your $currYear$ federal and provincial taxes.",
-            "employmentIncomeLabel":"Employment income",
+            "employmentIncomeLabel": "Employment income",
             "hourlyRateLabel": "Hourly rate",
             "workingHoursInWeekLabel": "Total hours in a week",
             "totalWorkingWeeksInAYear": "Total working weeks (annually)",
-            "rrspDeductionLabel":"RRSP deduction",
+            "rrspDeductionLabel": "RRSP deduction",
             "provinceDD": "Select province or territory",
             "provinceList": [
                 {
@@ -69,9 +71,9 @@ const dictionary = {
                     "displayText": "Nunavut"
                 }
             ],
-            "incomeType":{
+            "incomeType": {
                 "labelText": "Income type",
-                "type":["Employment Income", "Self-employment Income"]
+                "type": ["Employment Income", "Self-employment Income"]
             },
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
@@ -87,14 +89,14 @@ const dictionary = {
                     "hourly": "Hourly"
                 }
             },
-            "errorMessage":{
+            "errorMessage": {
                 "missingProvince": "Choose province or territory",
                 "missingHourlyRate": "Please insert hourly rate",
                 "missingWeeklyHours": "Please insert weekly working hours",
                 "missingAnnualWeeks": "Please insert total annual working weeks"
             }
         },
-        "footerContent": {
+        "footer": {
             "desc": "GoTax provide this free calculator to estimate tax amount from your total gross income which helps you to plan financial stuff ahead. GoTax will also have some project in pipeline to estimate your regular cost.",
             "useFulLinkText": "Useful Links",
             "socialMediaText": "Social Media",
@@ -107,17 +109,19 @@ const dictionary = {
         "jsDisabledMsg": "Vous devez activer JavaScript pour exécuter cette application.",
         "skipToContent": "Passez au contenu principal",
         "pageTitle": "Rechercher un impôt: $currYear$ Impôt sur le revenu canadien",
-        "headerTitle": "GoTax",
-        "logoUrl": "go-tax-logo.svg",
-        "logoAlt": "GoTax logo",
+        "header": {
+            "headerTitle": "GoTax",
+            "logoUrl": "go-tax-logo.svg",
+            "logoAlt": "GoTax logo"
+        },
         "body": {
             "introTitle": "Calculateur de taxes",
             "introDesc": "Utilisez notre calculateur de taxes pour estimer votre $currYear$ de taxes fédérales et provinciales.",
-            "employmentIncomeLabel":"Revenu d'emploi",
+            "employmentIncomeLabel": "Revenu d'emploi",
             "hourlyRateLabel": "Entrez le taux horaire",
             "workingHoursInWeekLabel": "Entrez le nombre total d'heures dans une semaine",
             "totalWorkingWeeksInAYear": "Entrez le nombre total de semaines de travail (base annuelle)",
-            "rrspDeductionLabel":"RRSP deduction",
+            "rrspDeductionLabel": "RRSP deduction",
             "provinceDD": "Sélectionnez une province ou un territoire",
             "provinceList": [
                 {
@@ -173,9 +177,9 @@ const dictionary = {
                     "displayText": "Nunavut"
                 }
             ],
-            "incomeType":{
+            "incomeType": {
                 "labelText": "Type de revenu",
-                "type":["Revenu d'emploi", "Revenu du travail indépendant"]
+                "type": ["Revenu d'emploi", "Revenu du travail indépendant"]
             },
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
@@ -191,14 +195,14 @@ const dictionary = {
                     "hourly": "À l'heure"
                 }
             },
-            "errorMessage":{
+            "errorMessage": {
                 "missingProvince": "Choisissez la province ou le territoire",
                 "missingHourlyRate": "Veuillez insérer le taux horaire",
                 "missingWeeklyHours": "Veuillez insérer les heures de travail hebdomadaires",
                 "missingAnnualWeeks": "Veuillez insérer le nombre total de semaines de travail annuelles"
             }
         },
-        "footerContent": {
+        "footer": {
             "desc": "GoTax fournit ce calculateur gratuit pour estimer le montant de la taxe à partir de votre revenu brut total, ce qui vous aide à planifier vos finances à l'avance. GoTax aura également un projet en cours pour estimer votre coût régulier.",
             "useFulLinkText": "Liens utiles",
             "socialMediaText": "Des médias sociaux",

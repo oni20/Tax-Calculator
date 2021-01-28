@@ -61,7 +61,6 @@ const Slider = props => {
         raildomNode.current.style.background = "linear-gradient(to right, " + SliderStyle.blue + " " + (pos + 5) + "px, #ebebeb 0%)";
 
         setValueNow(value);
-
         UpdateInputVal(value);
     };
 
@@ -111,8 +110,7 @@ const Slider = props => {
             event.stopPropagation();
         }
 
-        //setValueNow(newValue);
-        UpdateInputVal(newValue);
+        setValueNow(newValue);
     };
 
     const handleFocus = () => {
@@ -129,9 +127,7 @@ const Slider = props => {
         let railWidth = raildomNode.current.getBoundingClientRect().width,
             diffX = event.pageX - raildomNode.current.getBoundingClientRect().x;
 
-        //setValueNow(parseInt(((valueMax - valueMin) * diffX) / railWidth));
-        UpdateInputVal(parseInt(((valueMax - valueMin) * diffX) / railWidth));
-
+        setValueNow(parseInt(((valueMax - valueMin) * diffX) / railWidth));
         event.preventDefault();
         event.stopPropagation();
     };
