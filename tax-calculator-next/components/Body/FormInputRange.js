@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 
-import { convertStringToNumber } from '../../utility/helper';
+import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 import Slider from '../common/Slider';
 
 /* Styling */
@@ -12,14 +12,10 @@ const FormInputRange = props => {
 
     const updateControlValue = newVal => {
         setInputState(newVal);
+        props.calculateSalary();
     }
 
     const handleInputChange = event => {
-        if (!event.target.id.includes('Range') && event.target.id !== "formEmploymentIncome") {
-            let inputVal = convertStringToNumber(event.target.value);
-
-            document.getElementById(event.target.id + 'Range').value = inputVal;
-        }
         updateControlValue(event.target.value);
     }
 
@@ -38,7 +34,7 @@ const FormInputRange = props => {
                         className={props.inputclassName}
                         disabled={props.isDisabled}
                         required={props.isRequired}
-                        value={inputState}
+                        value={convertStringToLocale(inputState)}
                         onChange={handleInputChange}
                         aria-describedby={props.controlId + "_icon"}
                     />

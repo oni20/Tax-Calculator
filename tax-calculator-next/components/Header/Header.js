@@ -4,7 +4,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 /* Custom Component */
 import { GlobalContext } from '../Context/GlobalContext';
 
-const Header = props => {
+const Header = () => {
   const { language, content, toggleLanguage } = useContext(GlobalContext),
     handleSelect = () => toggleLanguage(language == "en" ? "fr" : "en");
 

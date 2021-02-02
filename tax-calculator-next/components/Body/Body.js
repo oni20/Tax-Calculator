@@ -10,7 +10,7 @@ import {
   InputControlList
 } from '../../utility/config';
 import FormInputRange from './FormInputRange';
-import { convertStringToNumber } from '../../utility/helper';
+import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 import Hero from '../common/Hero';
 import CardUp from '../common/CardUp';
 import ResultCard from './ResultCard';
@@ -45,7 +45,7 @@ const Body = () => {
 
     if (form.checkValidity() !== false) {
       // Calculate tax information
-      calculateSalary(event);
+      calculateSalary();
     }
     setValidated(true);
   }
@@ -53,13 +53,13 @@ const Body = () => {
   const calculateSelfIncomeSal = (form) => {
     let retVal;
 
-    if (form.formHourlyRate.value !== "" && form.formHourlyRate.value !== "0" &&
-      form.formWorkingWeeklyHour.value !== "" && form.formWorkingWeeklyHour.value !== "0" &&
-      form.formWorkingWeekAnnual.value !== "" && form.formWorkingWeekAnnual.value !== "0"
+    if (form.formSelfIncomeHourlyRate.value !== "" && form.formSelfIncomeHourlyRate.value !== "0" &&
+      form.formSelfIncomeWorkingWeeklyHour.value !== "" && form.formSelfIncomeWorkingWeeklyHour.value !== "0" &&
+      form.formSelfIncomeWorkingWeekAnnual.value !== "" && form.formSelfIncomeWorkingWeekAnnual.value !== "0"
     ) {
-      let hourlyRate = convertStringToNumber(form.formHourlyRate.value),
-        weeklyHours = convertStringToNumber(form.formWorkingWeeklyHour.value),
-        annualHours = convertStringToNumber(form.formWorkingWeekAnnual.value),
+      let hourlyRate = convertStringToNumber(form.formSelfIncomeHourlyRate.value),
+        weeklyHours = convertStringToNumber(form.formSelfIncomeWorkingWeeklyHour.value),
+        annualHours = convertStringToNumber(form.formSelfIncomeWorkingWeekAnnual.value),
         totalIncomeBeforeTax = hourlyRate * weeklyHours * annualHours;
 
       retVal = totalIncomeBeforeTax;
@@ -70,49 +70,33 @@ const Body = () => {
     return retVal;
   }
 
-  const calculateSalary = event => {
-    const form = event.currentTarget, targetElementID = event.target.id;
-    let selectedProvince = form.formSelectProvince.value, income,
-      selectedHoursForEmpIncome = isEmploymentIncomeQuery ? form.formEmploymentIncomeHourly.value : "";
+  const calculateSalary = () => {
+    let form = document.getElementsByTagName('form')[0],
+      selectedProvince = form.formSelectProvince.value, income = null,
+      selectedHoursForEmpIncome = isEmploymentIncomeQuery ? form.formEmpIncomeHourly.value : "";
 
-    switch (targetElementID) {
-      case "formSelectProvince":
-        if (form.formSelectProvince.value !== "" && isEmploymentIncomeQuery !== "") {
-          income = isEmploymentIncomeQuery
-            ? convertStringToNumber(form.formEmploymentIncome.value)
-            : calculateSelfIncomeSal(form);
-        }
-        break;
-
-      case "formEmploymentIncome":
-      case "formEmploymentIncomeHourly":
-      case "formEmploymentIncomeHourlyRange":
-        income = form.formEmploymentIncome.value === "" ? null : convertStringToNumber(form.formEmploymentIncome.value);
-        break;
-
-      case "formHourlyRate":
-      case "formHourlyRateRange":
-      case "formWorkingWeeklyHour":
-      case "formWorkingWeeklyHourRange":
-      case "formWorkingWeekAnnual":
-      case "formWorkingWeekAnnualRange":
-        income = calculateSelfIncomeSal(form);
-        break;
-      default:
-        income = null;
-        break;
+    if (isEmploymentIncomeQuery) {
+      income = form.formEmpIncome.value === "" ? null : convertStringToNumber(form.formEmpIncome.value);
+    } else {
+      income = calculateSelfIncomeSal(form);
     }
+
+    /* case "formSelectProvince":
+        if (form.formSelectProvince.value !== "" && isEmploymentIncomeQuery !== "") {
+          income = isEmploymentIncomeQuery ? convertStringToNumber(form.formEmpIncome.value) : calculateSelfIncomeSal(form);
+        }
+        break; */
 
     if (income !== null && income !== undefined) {
       let weeklyAmount = (income / DEFAULT_ANNUAL_WEEKS),
         hourlyAmount = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmount / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
       let salBeforeTax = {
-        "annual": (income).toLocaleString(),
-        "monthly": (income / 12).toLocaleString(),
-        "biWeekly": (income / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-        "weekly": weeklyAmount.toLocaleString(),
-        "hourly": hourlyAmount
+        "annual": convertStringToLocale(income),
+        "monthly": convertStringToLocale(income / 12),
+        "biWeekly": convertStringToLocale(income / DEFAULT_ANNUAL_BI_WEEKS),
+        "weekly": convertStringToLocale(weeklyAmount),
+        "hourly": convertStringToLocale(hourlyAmount)
       },
         salAfterTax = {
           "annual": 0,
@@ -136,7 +120,7 @@ const Body = () => {
         <Row>
           <Col xs={12} sm={5} md={5} lg={5}>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
-              <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
+              <Form action="#" noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId="formSelectProvince">
                   <Form.Label>{content.body.provinceDD}</Form.Label>
                   <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
@@ -196,6 +180,7 @@ const Body = () => {
                             : content.body.errorMessage[inputObj.errorMessageKeyName]
                         }
                         rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
+                        calculateSalary={calculateSalary}
                       />
                     )
                   })
