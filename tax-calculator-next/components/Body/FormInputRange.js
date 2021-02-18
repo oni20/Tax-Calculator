@@ -5,7 +5,7 @@ import { convertStringToNumber } from '../../utility/helper';
 import Slider from '../common/Slider';
 
 /* Styling */
-import BodyStyle from '../../styles/Body.module.scss';
+import BodyStyle from './body.module.scss';
 
 const FormInputRange = props => {
     const [inputState, setInputState] = useState(0);

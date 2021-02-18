@@ -16,7 +16,7 @@ import Hero from '../common/Hero';
 import CardUp from '../common/CardUp';
 
 /* Styling */
-import BodyStyle from '../../styles/Body.module.scss';
+import BodyStyle from './body.module.scss';
 
 const Body = props => {
   const [validated, setValidated] = useState(false),
