@@ -1,4 +1,4 @@
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from '../components/ErrorBoundary';
 import GlobalContextProvider from '../components/Context/GlobalContext'
 
 /* Import styling */
