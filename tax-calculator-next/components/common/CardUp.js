@@ -1,5 +1,5 @@
 import React from 'react';
-import BodyStyle from '../../styles/Body.module.scss';
+import BodyStyle from '../Body/body.module.scss';
 
 const CardUp = props => {
     return (

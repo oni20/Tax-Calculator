@@ -18,7 +18,7 @@ import { GlobalContext } from '../Context/GlobalContext';
 import { ResultContext } from './ResultContext';
 
 /* Styling */
-import BodyStyle from '../../styles/Body.module.scss';
+import BodyStyle from './body.module.scss';
 
 const Body = () => {
   const { content } = useContext(GlobalContext),
