@@ -1,4 +1,4 @@
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 /* Import styling */
 import '../styles/app.scss';
