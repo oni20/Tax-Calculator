@@ -1,11 +1,11 @@
 import React from 'react';
-import CardUpStyles from '../../styles/CardUp.module.scss';
+import SalaryContainerStyles from './salarycontainer.module.scss';
 
 const SalaryContainer = props => {
     return (
         <>
-            <h3 className={CardUpStyles.income__caption}>{props.caption}</h3>
-            <div className={`${CardUpStyles.income__container} d-flex justify-content-between`}>
+            <h3 className={SalaryContainerStyles.income__caption}>{props.caption}</h3>
+            <div className={`${SalaryContainerStyles.income__container} d-flex justify-content-between`}>
                 <div className="income__title">
                     {Object.keys(props.theader).map((head, index) => {
                         return (
@@ -19,8 +19,8 @@ const SalaryContainer = props => {
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
                             (body === "hourly")
-                                ? props.isShowHourly && <p className={CardUpStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
-                                : <p className={CardUpStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
+                                ? props.isShowHourly && <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
+                                : <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
                         )
                     })}
                 </div>

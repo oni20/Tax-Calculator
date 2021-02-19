@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
-import FooterStyle from '../../styles/Footer.module.scss';
+import FooterStyle from './footer.module.scss';
 
 /* Custom Component */
 import { GlobalContext } from '../Context/GlobalContext';

@@ -3,9 +3,11 @@ import GlobalContextProvider from '../components/Context/GlobalContext'
 
 /* Import styling */
 import '../styles/app.scss';
-import '../styles/globals.scss';
+import '../styles/globals.scss'
 
-function MyApp({ Component, pageProps }) {
+const window = global.window;
+
+function GoTax({ Component, pageProps }) {
   return (
     <ErrorBoundary>
       <GlobalContextProvider>
@@ -15,4 +17,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default GoTax
