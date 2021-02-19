@@ -14,8 +14,9 @@ const GlobalContextProvider = ({ children }) => {
         let content = ["fr", "fr_CA", "fr_ca", "fr-CA"].includes(currentLang)
             ? Dictionary.FR : Dictionary.EN;
 
+        document.documentElement.lang = currentLang;
         setLanguage(currentLang == undefined ? "en" : currentLang);
-        setContent(content);
+        setContent(content);        
     });
 
     const handleLanguageToggle = newLang => {
