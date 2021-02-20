@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 
 .gotax_dropdown {
-    border: 1px solid $teal;
+    border: none;
     border-radius: 100px;
     overflow-wrap: initial;
     width: 100%;
@@ -12,25 +12,50 @@
     -moz-appearance: none;
     appearance: none;
     font-weight: 500;
-    background-color: #ffffff;
+    background-color: $grey__light;
     background-repeat: no-repeat;
     background-position: 95% 50%;
+    box-shadow: 1px 2px 4px -1px $grey__dark;
     background-image: url(../../public/dropdown-arrow.png);
+
+    option {
+        color: $grey__dark;
+        margin: 40px;
+        background: $grey__light;
+        font-weight: normal;
+        display: block;
+        white-space: pre;
+        min-height: 1.2em;
+        padding: 0px 2px 1px;
+
+        &:disabled {
+            color: #838383;
+        }
+    }
+
+    &:focus {
+        border: 3px solid $teal;
+    }
 }
 
 .input_range_group {
     margin-bottom: 20px;
 
     .customInput_group {
-        border: 1px solid $teal;
-        border-radius: 100px;
         padding-right: 20px;
     }
 
     .customInput {
         border: none;
+        border-radius: 100px !important;
         font-size: 16px;
         font-weight: 500;
+        background-color: $grey__light;
+
+        &:focus {
+            outline: 0;
+            border: 3px solid $teal;
+        }
     }
 }
 

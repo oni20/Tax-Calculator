@@ -124,7 +124,7 @@ const Body = () => {
                 <Form.Group controlId="formSelectProvince">
                   <Form.Label>{content.body.provinceDD}</Form.Label>
                   <Form.Control as="select" required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
-                    <option value="">{content.body.provinceDD}</option>
+                    <option value="" disabled>{content.body.provinceDD}</option>
                     {
                       content.body.provinceList.map((province, index) => {
                         return <option key={index} value={province.id}>{province.displayText}</option>
