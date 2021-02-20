@@ -37,6 +37,7 @@ const Slider = props => {
             if (domNode.current) {
                 domNode.current.removeEventListener('keydown', handleKeyDown);
                 domNode.current.removeEventListener('mousedown', handleMouseDown);
+                domNode.current.removeEventListener('touchstart', handleTouchStart);
                 domNode.current.removeEventListener('focus', handleFocus);
                 domNode.current.removeEventListener('blur', handleBlur);
             }
@@ -123,18 +124,22 @@ const Slider = props => {
         raildomNode.current.classList.remove('focus');
     };
 
-    const handleMouseMoveOrClick = event => {
-        let railWidth = raildomNode.current.getBoundingClientRect().width,
-            diffX = event.pageX - raildomNode.current.getBoundingClientRect().x;
+    const setSliderPosition = (event, interactionType) => {
+        let pageX = interactionType === 'mouse' ? event.pageX : event.touches[0].pageX,
+            railWidth = raildomNode.current.getBoundingClientRect().width,
+            diffX = pageX - raildomNode.current.getBoundingClientRect().x;
 
         setValueNow(parseInt(((valueMax - valueMin) * diffX) / railWidth));
-        event.preventDefault();
+
+        if (interactionType === 'mouse') {
+            event.preventDefault();
+        }
         event.stopPropagation();
-    };
+    }
 
     const handleMouseDown = event => {
         const handleMouseMove = event => {
-            handleMouseMoveOrClick(event);
+            setSliderPosition(event, 'mouse');
         };
 
         const handleMouseUp = event => {
@@ -147,7 +152,30 @@ const Slider = props => {
 
         // bind a mouseup event handler to stop tracking mouse movements
         document.addEventListener('mouseup', handleMouseUp);
+        
         event.preventDefault();
+        event.stopPropagation();
+
+        // Set focus to the clicked handle
+        domNode.current.focus();
+    };
+
+    const handleTouchStart = event => {
+        const handleTouchMove = event => {
+            setSliderPosition(event, 'touch');
+        };
+
+        const cancelTouchEvents = event => {
+            domNode.current.removeEventListener('touchmove', handleTouchMove);
+            domNode.current.removeEventListener('touchend', cancelTouchEvents);
+        };
+
+        // bind a touchmove event handler to move pointer
+        domNode.current.addEventListener('touchmove', handleTouchMove);
+        
+        // bind a touchend event handler to stop tracking touch movements
+        domNode.current.addEventListener('touchend', cancelTouchEvents);
+
         event.stopPropagation();
 
         // Set focus to the clicked handle
@@ -156,7 +184,7 @@ const Slider = props => {
 
     // handleMouseMove has the same functionality as we need for handleMouseClick on the rail
     const handleClick = event => {
-        handleMouseMoveOrClick(event);
+        setSliderPosition(event, 'mouse');
     };
 
     return (
@@ -166,7 +194,6 @@ const Slider = props => {
                 <div className={SliderStyle.rail} ref={raildomNode} onClick={handleClick}>
                     <div
                         ref={domNode}
-                        /* id="idRedValue" */
                         role="slider"
                         tabIndex="0"
                         className={SliderStyle.thumb}
@@ -176,6 +203,7 @@ const Slider = props => {
                         aria-labelledby={props.uniqueID}
                         onKeyDown={handleKeyDown}
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                     >

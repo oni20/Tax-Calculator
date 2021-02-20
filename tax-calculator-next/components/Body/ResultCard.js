@@ -24,7 +24,6 @@ const ResultCard = (props) => {
           caption={content.body.resultTable.beforeTaxCaption}
           theader={content.body.resultTable.headers}
           tableBody={salBeforeTax}
-          //{props.resultSetBeforeTax}
           isShowHourly={props.isEmploymentIncomeQuery === "" ? false : props.isEmploymentIncomeQuery}
         />
       </Col>
@@ -34,7 +33,6 @@ const ResultCard = (props) => {
           caption={content.body.resultTable.afterTaxCaption}
           theader={content.body.resultTable.headers}
           tableBody={salAfterTax}
-          //{props.resultSetAfterTax}
           isShowHourly={props.isEmploymentIncomeQuery === "" ? false : props.isEmploymentIncomeQuery}
         />
       </Col>

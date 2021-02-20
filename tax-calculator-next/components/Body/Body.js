@@ -118,7 +118,7 @@ const Body = () => {
 
       <Container className="mt-5">
         <Row>
-          <Col xs={12} sm={5} md={5} lg={5}>
+          <Col>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
               <Form action="#" noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId="formSelectProvince">
@@ -195,7 +195,7 @@ const Body = () => {
             </CardUp>
           </Col>
 
-          <Col xs={{ span: 6, offset: 1 }}>
+          <Col>
             <ResultCard
               isEmploymentIncomeQuery={isEmploymentIncomeQuery}
             />
