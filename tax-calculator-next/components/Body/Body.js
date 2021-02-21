@@ -278,7 +278,7 @@ const Body = props => {
             </CardUp>
           </Col>
 
-          <Col xs={12} sm={12} md={12} lg={{ span: 6, offset: 1 }} className="mt-sm-5 mt-lg-0">
+          <Col xs={12} sm={12} md={12} lg={{ span: 6, offset: 1 }} className="mt-5 mt-lg-0">
             <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
               <Col xs={12}>
                 {/* Before tax */}
