@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import CanadaTaxRule from '../../data/CanadaTaxRule.json';
+
 /* React Bootstrap */
 import { Container, Row, Col, Button, Jumbotron, Form } from 'react-bootstrap';
 
@@ -124,6 +126,70 @@ const Body = props => {
         "weekly": weeklyAmount.toLocaleString(),
         "hourly": hourlyAmount
       });
+
+      //Calculate both federal and provience tax 
+      const taxCal = (income, tireMax1, tireMax2, tireMax3, tireMax4, tireMax5, tireTaxrate1, tireTaxrate2, tireTaxrate3, tireTaxrate4, tireTaxrate5) => {
+        switch (true) {
+          case (income <= tireMax1):
+            if (tireMax1 !== null) {
+              return (income * tireTaxrate1) / 100;
+            }
+            break;
+          case (income <= tireMax2):
+            if (tireMax2 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((income - tireMax1) * tireTaxrate2) / 100);
+            }
+            break;
+          case (income <= tireMax3):
+            if (tireMax3 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
+            }
+            break;
+          case (income <= tireMax4):
+            if (tireMax4 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((tireMax3 - tireMax2) * tireTaxrate3) / 100) + (((income - tireMax3) * tireTaxrate4) / 100);
+            }
+            break;
+          case (income <= tireMax5):
+            if (tireMax5 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((tireMax3 - tireMax2) * tireTaxrate3) / 100) + (((tireMax4 - tireMax3) * tireTaxrate4) / 100) + (((income - tireMax4) * tireTaxrate5) / 100);
+            }
+            break;
+          default:
+            return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
+        }
+      }
+
+      const taxRules = CanadaTaxRule.provincialTax;
+      let selectedProvinceTax = []; 
+
+      //Calculating Province tax 
+      for (const taxRule in taxRules){
+        const provinces = taxRules[taxRule];
+        if (selectedProvince == taxRule){
+          for(const province in provinces){
+            selectedProvinceTax.push(provinces[province]);
+          }
+        }
+      }
+
+      const proTax = taxCal(income, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate)
+
+      //Calculating Federal tax 
+
+      const fedTax = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
+      
+      //Calculating Total tax 
+
+      const totalTax = income - (fedTax + proTax);
+      
+      setResultSetAfterTax({
+           "annual": totalTax.toLocaleString(),
+           "monthly": (totalTax / 12).toLocaleString(),
+           "biWeekly": (totalTax / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+           "weekly": weeklyAmount.toLocaleString(),
+           "hourly": hourlyAmount
+      })
     }
   }
 
@@ -136,7 +202,7 @@ const Body = props => {
 
       <Container className="mt-5">
         <Row>
-          <Col xs={12} sm={5} md={5} lg={5}>
+          <Col xs={12} sm={12} md={12} lg={5}>
             <CardUp cardTitle={props.bodyContent.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
               <Form action="#" noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
                 <Form.Group controlId="formSelectProvince">
@@ -212,7 +278,7 @@ const Body = props => {
             </CardUp>
           </Col>
 
-          <Col xs={{ span: 6, offset: 1 }}>
+          <Col xs={12} sm={12} md={12} lg={{ span: 6, offset: 1 }} className="mt-sm-5 mt-lg-0">
             <CardUp cardTitle={props.bodyContent.resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
               <Col xs={12}>
                 {/* Before tax */}
