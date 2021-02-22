@@ -8,7 +8,6 @@ import Footer from '../components/Footer/Footer';
 
 /* Import data and translation files */
 import Dictionary from '../data/Translator';
-import CanadaTaxRule from '../data/CanadaTaxRule.json';
 
 /* Import custom stylesheet */
 import HomeStyle from '../styles/Home.module.scss';
