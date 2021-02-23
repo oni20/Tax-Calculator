@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
-import FooterStyle from '../../styles/Footer.module.scss';
+import FooterStyle from './footer.module.scss';
 
-const Footer = props => {
-  let copyrightText = props.footerContent.copyrightText.replace("$currYear$", new Date().getFullYear());
+/* Custom Component */
+import { GlobalContext } from '../Context/GlobalContext';
+
+const Footer = () => {
+  const { content } = useContext(GlobalContext);
+
+  let copyrightText = content.footer.copyrightText.replace("$currYear$", new Date().getFullYear());
 
   return (
     <footer className={FooterStyle.page_footer}>
@@ -11,15 +16,14 @@ const Footer = props => {
         <Row className="d-flex align-items-center">
           <Col xs={9}>
             <h2>GoTax</h2>
-            <p className="grey-text text-lighten-4">{props.footerContent.desc}</p>
+            <p className="grey-text text-lighten-4">{content.footer.desc}</p>
           </Col>
           <Col className="d-flex justify-content-end">
-            <a href="" className="button__secondary">{props.footerContent.contactUsLinkText}</a>
+            <a href="" className="button__secondary">{content.footer.contactUsLinkText}</a>
           </Col>
         </Row>
         <Row>
           <Col>
-            {/* <h5>{props.footerContent.socialMediaText}</h5> */}
             <ul className={FooterStyle.social_media}>
               <li><a href="#!">
                 <svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" className="footer-social__icon" aria-label="gotax on Twitter"><path fill="#212529" d="M15 0C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15 8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15zm-.418 12.711l-.031-.519c-.095-1.345.734-2.574 2.046-3.05.482-.17 1.3-.191 1.836-.043.21.064.608.276.892.466l.514.35.566-.18c.315-.096.735-.254.924-.36.178-.096.335-.149.335-.117 0 .18-.388.795-.713 1.134-.44.476-.315.519.577.2.535-.18.546-.18.44.022-.062.106-.387.477-.734.816-.587.582-.619.646-.619 1.133 0 .752-.356 2.32-.713 3.178-.661 1.61-2.078 3.273-3.494 4.11-1.994 1.175-4.648 1.472-6.883.784-.745-.234-2.025-.827-2.025-.933 0-.031.388-.074.86-.084a5.908 5.908 0 0 0 2.812-.784l.567-.34-.65-.222c-.924-.317-1.753-1.048-1.963-1.737-.063-.222-.042-.233.546-.233l.608-.01-.514-.244c-.608-.307-1.164-.826-1.437-1.356-.2-.381-.451-1.345-.378-1.42.021-.031.241.033.493.117.724.265.819.202.399-.243-.787-.806-1.028-2.002-.65-3.136l.178-.508.692.688c1.417 1.388 3.085 2.214 4.995 2.458l.524.063z"></path></svg>
@@ -33,7 +37,7 @@ const Footer = props => {
         <Row>
           <Col md={{ span: 7, offset: 5 }} className="text-right">
             <p className="text-right mb-1">{copyrightText}</p>
-            <a href="#" className="text-right link">{props.footerContent.policyLinkText}</a>
+            <a href="#" className="text-right link">{content.footer.policyLinkText}</a>
           </Col>
         </Row>
       </Container>

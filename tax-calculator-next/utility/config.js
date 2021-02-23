@@ -6,14 +6,14 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
     DEFAULT_ANNUAL_WEEKLY_HOURS = 40,
     InputControlList = [
         {
-            "controlId": "formEmploymentIncome",
+            "controlId": "formEmpIncome",
             "iconName": "monetization_on",
             "labelKeyName": "employmentIncomeLabel",
             "isRequired": true,
             "isEmploymentIncomeQuery": true
         },
         {
-            "controlId": "formEmploymentIncomeHourly",
+            "controlId": "formEmpIncomeHourly",
             "iconName": "hourglass_top",
             "labelKeyName": "workingHoursInWeekLabel",
             "isEmploymentIncomeQuery": true,
@@ -22,7 +22,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             "rangeMax": "40"
         },
         {
-            "controlId": "formHourlyRate",
+            "controlId": "formSelfIncomeHourlyRate",
             "iconName": "monetization_on",
             "labelKeyName": "hourlyRateLabel",
             "isEmploymentIncomeQuery": false,
@@ -31,7 +31,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             "rangeMax": "1000"
         },
         {
-            "controlId": "formWorkingWeeklyHour",
+            "controlId": "formSelfIncomeWorkingWeeklyHour",
             "iconName": "hourglass_top",
             "labelKeyName": "workingHoursInWeekLabel",
             "isEmploymentIncomeQuery": false,
@@ -40,7 +40,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             "rangeMax": "40"
         },
         {
-            "controlId": "formWorkingWeekAnnual",
+            "controlId": "formSelfIncomeWorkingWeekAnnual",
             "iconName": "date_range",
             "labelKeyName": "totalWorkingWeeksInAYear",
             "isEmploymentIncomeQuery": false,

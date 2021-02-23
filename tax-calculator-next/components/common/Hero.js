@@ -1,6 +1,6 @@
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import React from 'react';
-import HeroStyle from '../../styles/Hero.module.scss';
+import HeroStyle from './hero.module.scss';
 
 const Hero = props => {
     return (
