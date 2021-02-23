@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import SliderStyle from './Slider.module.scss';
+import SliderStyle from './slider.module.scss';
 
 const Slider = props => {
     const domNode = useRef(null),
