@@ -8,7 +8,7 @@ const Hero = props => {
             <Row>
                 <Col xs={5} className="d-flex flex-column justify-content-center">
                 <h1 className="text-white">{props.introTitle}</h1>
-                <p className="text-white">{props.introDesc.replace("$currYear$", new Date().getFullYear())}</p>
+                <p className="text-white">{props.introDesc.replace('$currYear$', new Date().getFullYear())}</p>
                 </Col>  
                 
                 <Col xs={{ span: 5, offset: 2 }} className="d-flex flex-row justify-content-end">
@@ -19,8 +19,7 @@ const Hero = props => {
                 <Image src="curve-background.svg" alt="" className={HeroStyle.curve__image} />
             </div>
         </Container>
-    )
-
-}
+    );
+};
 
 export default Hero;

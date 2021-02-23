@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 
 /* React Bootstrap */
 import { Col } from 'react-bootstrap';
@@ -24,7 +24,7 @@ const ResultCard = (props) => {
           caption={content.body.resultTable.beforeTaxCaption}
           theader={content.body.resultTable.headers}
           tableBody={salBeforeTax}
-          isShowHourly={props.isEmploymentIncomeQuery === "" ? false : props.isEmploymentIncomeQuery}
+          isShowHourly={props.isEmploymentIncomeQuery === '' ? false : props.isEmploymentIncomeQuery}
         />
       </Col>
       <Col>
@@ -33,11 +33,11 @@ const ResultCard = (props) => {
           caption={content.body.resultTable.afterTaxCaption}
           theader={content.body.resultTable.headers}
           tableBody={salAfterTax}
-          isShowHourly={props.isEmploymentIncomeQuery === "" ? false : props.isEmploymentIncomeQuery}
+          isShowHourly={props.isEmploymentIncomeQuery === '' ? false : props.isEmploymentIncomeQuery}
         />
       </Col>
     </CardUp>
   );
-}
+};
 
 export default ResultCard;

@@ -23,7 +23,7 @@ const Slider = props => {
 
     useEffect(() => {
         setValueNow(props.valueNow);
-    }, [props])
+    }, [props]);
 
     useEffect(() => {
         if (domNode.current.tabIndex != 0) {
@@ -45,12 +45,12 @@ const Slider = props => {
             if (raildomNode.current) {
                 raildomNode.current.removeEventListener('click', handleClick);
             }
-        }
+        };
     }, [valueNow]);
 
     const UpdateInputVal = newVal => {
         props.updateControlValue(newVal);
-    }
+    };
 
     const moveSliderTo = value => {
         value = (value > valueMax) ? valueMax : (value < valueMin) ? valueMin : value;
@@ -59,7 +59,7 @@ const Slider = props => {
             pos = Math.round((valueNow * railWidth) / (valueMax - valueMin)) - (thumbWidth / 2);
 
         domNode.current.style.left = pos + 'px';
-        raildomNode.current.style.background = "linear-gradient(to right, " + SliderStyle.blue + " " + (pos + 5) + "px, #ebebeb 0%)";
+        raildomNode.current.style.background = 'linear-gradient(to right, ' + SliderStyle.blue + ' ' + (pos + 5) + 'px, #ebebeb 0%)';
 
         setValueNow(value);
         UpdateInputVal(value);
@@ -135,14 +135,14 @@ const Slider = props => {
             event.preventDefault();
         }
         event.stopPropagation();
-    }
+    };
 
     const handleMouseDown = event => {
         const handleMouseMove = event => {
             setSliderPosition(event, 'mouse');
         };
 
-        const handleMouseUp = event => {
+        const handleMouseUp = () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
         };
@@ -165,7 +165,7 @@ const Slider = props => {
             setSliderPosition(event, 'touch');
         };
 
-        const cancelTouchEvents = event => {
+        const cancelTouchEvents = () => {
             domNode.current.removeEventListener('touchmove', handleTouchMove);
             domNode.current.removeEventListener('touchend', cancelTouchEvents);
         };
@@ -194,10 +194,10 @@ const Slider = props => {
                 <div className={SliderStyle.rail} ref={raildomNode} onClick={handleClick}>
                     <div
                         ref={domNode}
-                        role="slider"
-                        tabIndex="0"
+                        role='slider'
+                        tabIndex='0'
                         className={SliderStyle.thumb}
-                        aria-valuemin="0"
+                        aria-valuemin='0'
                         aria-valuenow={valueNow}
                         aria-valuemax={props.max}
                         aria-labelledby={props.uniqueID}
@@ -211,7 +211,7 @@ const Slider = props => {
                 </div>                
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Slider;

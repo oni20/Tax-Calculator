@@ -7,7 +7,7 @@ const CardUp = props => {
             <h2 className="text-center font-weight-bold heading__h2 mb-5" > {props.cardTitle}</h2>
             {props.children}
         </div>
-    )
+    );
 };
 
 export default CardUp;

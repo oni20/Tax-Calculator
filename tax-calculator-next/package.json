@@ -5,7 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint ./components/**/*.js"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
@@ -16,6 +23,8 @@
   },
   "devDependencies": {
     "bootstrap": "^4.5.3",
+    "eslint": "^7.20.0",
+    "eslint-plugin-react": "^7.22.0",
     "react-bootstrap": "^1.4.0"
   }
 }
