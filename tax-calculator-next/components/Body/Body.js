@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 
+import CanadaTaxRule from '../../data/CanadaTaxRule.json';
+
 /* React Bootstrap */
 import { Container, Row, Col, Form } from 'react-bootstrap';
 
@@ -88,23 +90,85 @@ const Body = () => {
         break; */
 
     if (income !== null && income !== undefined) {
-      let weeklyAmount = (income / DEFAULT_ANNUAL_WEEKS),
-        hourlyAmount = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmount / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+      let weeklyAmountBeforeTax = (income / DEFAULT_ANNUAL_WEEKS),
+        hourlyAmountBeforeTax = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmountBeforeTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
       let salBeforeTax = {
         "annual": convertStringToLocale(income),
         "monthly": convertStringToLocale(income / 12),
         "biWeekly": convertStringToLocale(income / DEFAULT_ANNUAL_BI_WEEKS),
-        "weekly": convertStringToLocale(weeklyAmount),
-        "hourly": convertStringToLocale(hourlyAmount)
+        "weekly": convertStringToLocale(weeklyAmountBeforeTax),
+        "hourly": convertStringToLocale(hourlyAmountBeforeTax)
       },
-        salAfterTax = {
-          "annual": 0,
-          "monthly": 0,
-          "biWeekly": 0,
-          "weekly": 0,
-          "hourly": 0
-        };
+        salAfterTax = {};
+
+      //Calculate both federal and provience tax 
+      const taxCal = (income, tireMax1, tireMax2, tireMax3, tireMax4, tireMax5, tireTaxrate1, tireTaxrate2, tireTaxrate3, tireTaxrate4, tireTaxrate5) => {
+        switch (true) {
+          case (income <= tireMax1):
+            if (tireMax1 !== null) {
+              return (income * tireTaxrate1) / 100;
+            }
+            break;
+          case (income <= tireMax2):
+            if (tireMax2 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((income - tireMax1) * tireTaxrate2) / 100);
+            }
+            break;
+          case (income <= tireMax3):
+            if (tireMax3 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
+            }
+            break;
+          case (income <= tireMax4):
+            if (tireMax4 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((tireMax3 - tireMax2) * tireTaxrate3) / 100) + (((income - tireMax3) * tireTaxrate4) / 100);
+            }
+            break;
+          case (income <= tireMax5):
+            if (tireMax5 !== null) {
+              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((tireMax3 - tireMax2) * tireTaxrate3) / 100) + (((tireMax4 - tireMax3) * tireTaxrate4) / 100) + (((income - tireMax4) * tireTaxrate5) / 100);
+            }
+            break;
+          default:
+            return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
+        }
+      }
+
+      const TAXRULES_CA = CanadaTaxRule.provincialTax;
+      let selectedProvinceTax = [];
+
+      //Calculating Province tax 
+      for (let taxRule in TAXRULES_CA) {
+        const TAXRULES_PROVINCES_CA = TAXRULES_CA[taxRule];
+        if (selectedProvince == taxRule) {
+          for (let taxrulesProvince in TAXRULES_PROVINCES_CA) {
+            selectedProvinceTax.push(TAXRULES_PROVINCES_CA[taxrulesProvince]);
+          }
+        }
+      }
+
+      const PROTAX_CA = taxCal(income, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate)
+
+      //Calculating Federal tax 
+
+      const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
+
+      //Calculating Total tax 
+
+      const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA);
+
+      let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS),
+        hourlyAmountAfterTax = selectedHoursForEmpIncome === "" ? "0" : (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+
+      salAfterTax = {
+        "annual": TOTALTAX_CA.toLocaleString(),
+        "monthly": (TOTALTAX_CA / 12).toLocaleString(),
+        "biWeekly": (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+        "weekly": (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+        "hourly": hourlyAmountAfterTax
+      }
+
       setSalaryStatus(salBeforeTax, salAfterTax);
     }
   }
