@@ -31,7 +31,6 @@ const Home = () => {
       <div role="main">
         <a href="#maincontent" className="sr-only">{content.skipToContent}</a>
         <Header />
-
         <ResultContextProvider>
           <Body />
         </ResultContextProvider>

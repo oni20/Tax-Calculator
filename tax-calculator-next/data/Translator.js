@@ -94,6 +94,9 @@ const dictionary = {
                 "missingHourlyRate": "Please insert hourly rate",
                 "missingWeeklyHours": "Please insert weekly working hours",
                 "missingAnnualWeeks": "Please insert total annual working weeks"
+            },
+            "screenMessage": {
+                "warningMsg": "Stay tuned! The self-employment section will be back with new calculation in ",
             }
         },
         "footer": {
@@ -200,6 +203,9 @@ const dictionary = {
                 "missingHourlyRate": "Veuillez insérer le taux horaire",
                 "missingWeeklyHours": "Veuillez insérer les heures de travail hebdomadaires",
                 "missingAnnualWeeks": "Veuillez insérer le nombre total de semaines de travail annuelles"
+            },
+            "screenMessage": {
+                "warningMsg": "Restez à l'écoute! La section travail indépendant sera de retour avec un nouveau calcul dans ",
             }
         },
         "footer": {

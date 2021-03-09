@@ -62,16 +62,31 @@
 //CardUp component
 .card_up {
     background-color: $white;
-    padding: 3em 2em 2em 2em;
+    padding: 3em;
     border-radius: 20px;
     margin: 0;
     box-shadow: 0px 2px 26px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
     &__color {
         &__beige {
             border-top: solid 20px $beige;
         }
         &__teal {
             border-top: solid 20px $teal;
+        }
+    }
+
+    .salary_container {
+        display: flex;
+        flex-direction: column;
+        .salary_line {
+            display: flex;
+            justify-content: space-between;
+        }
+        .highlight {
+            color: $blue;
+            font-weight: bold;
+            font-size: 1.1rem;
         }
     }
 }

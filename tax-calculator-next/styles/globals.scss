@@ -1,5 +1,3 @@
-$theme-color: #28a745;
-
 body,
 html {
 	overflow-x: hidden;
@@ -61,4 +59,36 @@ form .material-icons {
 //heading
 .heading__h2 {
 	font-size: 22px !important;
+}
+
+.alert {
+	border: 2px solid;
+	background: transparent;	
+	font-weight: bold;
+
+	.icon-container {
+		display: flex;
+		.material-icons {
+			margin-right: 10px;
+			font-size: 35px;
+		}
+	}
+
+	.countDown {
+		text-align: center;
+		margin: 5px;
+		font-size: 24px;
+		font-family: monospace;
+	}
+}
+.alert-warning {
+	border-color: $gold__warning__light;
+	color: $gold__warning;
+
+	.material-icons {
+		color: $gold__warning;
+	}
+	.countDown {
+		color: #d5a30d;
+	}
 }
