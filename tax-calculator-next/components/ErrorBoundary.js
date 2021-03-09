@@ -1,5 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Alert, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
+function AlertDismissibleExample(props) {
+  const [show, setShow] = useState(true);
+
+  if (show) {
+    return (
+      <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert.Heading>{props.heading}</Alert.Heading>
+        <p>
+          Change this and that and try again. Duis mollis, est non commodo
+          luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+          Cras mattis consectetur purus sit amet fermentum.
+        </p>
+      </Alert>
+    );
+  }
+  return <Button onClick={() => setShow(true)}>Show Alert</Button>;
+}
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -21,7 +40,13 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong. Check the log</h1>;
+      return (
+        <div className='container mt-5'>
+          <AlertDismissibleExample 
+            heading='Something went wrong. Check the log'
+          />
+        </div>
+      );
     }
 
     return this.props.children;

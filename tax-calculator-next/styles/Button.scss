@@ -1,24 +1,35 @@
 @mixin button($color, $bg_color, $hover_color, $hover_bg_color) {
-        background-color: $bg_color;
-        padding: 1em 2.5em;
-        border-radius: 34px;
-        color: $color;
-        font-weight: 800;
-        position: relative;
-        transition: 0.3s;
-        border: none;
-        &:hover{
+    background-color: $bg_color;
+    padding: 1em 2.5em;
+    border-radius: 34px;
+    color: $color;
+    font-weight: 800;
+    position: relative;
+    transition: 0.3s;
+    border: none;
+    &:hover {
+        &:enabled {
             background-color: darken($hover_bg_color, 10%);
             color: $hover_color;
             text-decoration: none;
         }
+    }
 }
 
-.button{
+button {
+    &:disabled {
+        background-color: $grey__disabled;
+        border: $grey__dark;
+        color: $white;
+        cursor: not-allowed;
+    }
+}
+
+.button {
     &__primary {
-        @include button($white, $blue, $white, $blue)
+        @include button($white, $blue, $white, $blue);
     }
     &__secondary {
-        @include button($white, $grey--dark, $grey--dark, $teal)
+        @include button($white, $grey--dark, $grey--dark, $teal);
     }
 }

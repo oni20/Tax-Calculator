@@ -11,6 +11,7 @@ import {
   DEFAULT_ANNUAL_BI_WEEKS,
   InputControlList
 } from '../../utility/config';
+import { taxCal } from '../../utility/helper';
 import FormInputRange from './FormInputRange';
 import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 import Hero from '../common/Hero';
@@ -18,6 +19,7 @@ import CardUp from '../common/CardUp';
 import ResultCard from './ResultCard';
 import { GlobalContext } from '../Context/GlobalContext';
 import { ResultContext } from './ResultContext';
+import AlertMessage from '../common/AlertMessage';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
@@ -26,7 +28,7 @@ const Body = () => {
   const { content } = useContext(GlobalContext),
     { setSalaryStatus } = useContext(ResultContext),
     [validated, setValidated] = useState(false),
-    [isEmploymentIncomeQuery, setIsEmploymentIncomeQuery] = useState(''),
+    [isEmploymentIncomeQuery, setIsEmploymentIncomeQuery] = useState(null),
     [isDisableControl, setIsDisableControl] = useState(true),
     [provinceDDVal, setProvinceDDVal] = useState('');
 
@@ -36,16 +38,18 @@ const Body = () => {
   };
 
   const handleEmploymentTypeRadio = event => {
-    setIsEmploymentIncomeQuery(event.target.value === 'incomeTypeRadio0');
+    setIsEmploymentIncomeQuery(event.target.value);
   };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
 
-    event.preventDefault();
-    event.stopPropagation();
+    if (event._reactName === 'onSubmit') {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-    if (form.checkValidity() !== false) {
+    if (form.checkValidity()) {
       // Calculate tax information
       calculateSalary();
     }
@@ -75,99 +79,63 @@ const Body = () => {
   const calculateSalary = () => {
     let form = document.getElementsByTagName('form')[0],
       selectedProvince = form.formSelectProvince.value, income = null,
-      selectedHoursForEmpIncome = isEmploymentIncomeQuery ? form.formEmpIncomeHourly.value : '';
+      isEmploymentIncomeQuery = form.incomeTypeRadio.value,
+      selectedHoursForEmpIncome = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
 
-    if (isEmploymentIncomeQuery) {
-      income = form.formEmpIncome.value === '' ? null : convertStringToNumber(form.formEmpIncome.value);
-    } else {
-      income = calculateSelfIncomeSal(form);
-    }
-
-    /* case 'formSelectProvince':
-        if (form.formSelectProvince.value !== '' && isEmploymentIncomeQuery !== '') {
-          income = isEmploymentIncomeQuery ? convertStringToNumber(form.formEmpIncome.value) : calculateSelfIncomeSal(form);
-        }
-        break; */
+    income = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncome
+      ? form.formEmpIncome.value === '' ? null : convertStringToNumber(form.formEmpIncome.value)
+      : isEmploymentIncomeQuery === 'selfIncome'
+        ? null //calculateSelfIncomeSal(form) code is closed for now
+        : null;
 
     if (income !== null && income !== undefined) {
       let weeklyAmountBeforeTax = (income / DEFAULT_ANNUAL_WEEKS),
-        hourlyAmountBeforeTax = selectedHoursForEmpIncome === '' ? '0' : (weeklyAmountBeforeTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+        hourlyAmountBeforeTax = (weeklyAmountBeforeTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
       let salBeforeTax = {
         'annual': convertStringToLocale(income),
         'monthly': convertStringToLocale(income / 12),
         'biWeekly': convertStringToLocale(income / DEFAULT_ANNUAL_BI_WEEKS),
         'weekly': convertStringToLocale(weeklyAmountBeforeTax),
-        'hourly': convertStringToLocale(hourlyAmountBeforeTax)
+        'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
       },
-        salAfterTax = {};
+        salAfterTax = income == 0 ? salBeforeTax : {};
 
-      //Calculate both federal and provience tax 
-      const taxCal = (income, tireMax1, tireMax2, tireMax3, tireMax4, tireMax5, tireTaxrate1, tireTaxrate2, tireTaxrate3, tireTaxrate4, tireTaxrate5) => {
-        switch (true) {
-          case (income <= tireMax1):
-            if (tireMax1 !== null) {
-              return (income * tireTaxrate1) / 100;
-            }
-            break;
-          case (income <= tireMax2):
-            if (tireMax2 !== null) {
-              return ((tireMax1 * tireTaxrate1) / 100) + (((income - tireMax1) * tireTaxrate2) / 100);
-            }
-            break;
-          case (income <= tireMax3):
-            if (tireMax3 !== null) {
-              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
-            }
-            break;
-          case (income <= tireMax4):
-            if (tireMax4 !== null) {
-              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((tireMax3 - tireMax2) * tireTaxrate3) / 100) + (((income - tireMax3) * tireTaxrate4) / 100);
-            }
-            break;
-          case (income <= tireMax5):
-            if (tireMax5 !== null) {
-              return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((tireMax3 - tireMax2) * tireTaxrate3) / 100) + (((tireMax4 - tireMax3) * tireTaxrate4) / 100) + (((income - tireMax4) * tireTaxrate5) / 100);
-            }
-            break;
-          default:
-            return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
-        }
-      };
+      if (income !== 0) {
+        const TAXRULES_CA = CanadaTaxRule.provincialTax;
+        let selectedProvinceTax = [];
 
-      const TAXRULES_CA = CanadaTaxRule.provincialTax;
-      let selectedProvinceTax = [];
-
-      //Calculating Province tax 
-      for (let taxRule in TAXRULES_CA) {
-        const TAXRULES_PROVINCES_CA = TAXRULES_CA[taxRule];
-        if (selectedProvince == taxRule) {
-          for (let taxrulesProvince in TAXRULES_PROVINCES_CA) {
-            selectedProvinceTax.push(TAXRULES_PROVINCES_CA[taxrulesProvince]);
+        //Calculating Province tax 
+        for (let taxRule in TAXRULES_CA) {
+          const TAXRULES_PROVINCES_CA = TAXRULES_CA[taxRule];
+          if (selectedProvince == taxRule) {
+            for (let taxrulesProvince in TAXRULES_PROVINCES_CA) {
+              selectedProvinceTax.push(TAXRULES_PROVINCES_CA[taxrulesProvince]);
+            }
           }
         }
+
+        const PROTAX_CA = taxCal(income, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate);
+
+        //Calculating Federal tax 
+
+        const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
+
+        //Calculating Total tax 
+
+        const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA);
+
+        let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS),
+          hourlyAmountAfterTax = (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+
+        salAfterTax = {
+          'annual': TOTALTAX_CA.toLocaleString(),
+          'monthly': (TOTALTAX_CA / 12).toLocaleString(),
+          'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+          'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+          'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountAfterTax
+        };
       }
-
-      const PROTAX_CA = taxCal(income, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate);
-
-      //Calculating Federal tax 
-
-      const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
-
-      //Calculating Total tax 
-
-      const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA);
-
-      let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS),
-        hourlyAmountAfterTax = selectedHoursForEmpIncome === '' ? '0' : (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
-
-      salAfterTax = {
-        'annual': TOTALTAX_CA.toLocaleString(),
-        'monthly': (TOTALTAX_CA / 12).toLocaleString(),
-        'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-        'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-        'hourly': hourlyAmountAfterTax
-      };
 
       setSalaryStatus(salBeforeTax, salAfterTax);
     }
@@ -182,9 +150,9 @@ const Body = () => {
 
       <Container className='mt-5'>
         <Row>
-          <Col>
+          <Col sm={5} xs={12}>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
-              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit} onChange={handleSubmit}>
                 <Form.Group controlId='formSelectProvince'>
                   <Form.Label>{content.body.provinceDD}</Form.Label>
                   <Form.Control as='select' required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
@@ -213,7 +181,7 @@ const Body = () => {
                               type='radio'
                               label={radioVal}
                               name='incomeTypeRadio'
-                              value={'incomeTypeRadio' + index}
+                              value={index === 0 ? 'personalIncome' : 'selfIncome'}
                               id={'incomeTypeRadio' + index}
                               onChange={handleEmploymentTypeRadio}
                               disabled={isDisableControl}
@@ -227,31 +195,38 @@ const Body = () => {
 
                 {/* Input controls with Range */}
                 {
-                  InputControlList.map((inputObj, idx) => {
-                    return (
-                      isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
-                      <FormInputRange
-                        key={idx}
-                        isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                        isDisabled={isDisableControl}
-                        inputclassName={BodyStyle.customInput}
-                        controlId={inputObj.controlId}
-                        iconName={inputObj.iconName}
-                        label={content.body[inputObj.labelKeyName]}
-                        errorMessage={
-                          inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ''
-                            ? ''
-                            : content.body.errorMessage[inputObj.errorMessageKeyName]
-                        }
-                        rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
-                        calculateSalary={calculateSalary}
-                      />
-                    );
-                  })
+                  isEmploymentIncomeQuery === 'selfIncome' ?
+                    <AlertMessage
+                      alertType='warning'
+                      message={content.body.screenMessage.warningMsg}
+                      icon='<span class="material-icons">engineering</span>'
+                      countDown='May 1, 2021 00:00:00' />
+                    :
+                    InputControlList.map((inputObj, idx) => {
+                      return (
+                        isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
+                        <FormInputRange
+                          key={idx}
+                          isRequired={inputObj.isRequired ? inputObj.isRequired : false}
+                          isDisabled={isDisableControl}
+                          inputclassName={BodyStyle.customInput}
+                          controlId={inputObj.controlId}
+                          iconName={inputObj.iconName}
+                          label={content.body[inputObj.labelKeyName]}
+                          errorMessage={
+                            inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ''
+                              ? ''
+                              : content.body.errorMessage[inputObj.errorMessageKeyName]
+                          }
+                          rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
+                          calculateSalary={calculateSalary}
+                        />
+                      );
+                    })
                 }
 
                 <div className='mt-5 d-flex justify-content-center'>
-                  <button className='button__primary' type='submit'>
+                  <button className='button__primary' type='submit' disabled={isEmploymentIncomeQuery === '' || isEmploymentIncomeQuery === 'selfIncome'}>
                     {content.body.calculateBtn}
                   </button>
                 </div>
@@ -259,7 +234,7 @@ const Body = () => {
             </CardUp>
           </Col>
 
-          <Col>
+          <Col sm={7} xs={12}>
             <ResultCard
               isEmploymentIncomeQuery={isEmploymentIncomeQuery}
             />
