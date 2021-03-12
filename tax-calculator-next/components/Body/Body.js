@@ -24,7 +24,7 @@ import AlertMessage from '../common/AlertMessage';
 /* Styling */
 import BodyStyle from './body.module.scss';
 
-const Body = () => {
+const Body = () => {  
   const { content } = useContext(GlobalContext),
     { setSalaryStatus } = useContext(ResultContext),
     [validated, setValidated] = useState(false),

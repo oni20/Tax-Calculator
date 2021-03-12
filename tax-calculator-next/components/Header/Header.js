@@ -7,7 +7,7 @@ import { GlobalContext } from '../Context/GlobalContext';
 const Header = () => {
   const { language, content, toggleLanguage } = useContext(GlobalContext),
     handleSelect = () => toggleLanguage(language == 'en' ? 'fr' : 'en');
-
+    
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark'>
       <Container>

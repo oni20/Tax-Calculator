@@ -7,8 +7,7 @@ import { GlobalContext } from '../Context/GlobalContext';
 
 const Footer = () => {
   const { content } = useContext(GlobalContext);
-
-  let copyrightText = content.footer.copyrightText.replace('$currYear$', new Date().getFullYear());
+  const copyrightText = content.footer.copyrightText.replace('$currYear$', new Date().getFullYear());
 
   return (
     <footer className={FooterStyle.page_footer}>

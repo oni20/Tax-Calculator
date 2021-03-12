@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useMemo } from 'react';
 
 /* Import data and translation files */
 import Dictionary from '../../data/Translator';
@@ -11,22 +11,24 @@ const GlobalContextProvider = ({ children }) => {
 
     useEffect(() => {
         const currentLang = window.sessionStorage.getItem('lang');
-        let content = ['fr', 'fr_CA', 'fr_ca', 'fr-CA'].includes(currentLang)
+        setLanguage([undefined, ''].indexOf(currentLang) > -1 ? 'en' : currentLang);
+    }, []);
+
+    useEffect(() => {
+        window.sessionStorage.setItem('lang', language);
+        let content = ['fr', 'fr_CA', 'fr_ca', 'fr-CA'].includes(language)
             ? Dictionary.FR : Dictionary.EN;
-
-        document.documentElement.lang = currentLang;
-        setLanguage(currentLang == undefined ? 'en' : currentLang);
         setContent(content);
-    });
+    }, [language]);
 
-    const handleLanguageToggle = newLang => {
-        window.sessionStorage.setItem('lang', newLang);
-        setLanguage(newLang);
-    };
+    const handleLanguageToggle = (newLang) => setLanguage(newLang);
+
+    const memoizedLanguage = useMemo(() => [language, setLanguage], [language]);
+    const memoizedContent = useMemo(() => [content, setContent], [content]);
 
     const contextValue = {
-        language: language,
-        content: content,
+        language: memoizedLanguage[0],
+        content: memoizedContent[0],
         toggleLanguage: handleLanguageToggle
     };
 
