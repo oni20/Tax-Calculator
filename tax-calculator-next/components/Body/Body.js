@@ -129,6 +129,8 @@ const Body = () => {
 
         salAfterTax = {
           'annual': TOTALTAX_CA.toLocaleString(),
+          'Federal': FEDTAX_CA.toLocaleString(),
+          'Provincial': PROTAX_CA.toLocaleString(),
           'monthly': (TOTALTAX_CA / 12).toLocaleString(),
           'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
           'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),

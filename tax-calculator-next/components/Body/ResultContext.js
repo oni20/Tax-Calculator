@@ -11,6 +11,8 @@ const ResultContextProvider = ({ children }) => {
         'hourly': 0
     }),
         [salAfterTax, setSalAfterTax] = useState({
+            'Federal': 0,
+            'Provincial': 0,
             'annual': 0,
             'monthly': 0,
             'biWeekly': 0,

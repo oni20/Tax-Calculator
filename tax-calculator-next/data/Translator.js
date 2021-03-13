@@ -83,6 +83,8 @@ const dictionary = {
                 "afterTaxCaption": "Income after tax",
                 "headers": {
                     "annual": "Annual",
+                    "federal": "Federal tax deduction",
+                    "provincial": "Provincial tax deduction",
                     "monthly": "Monthly",
                     "biWeekly": "Bi-weekly",
                     "weekly": "Weekly",
