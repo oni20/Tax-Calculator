@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 
 import { convertStringToLocale} from '../../utility/helper';
@@ -6,6 +6,10 @@ import Slider from '../common/Slider';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
+
+function shouldRender(prevProps, nextProps){
+    return prevProps.isEmploymentIncomeQuery == nextProps.isEmploymentIncomeQuery;
+}
 
 const FormInputRange = props => {
     const [inputState, setInputState] = useState(0);
@@ -60,4 +64,4 @@ const FormInputRange = props => {
     );
 };
 
-export default FormInputRange;
+export default memo(FormInputRange, shouldRender);

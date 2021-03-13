@@ -4,6 +4,7 @@ to keep translation mechanism working */
 export const DEFAULT_ANNUAL_WEEKS = 52,
     DEFAULT_ANNUAL_BI_WEEKS = 26,
     DEFAULT_ANNUAL_WEEKLY_HOURS = 40,
+    ERROR_IMAGE_LOTTIE = 'https://assets3.lottiefiles.com/packages/lf20_tolzoh5a.json',
     InputControlList = [
         {
             "controlId": "formEmpIncome",

@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 
 import SliderStyle from './slider.module.scss';
+
+function shouldRender(prevProps, nextProps){
+    return prevProps.valueNow === nextProps.valueNow;
+}
 
 const Slider = props => {
     const domNode = useRef(null),
@@ -214,4 +218,4 @@ const Slider = props => {
     );
 };
 
-export default Slider;
+export default memo(Slider, shouldRender);

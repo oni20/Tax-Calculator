@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Head from 'next/head';
 
 /* Importing custom classes */
@@ -15,13 +15,14 @@ const currYear = new Date().getFullYear();
 
 const Home = () => {
   const { content } = useContext(GlobalContext);
+  const pageTitle = content.pageTitle.replace("$currYear$", currYear);
 
   return (
     <div className={HomeStyle.container}>
       <Head>
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-        <title>{content.pageTitle.replace("$currYear$", currYear)}</title>
+        <title>{pageTitle}</title>
         <link rel="icon" href="/favicon.ico" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
@@ -34,7 +35,6 @@ const Home = () => {
         <ResultContextProvider>
           <Body />
         </ResultContextProvider>
-        
         <Footer />
       </div>
     </div>
