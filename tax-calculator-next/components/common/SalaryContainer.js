@@ -13,11 +13,6 @@ const SalaryContainer = props => {
                     {Object.keys(props.theader).map((head, index) => {
                         return (
                             <p key={index}>{props.theader[head]}</p>
-                            // (head === 'annual')
-                            //     ? !props.isShowHourly && <p key={index}>{props.theader[head]}</p>
-                            //     : (head === 'hourly')
-                            //         ? props.isShowHourly && <p key={index}>{props.theader[head]}</p>
-                            //         : <p key={index}>{props.theader[head]}</p>
                         );     
                     })}
                 </div>    
@@ -25,11 +20,6 @@ const SalaryContainer = props => {
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
                             <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
-                            // (body === 'annual')
-                            //     ? !props.isShowHourly && <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
-                            //     : (body === 'hourly')
-                            //         ? props.isShowHourly && <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
-                            //         : <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
                         );
                     })}
                 </div>

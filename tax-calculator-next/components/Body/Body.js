@@ -1,9 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, {
+  useState,
+  useContext
+} from 'react';
 
 import CanadaTaxRule from '../../data/CanadaTaxRule.json';
 
 /* React Bootstrap */
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Form
+} from 'react-bootstrap';
 
 /* Custom component */
 import {
@@ -11,14 +19,23 @@ import {
   DEFAULT_ANNUAL_BI_WEEKS,
   InputControlList
 } from '../../utility/config';
-import { taxCal } from '../../utility/helper';
+import {
+  taxCal
+} from '../../utility/helper';
 import FormInputRange from './FormInputRange';
-import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
+import {
+  convertStringToLocale,
+  convertStringToNumber
+} from '../../utility/helper';
 import Hero from '../common/Hero';
 import CardUp from '../common/CardUp';
 import ResultCard from './ResultCard';
-import { GlobalContext } from '../Context/GlobalContext';
-import { ResultContext } from './ResultContext';
+import {
+  GlobalContext
+} from '../Context/GlobalContext';
+import {
+  ResultContext
+} from './ResultContext';
 import AlertMessage from '../common/AlertMessage';
 import LottiePlayer from '../common/LottiePlayer';
 
@@ -26,8 +43,11 @@ import LottiePlayer from '../common/LottiePlayer';
 import BodyStyle from './body.module.scss';
 
 const Body = () => {
-  const { content } = useContext(GlobalContext),
-    { setSalaryStatus } = useContext(ResultContext),
+  const {
+    content
+  } = useContext(GlobalContext), {
+      setSalaryStatus
+    } = useContext(ResultContext),
     [validated, setValidated] = useState(false),
     [isEmploymentIncomeQuery, setIsEmploymentIncomeQuery] = useState(null),
     [isDisableControl, setIsDisableControl] = useState(true),
@@ -77,27 +97,29 @@ const Body = () => {
 
   const calculateSalary = () => {
     let form = document.getElementsByTagName('form')[0],
-      selectedProvince = form.formSelectProvince.value, income = null,
+      selectedProvince = form.formSelectProvince.value,
+      income = null,
       isEmploymentIncomeQuery = form.incomeTypeRadio.value,
       selectedHoursForEmpIncome = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
 
-    income = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncome
-      ? form.formEmpIncome.value === '' ? null : convertStringToNumber(form.formEmpIncome.value)
-      : isEmploymentIncomeQuery === 'selfIncome'
-        ? null //calculateSelfIncomeSal(form) code is closed for now
-        : null;
+    income = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncome ?
+      form.formEmpIncome.value === '' ? null : convertStringToNumber(form.formEmpIncome.value) :
+      isEmploymentIncomeQuery === 'selfIncome' ?
+      null //calculateSelfIncomeSal(form) code is closed for now
+      :
+      null;
 
     if (income !== null && income !== undefined) {
       let weeklyAmountBeforeTax = (income / DEFAULT_ANNUAL_WEEKS),
         hourlyAmountBeforeTax = (weeklyAmountBeforeTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
       let salBeforeTax = {
-        'annual': convertStringToLocale(income),
-        'monthly': convertStringToLocale(income / 12),
-        'biWeekly': convertStringToLocale(income / DEFAULT_ANNUAL_BI_WEEKS),
-        'weekly': convertStringToLocale(weeklyAmountBeforeTax),
-        'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
-      },
+          'annual': convertStringToLocale(income),
+          'monthly': convertStringToLocale(income / 12),
+          'biWeekly': convertStringToLocale(income / DEFAULT_ANNUAL_BI_WEEKS),
+          'weekly': convertStringToLocale(weeklyAmountBeforeTax),
+          'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
+        },
         salAfterTax = income == 0 ? salBeforeTax : {};
 
       if (income !== 0) {
@@ -120,17 +142,35 @@ const Body = () => {
 
         const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
 
+        //Calculating CPP
+        let cppTaxrate = CanadaTaxRule.federalTax.cpp.cpprate,
+          cppExemption = CanadaTaxRule.federalTax.cpp.exemption,
+          cppTotal = 0;
+
+        income > cppExemption ? cppTotal = ((income - cppExemption) * cppTaxrate) / 100 : cppTotal;
+
+        //Calculating EI
+        let eiTaxrate = CanadaTaxRule.federalTax.ei.eirate,
+          eiMaxContribute = CanadaTaxRule.federalTax.ei.maxContribution,
+          eiTotal = 0;
+
+        let ei = (income * eiTaxrate) / 100;
+
+        ei < eiMaxContribute ? eiTotal = ei : eiTotal = eiMaxContribute;
+
         //Calculating Total tax 
 
-        const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA);
-
+        const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal);
         let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS),
           hourlyAmountAfterTax = (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
         salAfterTax = {
+          'income': income.toLocaleString(),
+          'federal': FEDTAX_CA.toLocaleString(),
+          'provincial': PROTAX_CA.toLocaleString(),
+          'cpp': cppTotal.toLocaleString(),
+          'ei': eiTotal.toLocaleString(),
           'annual': TOTALTAX_CA.toLocaleString(),
-          'Federal': FEDTAX_CA.toLocaleString(),
-          'Provincial': PROTAX_CA.toLocaleString(),
           'monthly': (TOTALTAX_CA / 12).toLocaleString(),
           'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
           'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
@@ -142,113 +182,222 @@ const Body = () => {
     }
   };
 
-  return (
-    <>
-      <Hero
-        introTitle={content.body.introTitle}
-        introDesc={content.body.introDesc.replace('$currYear$', new Date().getFullYear())}
-      ></Hero>
+  return ( <
+    >
+    <
+    Hero introTitle = {
+      content.body.introTitle
+    }
+    introDesc = {
+      content.body.introDesc.replace('$currYear$', new Date().getFullYear())
+    } >
+    < /Hero>
 
-      <Container className='mt-5'>
-        <Row>
-          <Col sm={5} xs={12}>
-            <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
-              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
-                <Form.Group controlId='formSelectProvince'>
-                  <Form.Label>{content.body.provinceDD}</Form.Label>
-                  <Form.Control as='select' required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
-                    <option value='' disabled>{content.body.provinceDD}</option>
-                    {
-                      content.body.provinceList.map((province, index) => {
-                        return <option key={index} value={province.id}>{province.displayText}</option>;
-                      })
-                    }
-                  </Form.Control>
-                  <Form.Control.Feedback type='invalid'>
-                    {content.body.errorMessage.missingProvince}
-                  </Form.Control.Feedback>
-                </Form.Group>
+    <
+    Container className = 'mt-5' >
+    <
+    Row >
+    <
+    Col sm = {
+      5
+    }
+    xs = {
+      12
+    } >
+    <
+    CardUp cardTitle = {
+      content.body.CalculationTitle
+    }
+    cardAssent = {
+      BodyStyle.card_up__color__teal
+    } >
+    <
+    Form action = '#'
+    noValidate validated = {
+      validated
+    }
+    onSubmit = {
+      handleSubmit
+    }
+    onChange = {
+      calculateSalary
+    } >
+    <
+    Form.Group controlId = 'formSelectProvince' >
+    <
+    Form.Label > {
+      content.body.provinceDD
+    } < /Form.Label> <
+    Form.Control as = 'select'
+    required value = {
+      provinceDDVal
+    }
+    onChange = {
+      handleDDChange
+    }
+    className = {
+      BodyStyle.gotax_dropdown
+    } >
+    <
+    option value = ''
+    disabled > {
+      content.body.provinceDD
+    } < /option> {
+      content.body.provinceList.map((province, index) => {
+        return <option key = {
+          index
+        }
+        value = {
+          province.id
+        } > {
+          province.displayText
+        } < /option>;
+      })
+    } <
+    /Form.Control> <
+    Form.Control.Feedback type = 'invalid' > {
+      content.body.errorMessage.missingProvince
+    } <
+    /Form.Control.Feedback> <
+    /Form.Group>
 
-                {/* Employment Type */}
-                <fieldset>
-                  <Form.Group controlId='formSelectIncomeType'>
-                    <Form.Label as='legend'>{content.body.incomeType.labelText}</Form.Label>
-                    <Col sm={10}>
-                      {
-                        content.body.incomeType.type.map((radioVal, index) => {
-                          return (
-                            <Form.Check
-                              key={index}
-                              type='radio'
-                              label={radioVal}
-                              name='incomeTypeRadio'
-                              value={index === 0 ? 'personalIncome' : 'selfIncome'}
-                              id={'incomeTypeRadio' + index}
-                              onChange={handleEmploymentTypeRadio}
-                              disabled={isDisableControl}
-                            />
-                          );
-                        })
-                      }
-                    </Col>
-                  </Form.Group>
-                </fieldset>
+    {
+      /* Employment Type */ } <
+    fieldset >
+    <
+    Form.Group controlId = 'formSelectIncomeType' >
+    <
+    Form.Label as = 'legend' > {
+      content.body.incomeType.labelText
+    } < /Form.Label> <
+    Col sm = {
+      10
+    } > {
+      content.body.incomeType.type.map((radioVal, index) => {
+        return ( <
+          Form.Check key = {
+            index
+          }
+          type = 'radio'
+          label = {
+            radioVal
+          }
+          name = 'incomeTypeRadio'
+          value = {
+            index === 0 ? 'personalIncome' : 'selfIncome'
+          }
+          id = {
+            'incomeTypeRadio' + index
+          }
+          onChange = {
+            handleEmploymentTypeRadio
+          }
+          disabled = {
+            isDisableControl
+          }
+          />
+        );
+      })
+    } <
+    /Col> <
+    /Form.Group> <
+    /fieldset>
 
-                {/* Input controls with Range */}
-                {
-                  isEmploymentIncomeQuery === 'selfIncome' ?
-                    <>
-                      <LottiePlayer
-                        imageSource="https://assets3.lottiefiles.com/packages/lf20_hntzYU.json"
-                      />
-                      <AlertMessage
-                        alertType='warning'
-                        message={content.body.screenMessage.warningMsg}
-                        icon='<span class="material-icons">engineering</span>'
-                        countDown='May 1, 2021 00:00:00' />
-                    </>
-                    :
-                    InputControlList.map((inputObj, idx) => {
-                      return (
-                        isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
-                        <FormInputRange
-                          key={idx}
-                          isEmploymentIncomeQuery={isEmploymentIncomeQuery}
-                          isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                          isDisabled={isDisableControl}
-                          inputclassName={BodyStyle.customInput}
-                          controlId={inputObj.controlId}
-                          iconName={inputObj.iconName}
-                          label={content.body[inputObj.labelKeyName]}
-                          errorMessage={
-                            inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ''
-                              ? ''
-                              : content.body.errorMessage[inputObj.errorMessageKeyName]
-                          }
-                          rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
-                          calculateSalary={calculateSalary}
-                        />
-                      );
-                    })
-                }
-
-                <div className='mt-5 d-flex justify-content-center'>
-                  <button className='button__primary' type='submit' disabled={isEmploymentIncomeQuery === '' || isEmploymentIncomeQuery === 'selfIncome'}>
-                    {content.body.calculateBtn}
-                  </button>
-                </div>
-              </Form>
-            </CardUp>
-          </Col>
-
-          <Col sm={7} xs={12}>
-            <ResultCard
-              isEmploymentIncomeQuery={isEmploymentIncomeQuery}
+    {
+      /* Input controls with Range */ } {
+      isEmploymentIncomeQuery === 'selfIncome' ?
+        <
+        >
+        <
+        LottiePlayer
+      imageSource = "https://assets3.lottiefiles.com/packages/lf20_hntzYU.json" /
+        >
+        <
+        AlertMessage
+      alertType = 'warning'
+      message = {
+        content.body.screenMessage.warningMsg
+      }
+      icon = '<span class="material-icons">engineering</span>'
+      countDown = 'May 1, 2021 00:00:00' / >
+        <
+        />:
+        InputControlList.map((inputObj, idx) => {
+          return (
+            isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
+            <
+            FormInputRange key = {
+              idx
+            }
+            isEmploymentIncomeQuery = {
+              isEmploymentIncomeQuery
+            }
+            isRequired = {
+              inputObj.isRequired ? inputObj.isRequired : false
+            }
+            isDisabled = {
+              isDisableControl
+            }
+            inputclassName = {
+              BodyStyle.customInput
+            }
+            controlId = {
+              inputObj.controlId
+            }
+            iconName = {
+              inputObj.iconName
+            }
+            label = {
+              content.body[inputObj.labelKeyName]
+            }
+            errorMessage = {
+              inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == '' ?
+              '' :
+                content.body.errorMessage[inputObj.errorMessageKeyName]
+            }
+            rangeMax = {
+              inputObj.rangeMax ? inputObj.rangeMax : null
+            }
+            calculateSalary = {
+              calculateSalary
+            }
             />
-          </Col>
-        </Row>
-      </Container>
-    </>
+          );
+        })
+    }
+
+    <
+    div className = 'mt-5 d-flex justify-content-center' >
+    <
+    button className = 'button__primary'
+    type = 'submit'
+    disabled = {
+      isEmploymentIncomeQuery === '' || isEmploymentIncomeQuery === 'selfIncome'
+    } > {
+      content.body.calculateBtn
+    } <
+    /button> <
+    /div> <
+    /Form> <
+    /CardUp> <
+    /Col>
+
+    <
+    Col sm = {
+      7
+    }
+    xs = {
+      12
+    } >
+    <
+    ResultCard isEmploymentIncomeQuery = {
+      isEmploymentIncomeQuery
+    }
+    /> <
+    /Col> <
+    /Row> <
+    /Container> <
+    />
   );
 };
 

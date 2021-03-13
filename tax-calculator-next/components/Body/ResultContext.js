@@ -4,6 +4,10 @@ export const ResultContext = createContext();
 
 const ResultContextProvider = ({ children }) => {
     const [salBeforeTax, setSalBeforeTax] = useState({
+        'income': 0,
+        'federal': 0,
+        'provincial': 0,
+        'cpp': 0,
         'annual': 0,
         'monthly': 0,
         'biWeekly': 0,
@@ -11,8 +15,11 @@ const ResultContextProvider = ({ children }) => {
         'hourly': 0
     }),
         [salAfterTax, setSalAfterTax] = useState({
-            'Federal': 0,
-            'Provincial': 0,
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
             'annual': 0,
             'monthly': 0,
             'biWeekly': 0,
