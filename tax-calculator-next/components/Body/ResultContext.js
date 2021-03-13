@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 export const ResultContext = createContext();
 
@@ -16,12 +16,21 @@ const ResultContextProvider = ({ children }) => {
             'biWeekly': 0,
             'weekly': 0,
             'hourly': 0
-        }),
-        setSalaryStatus = (salBeforeTax, salAfterTax) => {
-            setSalBeforeTax(salBeforeTax);
-            setSalAfterTax(salAfterTax);
-        },
-        contextValue = { salBeforeTax, salAfterTax, setSalaryStatus };
+        });
+
+    const setSalaryStatus = (salBeforeTax, salAfterTax) => {
+        setSalBeforeTax(salBeforeTax);
+        setSalAfterTax(salAfterTax);
+    };
+
+    const memoizedSalBeforeTax = useMemo(() => [salBeforeTax, setSalBeforeTax], [salBeforeTax]);
+    const memoizedSalAfterTax = useMemo(() => [salAfterTax, setSalAfterTax], [salAfterTax]);
+
+    const contextValue = {
+        salBeforeTax: memoizedSalBeforeTax[0],
+        salAfterTax: memoizedSalAfterTax[0],
+        setSalaryStatus
+    };
 
     return (
         <ResultContext.Provider value={contextValue}>

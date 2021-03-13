@@ -31,7 +31,7 @@ const ShowCountDown = (futureTime) => {
                 clearInterval(interVal);
                 setTimer('EXPIRED');
             }
-        }, 1000);
+        }, 100);
     });
 
     return <p className='countDown'>{timer}</p>;
@@ -55,4 +55,5 @@ AlertMessage.propTypes = {
     icon: PropTypes.string,
     countDown: PropTypes.string
 };
+
 export default AlertMessage;

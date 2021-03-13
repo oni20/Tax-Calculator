@@ -20,11 +20,12 @@ import ResultCard from './ResultCard';
 import { GlobalContext } from '../Context/GlobalContext';
 import { ResultContext } from './ResultContext';
 import AlertMessage from '../common/AlertMessage';
+import LottiePlayer from '../common/LottiePlayer';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
 
-const Body = () => {  
+const Body = () => {
   const { content } = useContext(GlobalContext),
     { setSalaryStatus } = useContext(ResultContext),
     [validated, setValidated] = useState(false),
@@ -44,10 +45,8 @@ const Body = () => {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
 
-    if (event._reactName === 'onSubmit') {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
 
     if (form.checkValidity()) {
       // Calculate tax information
@@ -152,7 +151,7 @@ const Body = () => {
         <Row>
           <Col sm={5} xs={12}>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
-              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit} onChange={handleSubmit}>
+              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
                 <Form.Group controlId='formSelectProvince'>
                   <Form.Label>{content.body.provinceDD}</Form.Label>
                   <Form.Control as='select' required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
@@ -196,17 +195,23 @@ const Body = () => {
                 {/* Input controls with Range */}
                 {
                   isEmploymentIncomeQuery === 'selfIncome' ?
-                    <AlertMessage
-                      alertType='warning'
-                      message={content.body.screenMessage.warningMsg}
-                      icon='<span class="material-icons">engineering</span>'
-                      countDown='May 1, 2021 00:00:00' />
+                    <>
+                      <LottiePlayer
+                        imageSource="https://assets3.lottiefiles.com/packages/lf20_hntzYU.json"
+                      />
+                      <AlertMessage
+                        alertType='warning'
+                        message={content.body.screenMessage.warningMsg}
+                        icon='<span class="material-icons">engineering</span>'
+                        countDown='May 1, 2021 00:00:00' />
+                    </>
                     :
                     InputControlList.map((inputObj, idx) => {
                       return (
                         isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
                         <FormInputRange
                           key={idx}
+                          isEmploymentIncomeQuery={isEmploymentIncomeQuery}
                           isRequired={inputObj.isRequired ? inputObj.isRequired : false}
                           isDisabled={isDisableControl}
                           inputclassName={BodyStyle.customInput}
