@@ -98,7 +98,14 @@ const Body = () => {
         'weekly': convertStringToLocale(weeklyAmountBeforeTax),
         'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
       },
-        salAfterTax = income == 0 ? salBeforeTax : {};
+        salAfterTax = income == 0 ? {
+        'income': 0,
+        'federal': 0,
+        'provincial': 0,
+        'cpp': 0,
+        'ei': 0,
+        'annual': 0
+      } : {};
 
       if (income !== 0) {
         const TAXRULES_CA = CanadaTaxRule.provincialTax;
