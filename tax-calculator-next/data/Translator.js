@@ -87,11 +87,7 @@ const dictionary = {
                     "provincial": "Provincial tax deductions",
                     "cpp": "CPP deductions",
                     "ei": "EI deductions",
-                    "annual": "Net Income",
-                    "monthly": "Monthly",
-                    "biWeekly": "Bi-weekly",
-                    "weekly": "Weekly",
-                    "hourly": "Hourly"
+                    "annual": "Net Income"
                 }
             },
             "errorMessage": {

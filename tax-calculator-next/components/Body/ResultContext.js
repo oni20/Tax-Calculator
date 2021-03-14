@@ -8,11 +8,8 @@ const ResultContextProvider = ({ children }) => {
         'federal': 0,
         'provincial': 0,
         'cpp': 0,
-        'annual': 0,
-        'monthly': 0,
-        'biWeekly': 0,
-        'weekly': 0,
-        'hourly': 0
+        'ei': 0,
+        'annual': 0
     }),
         [salAfterTax, setSalAfterTax] = useState({
             'income': 0,
@@ -20,11 +17,7 @@ const ResultContextProvider = ({ children }) => {
             'provincial': 0,
             'cpp': 0,
             'ei': 0,
-            'annual': 0,
-            'monthly': 0,
-            'biWeekly': 0,
-            'weekly': 0,
-            'hourly': 0
+            'annual': 0
         });
 
     const setSalaryStatus = (salBeforeTax, salAfterTax) => {

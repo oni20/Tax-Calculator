@@ -27,6 +27,7 @@
         },
         "cpp": {
             "cpprate": 5.25,
+            "maxContribution": 2898,
             "exemption": 3500
         },
         "ei": {

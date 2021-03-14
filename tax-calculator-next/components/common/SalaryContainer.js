@@ -12,14 +12,14 @@ const SalaryContainer = props => {
                 <div className='income__title'>
                     {Object.keys(props.theader).map((head, index) => {
                         return (
-                            <p key={index}>{props.theader[head]}</p>
+                            <p key={index} className={head === 'annual' ? SalaryContainerStyles.income__highlight : ''}>{props.theader[head]}</p>
                         );     
                     })}
                 </div>    
-                <div>
+                <div>  
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
-                            <p className={SalaryContainerStyles.income__amount} key={index}>$ {props.tableBody[body]}</p>
+                            <p className={`${SalaryContainerStyles.income__amount} ${body === 'annual' ? SalaryContainerStyles.income__highlight : ''} `} key={index}> {body !== "income" && body !== "annual" ? '-' : ''} $ {props.tableBody[body]}</p>   
                         );
                     })}
                 </div>
