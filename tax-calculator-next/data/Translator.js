@@ -5,7 +5,7 @@ const dictionary = {
         "pageTitle": "Find tax: $currYear$ Canadian income tax",
         "header": {
             "headerTitle": "GoTax",
-            "logoUrl": "go-tax-logo.svg",
+            "logoUrl": "go-tax.png",
             "logoAlt": "GoTax logo"
         },
         "body": {
@@ -115,7 +115,7 @@ const dictionary = {
         "pageTitle": "Rechercher un impôt: $currYear$ Impôt sur le revenu canadien",
         "header": {
             "headerTitle": "GoTax",
-            "logoUrl": "go-tax-logo.svg",
+            "logoUrl": "go-tax.png",
             "logoAlt": "GoTax logo"
         },
         "body": {
