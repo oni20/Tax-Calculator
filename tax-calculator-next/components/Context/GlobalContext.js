@@ -11,7 +11,7 @@ const GlobalContextProvider = ({ children }) => {
 
     useEffect(() => {
         const currentLang = window.sessionStorage.getItem('lang');
-        setLanguage([undefined, ''].indexOf(currentLang) > -1 ? 'en' : currentLang);
+        setLanguage([undefined, '', null].indexOf(currentLang) > -1 ? 'en' : currentLang);        
     }, []);
 
     useEffect(() => {

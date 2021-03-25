@@ -8,7 +8,7 @@ import LottiePlayer from '../components/common/LottiePlayer';
 
 function AlertDismissibleExample(props) {
   const [show, setShow] = useState(true);
-  const {heading, body} = props;
+  const { heading, body } = props;
 
   if (show) {
     return (
@@ -29,13 +29,13 @@ class ErrorBoundary extends React.Component {
 
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
-    console.log(error);
+    console.error(error);
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
-    console.log(error, errorInfo);
+    console.error(errorInfo);
   }
 
   render() {

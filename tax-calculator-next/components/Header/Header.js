@@ -6,7 +6,7 @@ import { GlobalContext } from '../Context/GlobalContext';
 
 const Header = () => {
   const { language, content, toggleLanguage } = useContext(GlobalContext),
-    handleSelect = () => toggleLanguage(language == 'en' ? 'fr' : 'en');
+    handleSelect = () => toggleLanguage(language === 'en' ? 'fr' : 'en');
     
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark'>
@@ -23,7 +23,7 @@ const Header = () => {
           <Nav activeKey='1' onSelect={handleSelect}>
             <Nav.Link eventKey='1' href='#'>
               <i className='material-icons mar-right-5'>translate</i>
-              {language == 'en' ? 'Français' : 'English'}
+              {language === 'fr' ? 'English' : 'Français'}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

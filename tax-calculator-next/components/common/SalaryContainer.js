@@ -20,7 +20,7 @@ const SalaryContainer = props => {
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
             
-                            <p className={`${SalaryContainerStyles.income__amount} ${body === 'annual' ? SalaryContainerStyles.income__highlight : ''} `} key={index}> {body !== "income" && body !== "annual" ? '-' : ''} $ {props.tableBody[body]}</p>   
+                            <p className={`${SalaryContainerStyles.income__amount} ${body === 'annual' ? SalaryContainerStyles.income__highlight : ''} `} key={index}> {body !== 'income' && body !== 'annual' ? '-' : ''} $ {props.tableBody[body]}</p>   
                         );
                     })}
                 </div>
