@@ -23,7 +23,13 @@
 
     &__amount {
         border-bottom: 1px dotted $grey__dark;
-        width: 250px;
-        text-align: center;
+        width: 200px;
+        text-align: right;
     }
+
+}
+.income__highlight {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 35px;
 }

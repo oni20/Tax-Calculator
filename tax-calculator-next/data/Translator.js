@@ -5,7 +5,7 @@ const dictionary = {
         "pageTitle": "Find tax: $currYear$ Canadian income tax",
         "header": {
             "headerTitle": "GoTax",
-            "logoUrl": "go-tax-logo.svg",
+            "logoUrl": "go-tax.png",
             "logoAlt": "GoTax logo"
         },
         "body": {
@@ -82,11 +82,12 @@ const dictionary = {
                 "beforeTaxCaption": "Income before tax",
                 "afterTaxCaption": "Income after tax",
                 "headers": {
-                    "annual": "Annual",
-                    "monthly": "Monthly",
-                    "biWeekly": "Bi-weekly",
-                    "weekly": "Weekly",
-                    "hourly": "Hourly"
+                    "income": "Gross Income",
+                    "federal": "Federal tax deductions",
+                    "provincial": "Provincial tax deductions",
+                    "cpp": "CPP deductions",
+                    "ei": "EI deductions",
+                    "annual": "Net Income"
                 }
             },
             "errorMessage": {
@@ -114,7 +115,7 @@ const dictionary = {
         "pageTitle": "Rechercher un impôt: $currYear$ Impôt sur le revenu canadien",
         "header": {
             "headerTitle": "GoTax",
-            "logoUrl": "go-tax-logo.svg",
+            "logoUrl": "go-tax.png",
             "logoAlt": "GoTax logo"
         },
         "body": {

@@ -15,7 +15,8 @@ import BodyStyle from './body.module.scss';
 const ResultCard =(props)=> {
   const { content } = useContext(GlobalContext),
     { salBeforeTax, salAfterTax } = useContext(ResultContext),
-    { resultTable, resultTitle } = content.body; 
+    { resultTable, resultTitle } = content.body,
+    { isEmploymentIncomeQuery } = props;
 
   return (
     <CardUp cardTitle={resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
@@ -90,7 +91,8 @@ const ResultCard =(props)=> {
             caption={resultTable.beforeTaxCaption}
             theader={resultTable.headers}
             tableBody={salBeforeTax}
-            isShowHourly={props.isEmploymentIncomeQuery === '' ? false : props.isEmploymentIncomeQuery}
+            isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
+            display={isEmploymentIncomeQuery === 'personalIncome' ? 'd-none' : ''}
           />
         </Col>
         <Col>
@@ -98,7 +100,7 @@ const ResultCard =(props)=> {
             caption={resultTable.afterTaxCaption}
             theader={resultTable.headers}
             tableBody={salAfterTax}
-            isShowHourly={props.isEmploymentIncomeQuery === '' ? false : props.isEmploymentIncomeQuery}
+            isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
           />
         </Col>
       </Row>

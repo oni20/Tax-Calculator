@@ -1,35 +1,42 @@
 {
-    "federalTax": 
-        {
-            "tire1": {
-                "min": 0,
-                "max": 48535,
-                "taxRate": 15
-            },
-            "tire2": {
-                "min": 48536,
-                "max": 97069,
-                "taxRate": 20.5
-            },
-            "tire3": {
-                "min": 97070,
-                "max": 150473,
-                "taxRate": 26
-            }, 
-            "tire4": {
-                "min": 150474,
-                "max": 214368,
-                "taxRate": 29
-            }, 
-            "tire5": {
-                "min": 214369,
-                "max": null,
-                "taxRate": 33
-            }
+    "federalTax": {
+        "tire1": {
+            "min": 0,
+            "max": 48535,
+            "taxRate": 15
+        },
+        "tire2": {
+            "min": 48536,
+            "max": 97069,
+            "taxRate": 20.5
+        },
+        "tire3": {
+            "min": 97070,
+            "max": 150473,
+            "taxRate": 26
+        },
+        "tire4": {
+            "min": 150474,
+            "max": 214368,
+            "taxRate": 29
+        },
+        "tire5": {
+            "min": 214369,
+            "max": null,
+            "taxRate": 33
+        },
+        "cpp": {
+            "cpprate": 5.25,
+            "maxContribution": 2898,
+            "exemption": 3500
+        },
+        "ei": {
+            "eirate": 1.58,
+            "maxContribution": 856.36
+        }
     },
     "provincialTax": {
-        "al": [
-            {
+        "al": [{
                 "min": 0,
                 "max": 131220,
                 "taxRate": 10
@@ -55,8 +62,7 @@
                 "taxRate": 15
             }
         ],
-        "bc": [
-            {
+        "bc": [{
                 "min": 0,
                 "max": 41725,
                 "taxRate": 5.06
@@ -87,8 +93,7 @@
                 "taxRate": 16.7
             }
         ],
-        "ma": [
-            {
+        "ma": [{
                 "min": 0,
                 "max": 33389,
                 "taxRate": 10.8
@@ -114,8 +119,7 @@
                 "taxRate": null
             }
         ],
-        "nb": [
-            {
+        "nb": [{
                 "min": 0,
                 "max": 43401,
                 "taxRate": 9.68
@@ -141,8 +145,7 @@
                 "taxRate": 20.3
             }
         ],
-        "ns": [
-            {
+        "ns": [{
                 "min": 0,
                 "max": 131220,
                 "taxRate": 10
@@ -174,29 +177,28 @@
                 "max": 44740,
                 "taxRate": 5.05
             },
-            "tire2":{
+            "tire2": {
                 "min": 44741,
                 "max": 89482,
                 "taxRate": 9.15
             },
-            "tire3":{
+            "tire3": {
                 "min": 89483,
                 "max": 150000,
                 "taxRate": 11.16
             },
-            "tire4":{
+            "tire4": {
                 "min": 150001,
                 "max": 220000,
                 "taxRate": 12.16
             },
-            "tire5":{
+            "tire5": {
                 "min": 220000,
                 "max": null,
                 "taxRate": 13.16
             }
         },
-        "qc": [
-            {
+        "qc": [{
                 "min": 0,
                 "max": 131220,
                 "taxRate": 10
@@ -222,8 +224,7 @@
                 "taxRate": 15
             }
         ],
-        "sk": [
-            {
+        "sk": [{
                 "min": 0,
                 "max": 45225,
                 "taxRate": 10.5
@@ -249,8 +250,7 @@
                 "taxRate": null
             }
         ],
-        "nl": [
-            {
+        "nl": [{
                 "min": 0,
                 "max": 37929,
                 "taxRate": 8.7
@@ -276,8 +276,7 @@
                 "taxRate": 18.3
             }
         ],
-        "pei": [
-            {
+        "pei": [{
                 "min": 0,
                 "max": 31984,
                 "taxRate": 9.8
@@ -303,8 +302,7 @@
                 "taxRate": null
             }
         ],
-        "yk": [
-            {
+        "yk": [{
                 "min": 0,
                 "max": 48535,
                 "taxRate": 6.4
@@ -330,8 +328,7 @@
                 "taxRate": 15
             }
         ],
-        "nt": [
-            {
+        "nt": [{
                 "min": 0,
                 "max": 43957,
                 "taxRate": 5.9
@@ -357,8 +354,7 @@
                 "taxRate": null
             }
         ],
-        "nv": [
-            {
+        "nv": [{
                 "min": 0,
                 "max": 46277,
                 "taxRate": 4

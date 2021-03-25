@@ -98,7 +98,14 @@ const Body = () => {
         'weekly': convertStringToLocale(weeklyAmountBeforeTax),
         'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
       },
-        salAfterTax = income == 0 ? salBeforeTax : {};
+        salAfterTax = income == 0 ? {
+        'income': 0,
+        'federal': 0,
+        'provincial': 0,
+        'cpp': 0,
+        'ei': 0,
+        'annual': 0
+      } : {};
 
       if (income !== 0) {
         const TAXRULES_CA = CanadaTaxRule.provincialTax;
@@ -120,19 +127,55 @@ const Body = () => {
 
         const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
 
+        //Calculating CPP
+        let cppTaxrate = CanadaTaxRule.federalTax.cpp.cpprate,
+          cppExemption = CanadaTaxRule.federalTax.cpp.exemption,
+          cppMaxContribute = CanadaTaxRule.federalTax.cpp.maxContribution,
+          cppTotal = 0;
+
+        if(income > cppExemption) {
+          cppTotal = ((income - cppExemption) * cppTaxrate) / 100 
+          cppTotal > cppMaxContribute ? cppTotal = cppMaxContribute : cppTotal;
+        } 
+        else{ 
+          cppTotal 
+        }
+
+        //Calculating EI
+        let eiTaxrate = CanadaTaxRule.federalTax.ei.eirate,
+          eiMaxContribute = CanadaTaxRule.federalTax.ei.maxContribution,
+          eiTotal = 0;
+
+        let ei = (income * eiTaxrate) / 100;
+
+        ei < eiMaxContribute ? eiTotal = ei : eiTotal = eiMaxContribute;
+
         //Calculating Total tax 
 
-        const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA);
-
+        const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal);
         let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS),
           hourlyAmountAfterTax = (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
+        // salAfterTax = {
+        //   'income': income.toLocaleString(),
+        //   'federal': FEDTAX_CA.toLocaleString(),
+        //   'provincial': PROTAX_CA.toLocaleString(),
+        //   'cpp': cppTotal.toLocaleString(),
+        //   'ei': eiTotal.toLocaleString(),
+        //   'annual': TOTALTAX_CA.toLocaleString(),
+        //   'monthly': (TOTALTAX_CA / 12).toLocaleString(),
+        //   'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+        //   'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+        //   'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountAfterTax
+        // };
+
         salAfterTax = {
-          'annual': TOTALTAX_CA.toLocaleString(),
-          'monthly': (TOTALTAX_CA / 12).toLocaleString(),
-          'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-          'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-          'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountAfterTax
+          'income': income.toLocaleString(),
+          'federal': FEDTAX_CA.toLocaleString(),
+          'provincial': PROTAX_CA.toLocaleString(),
+          'cpp': cppTotal.toLocaleString(),
+          'ei': eiTotal.toLocaleString(),
+          'annual': TOTALTAX_CA.toLocaleString()
         };
       }
 
@@ -160,7 +203,7 @@ const Body = () => {
                       content.body.provinceList.map((province, index) => {
                         return <option key={index} value={province.id}>{province.displayText}</option>;
                       })
-                    }
+                    }  
                   </Form.Control>
                   <Form.Control.Feedback type='invalid'>
                     {content.body.errorMessage.missingProvince}
