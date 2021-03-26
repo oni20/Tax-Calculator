@@ -1,4 +1,5 @@
 @import "../../styles/variables.scss";
+@import "../../styles/unit.scss";
 
 :export {
   white: $white;
@@ -9,17 +10,17 @@
 }
 
 div.aria_widget_slider {
-  padding: 0 20px;
+  padding: 0 em(20px);
 
   .rail {
     /* width: 300px; */
-    margin: 2px;
-    padding: 4px;
+    margin: em(2px);
+    padding: em(4px);
     border-radius: 10px;
     background-color: #ebebeb;
     position: inherit;
     top: 2em;
-    height: 4px;
+    height: em(4px);
 
     .thumb {
       border-radius: 50%;
@@ -59,13 +60,13 @@ div.aria_widget_slider {
 }
 
 #idColorBox {
-  width: 200px;
-  height: 200px;
+  width: em(200px);
+  height: em(200px);
   border: black solid medium;
   text-align: center;
   padding: 0.25em;
 }
 
 #idColorInfo {
-  padding-top: 5px;
+  padding-top: em(5px);
 }

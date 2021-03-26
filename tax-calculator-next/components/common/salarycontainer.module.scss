@@ -1,35 +1,39 @@
 @import "../../styles/variables.scss";
+@import "../../styles/unit.scss";
 
 //Income table component
 .income {
     &__container {
         &:first-of-type {
-            margin-bottom: 40px;
+            margin-bottom: em(40px);
         }
     }
 
     &__caption {
-        font-size: 1em;
-        margin-bottom: 20px;
+        font-size: $f-16;
+        margin-bottom: em(20px);
 
         &:after {
             display: block;
             content: "";
-            border-bottom: 5px solid $beige;
+            border-bottom: em(5px) solid $beige;
             width: 10%;
-            padding: 0 0 5px 0;
+            padding: 0 0 em(5px) 0;
         }
     }
 
     &__amount {
-        border-bottom: 1px dotted $grey__dark;
-        width: 200px;
+        border-bottom: em(1px) dotted $grey__dark;
+        width: rem(200px);
         text-align: right;
+        @media screen and (min-width: em(200px)) and (max-width: em(767px)) {
+            width: rem(120px);        
+        }
     }
 
 }
 .income__highlight {
-    font-size: 22px;
+    font-size: $f-22;
     font-weight: 600;
-    margin-top: 35px;
+    margin-top: rem(35px);
 }

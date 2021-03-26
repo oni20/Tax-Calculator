@@ -58,7 +58,10 @@
             "error",
             "single"
         ],
+        "no-console": "error",
+        "eqeqeq": "error",
         "react/prop-types": 0,
+        "no-const-assign": "error",
         "react/no-this-in-sfc": "error"
     }
 }

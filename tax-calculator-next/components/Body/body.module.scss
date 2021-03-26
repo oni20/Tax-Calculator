@@ -1,13 +1,15 @@
 @import "../../styles/variables.scss";
+@import "../../styles/unit.scss";
+@import "../../styles/flexbox.scss";
 
 .gotax_dropdown {
     border: none;
-    border-radius: 100px;
+    border-radius: em(100px);
     overflow-wrap: initial;
     width: 100%;
-    height: 48px;
-    padding: 0 42px 0 16px;
-    font-size: 1rem;
+    height: em(48px);
+    padding: 0 em(42px) 0 em(16px);
+    font-size: rem(16px);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -20,13 +22,13 @@
 
     option {
         color: $grey__dark;
-        margin: 40px;
+        margin: em(40px);
         background: $grey__light;
         font-weight: normal;
         display: block;
         white-space: pre;
         min-height: 1.2em;
-        padding: 0px 2px 1px;
+        padding: 0px em(2px) em(1px);
 
         &:disabled {
             color: #838383;
@@ -39,16 +41,16 @@
 }
 
 .input_range_group {
-    margin-bottom: 20px;
+    margin-bottom: em(20px);
 
     .customInput_group {
-        padding-right: 20px;
+        padding-right: em(20px);
     }
 
     .customInput {
         border: none;
-        border-radius: 100px !important;
-        font-size: 16px;
+        border-radius: em(100px) !important;
+        font-size: $f-16;
         font-weight: 500;
         background-color: $grey__light;
 
@@ -62,38 +64,40 @@
 //CardUp component
 .card_up {
     background-color: $white;
-    padding: 3em;
-    border-radius: 20px;
+    padding: em(48px);
+    border-radius: em(20px);
     margin: 0;
     box-shadow: 0px 2px 26px 4px rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
+    margin-top: em(20px);
     &__color {
         &__beige {
-            border-top: solid 20px $beige;
+            border-top: solid em(20px) $beige;
         }
         &__teal {
-            border-top: solid 20px $teal;
+            border-top: solid em(20px) $teal;
         }
     }
-
+    @media screen and (max-width: em(767px)) {
+        padding: em(24px);        
+    }
     .salary_container {
-        display: flex;
-        flex-direction: column;
+        @include flexbox();
+        @include flex-direction(column);
         .salary_line {
-            display: flex;
+            @include flexbox();
             justify-content: space-between;
         }
         .highlight {
             color: $blue;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: $f-17;
         }
     }
 }
 
 .button__primary {
     background-color: $blue;
-    border-radius: 28px;
+    border-radius: em(28px);
     color: $white;
     padding: 0.5em 2em;
     border: none;
