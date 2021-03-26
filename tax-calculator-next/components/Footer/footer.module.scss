@@ -1,5 +1,6 @@
 @import "../../styles/variables.scss";
 @import "../../styles/unit.scss";
+@import "../../styles/flexbox.scss";
 
 .page_footer {
   background-color: $beige;
@@ -9,8 +10,8 @@
 
 .social_media {
   list-style: none;
-  display: flex;
-  flex-direction: row;
+  @include flexbox();
+  @include flex-direction(row);
   padding: 0;
 
   li {

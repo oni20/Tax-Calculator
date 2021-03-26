@@ -1,4 +1,5 @@
 @import 'unit.scss';
+@import 'flexbox.scss';
 
 body,
 html {
@@ -74,7 +75,7 @@ form .material-icons {
 	font-weight: bold;
 
 	.icon-container {
-		display: flex;
+		@include flexbox();
 
 		.material-icons {
 			margin-right: em(10px);
