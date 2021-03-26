@@ -83,10 +83,21 @@ const dictionary = {
                 "afterTaxCaption": "Income after tax",
                 "headers": {
                     "income": "Gross Income",
-                    "federal": "Federal tax deductions",
-                    "provincial": "Provincial tax deductions",
-                    "cpp": "CPP deductions",
-                    "ei": "EI deductions",
+                    "federal": "Federal tax",
+                    "provincial": "Provincial tax",
+                    "cpp": "CPP Premiums",
+                    "ei": "EI Premiums",
+                    "annual": "Net Income"
+                }
+            },
+            "pieChart": {
+                "legendTitle": "Income",
+                "headers": {
+                    "income": "Gross Income",
+                    "federal": "Federal tax",
+                    "provincial": "Provincial tax",
+                    "cpp": "CPP Premiums",
+                    "ei": "EI Premiums",
                     "annual": "Net Income"
                 }
             },
@@ -192,11 +203,23 @@ const dictionary = {
                 "beforeTaxCaption": "Revenu avant impôt",
                 "afterTaxCaption": "Revenu après impôt",
                 "headers": {
-                    "annual": "Annuel",
-                    "monthly": "Mensuel",
-                    "biWeekly": "Aux deux semaines",
-                    "weekly": "Hebdomadaire",
-                    "hourly": "À l'heure"
+                    "income": "Revenu brut",
+                    "federal": "Impôt fédéral",
+                    "provincial": "Taxe provinciale",
+                    "cpp": "Cotisations au RPC",
+                    "ei": "Primes d'assurance-emploi",
+                    "annual": "Revenu net"
+                }
+            },
+            "pieChart": {
+                "legendTitle": "Revenu",
+                "headers": {
+                    "income": "Revenu brut",
+                    "federal": "Impôt fédéral",
+                    "provincial": "Taxe provinciale",
+                    "cpp": "Cotisations au RPC",
+                    "ei": "Primes d'assurance-emploi",
+                    "annual": "Revenu net"
                 }
             },
             "errorMessage": {

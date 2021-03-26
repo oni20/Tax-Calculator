@@ -8,11 +8,12 @@ import SalaryContainer from '../common/SalaryContainer';
 import CardUp from '../common/CardUp';
 import { GlobalContext } from '../Context/GlobalContext';
 import { ResultContext } from './ResultContext';
+import PieChart from '../Chart/PieChart';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
 
-const ResultCard =(props)=> {
+const ResultCard = (props) => {
   const { content } = useContext(GlobalContext),
     { salBeforeTax, salAfterTax } = useContext(ResultContext),
     { resultTable, resultTitle } = content.body,
@@ -87,21 +88,24 @@ const ResultCard =(props)=> {
 
       <Row>
         <Col xs={12}>
-          <SalaryContainer
+          {/* <SalaryContainer
             caption={resultTable.beforeTaxCaption}
             theader={resultTable.headers}
             tableBody={salBeforeTax}
             isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
             display={isEmploymentIncomeQuery === 'personalIncome' ? 'd-none' : ''}
-          />
-        </Col>
-        <Col>
+          /> */}
           <SalaryContainer
             caption={resultTable.afterTaxCaption}
             theader={resultTable.headers}
             tableBody={salAfterTax}
             isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
           />
+        </Col>
+        <Col>
+          {salAfterTax.income !== 0 &&
+            <PieChart />
+          }
         </Col>
       </Row>
     </CardUp>
