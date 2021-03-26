@@ -14,13 +14,12 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             "isEmploymentIncomeQuery": 'personalIncome'
         },
         {
-            "controlId": "formEmpIncomeHourly",
-            "iconName": "hourglass_top",
-            "labelKeyName": "workingHoursInWeekLabel",
+            "controlId": "formEmpIncomeRRSP",
+            "iconName": "savings",  
+            "labelKeyName": "RRSPLabel",
             "isEmploymentIncomeQuery": 'personalIncome',
             "errorMessageKeyName": "missingWeeklyHours",
-            "isRequired": true,
-            "rangeMax": "40"
+            "isRequired": false,
         },
         {
             "controlId": "formSelfIncomeHourlyRate",
