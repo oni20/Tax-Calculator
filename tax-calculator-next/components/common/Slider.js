@@ -30,7 +30,7 @@ const Slider = props => {
     }, [props]);
 
     useEffect(() => {
-        if (domNode.current.tabIndex != 0) {
+        if (domNode.current.tabIndex !== 0) {
             domNode.current.tabIndex = 0;
         }
 

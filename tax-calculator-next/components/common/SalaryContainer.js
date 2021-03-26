@@ -4,7 +4,7 @@ import SalaryContainerStyles from './salarycontainer.module.scss';
 const SalaryContainer = props => {
     return (
         <>  
-            <div className={`${props.display}`}>
+            <div className={props.display ? "${props.display}" : ""}>
             <h3 className={SalaryContainerStyles.income__caption}>{props.caption}</h3>
             < div className = {
                 `${SalaryContainerStyles.income__container} d-flex justify-content-between`
@@ -20,7 +20,7 @@ const SalaryContainer = props => {
                     {Object.keys(props.tableBody).map((body, index) => {
                         return (
             
-                            <p className={`${SalaryContainerStyles.income__amount} ${body === 'annual' ? SalaryContainerStyles.income__highlight : ''} `} key={index}> {body !== "income" && body !== "annual" ? '-' : ''} $ {props.tableBody[body]}</p>   
+                            <p className={`${SalaryContainerStyles.income__amount} ${body === 'annual' ? SalaryContainerStyles.income__highlight : ''} `} key={index}> {body !== 'income' && body !== 'annual' ? '-' : ''} $ {props.tableBody[body]}</p>   
                         );
                     })}
                 </div>

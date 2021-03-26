@@ -34,7 +34,7 @@ const Body = () => {
     [provinceDDVal, setProvinceDDVal] = useState('');
 
   const handleDDChange = event => {
-    setIsDisableControl(event.target.value == '');
+    setIsDisableControl(event.target.value === '');
     setProvinceDDVal(event.target.value);
   };
 
@@ -98,7 +98,7 @@ const Body = () => {
         'weekly': convertStringToLocale(weeklyAmountBeforeTax),
         'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
       },
-        salAfterTax = income == 0 ? {
+        salAfterTax = income === 0 ? {
         'income': 0,
         'federal': 0,
         'provincial': 0,
@@ -114,7 +114,7 @@ const Body = () => {
         //Calculating Province tax 
         for (let taxRule in TAXRULES_CA) {
           const TAXRULES_PROVINCES_CA = TAXRULES_CA[taxRule];
-          if (selectedProvince == taxRule) {
+          if (selectedProvince === taxRule) {
             for (let taxrulesProvince in TAXRULES_PROVINCES_CA) {
               selectedProvinceTax.push(TAXRULES_PROVINCES_CA[taxrulesProvince]);
             }
@@ -134,11 +134,11 @@ const Body = () => {
           cppTotal = 0;
 
         if(income > cppExemption) {
-          cppTotal = ((income - cppExemption) * cppTaxrate) / 100 
+          cppTotal = ((income - cppExemption) * cppTaxrate) / 100;
           cppTotal > cppMaxContribute ? cppTotal = cppMaxContribute : cppTotal;
         } 
         else{ 
-          cppTotal 
+          cppTotal;
         }
 
         //Calculating EI
@@ -262,7 +262,7 @@ const Body = () => {
                           iconName={inputObj.iconName}
                           label={content.body[inputObj.labelKeyName]}
                           errorMessage={
-                            inputObj.errorMessageKeyName && inputObj.errorMessageKeyName == ''
+                            inputObj.errorMessageKeyName && inputObj.errorMessageKeyName === ''
                               ? ''
                               : content.body.errorMessage[inputObj.errorMessageKeyName]
                           }

@@ -1,7 +1,9 @@
+@import 'unit.scss';
+
 @mixin button($color, $bg_color, $hover_color, $hover_bg_color) {
     background-color: $bg_color;
     padding: 1em 2.5em;
-    border-radius: 34px;
+    border-radius: em(34px);
     color: $color;
     font-weight: 800;
     position: relative;

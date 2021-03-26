@@ -8,7 +8,7 @@ import Slider from '../common/Slider';
 import BodyStyle from './body.module.scss';
 
 function shouldRender(prevProps, nextProps){
-    return prevProps.isEmploymentIncomeQuery == nextProps.isEmploymentIncomeQuery;
+    return prevProps.isEmploymentIncomeQuery === nextProps.isEmploymentIncomeQuery;
 }
 
 const FormInputRange = props => {
@@ -55,7 +55,7 @@ const FormInputRange = props => {
                         uniqueID={props.controlId + 'Range'}
                         label={props.label}
                         labelClass='sr-only'
-                        valueNow={inputState == '' ? 0 : parseInt(inputState)}
+                        valueNow={inputState === '' ? 0 : parseInt(inputState)}
                         max={parseInt(props.rangeMax)}
                         updateControlValue={updateControlValue} />
                 </Form.Group>

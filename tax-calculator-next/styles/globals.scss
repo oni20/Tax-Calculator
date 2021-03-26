@@ -1,15 +1,13 @@
+@import 'unit.scss';
+@import 'flexbox.scss';
+
 body,
 html {
 	overflow-x: hidden;
 }
 
-footer {
-	margin-top: 20px;
-	padding: 20px;
-}
-
 h1 {
-	margin-top: 10px;
+	margin-top: em(10px);
 }
 
 a {
@@ -27,12 +25,12 @@ a {
 }
 
 .mar-right-5 {
-	margin-right: 5px;
+	margin-right: em(5px);
 }
 
 /* Materialize Icons */
 form .material-icons {
-	font-size: 23px;
+	font-size: rem(23px);
 	color: #46b7c5;
 }
 
@@ -51,44 +49,44 @@ form .material-icons {
 
 .form-group {
 	legend {
-		font-size: 16px;
+		font-size: $f-16;
 		font-weight: 500;
 	}
 
 	label {
-		font-size: 14px;
+		font-size: $f-14;
 	}
 
 	.invalid-feedback {
-		margin: auto 36px;
+		margin: auto em(36px);
 		font-weight: bold;
-		font-size: 12px;
+		font-size: $f-12;
 	}
 }
 
 //heading
 .heading__h2 {
-	font-size: 22px !important;
+	font-size: $f-22 !important;
 }
 
 .alert {
-	border: 2px solid;
+	border: em(2px) solid;
 	background: transparent;
 	font-weight: bold;
 
 	.icon-container {
-		display: flex;
+		@include flexbox();
 
 		.material-icons {
-			margin-right: 10px;
-			font-size: 35px;
+			margin-right: em(10px);
+			font-size: $f-35;
 		}
 	}
 
 	.countDown {
 		text-align: center;
-		margin: 5px;
-		font-size: 24px;
+		margin: em(5px);
+		font-size: $f-24;
 		font-family: monospace;
 	}
 }

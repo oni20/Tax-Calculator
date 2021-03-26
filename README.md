@@ -1,47 +1,47 @@
 # Tax-Calculator
-This is a Single Page Application (SPA) showing tax calculation of a single person's income based on following criteria
+Find out what's your net income in terms of Canadian Tax bracket.
+This Single Page Application (SPA) collects user information on following aspects and calculate net income from it
+- Employment type
 - Hourly rate
 - Hours per week
 - Working weeks in a year
-- Province (Canada)
+- Working province (Canada)
 
 Tax rules are leveraged from [CRA Website](https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html)
 
-## UX link
-Checkout latest [Design](https://xd.adobe.com/view/70389bcf-c86b-4d70-49a4-26169b8f5501-0609/screen/a190558d-f10c-49ec-beea-5312b044a48a/)
+## Website link
+Checkout latest [Go Tax](https://go-tax.ca/)
 
-Password
-```bash
-Taxcal@2020
-```
-
-## In-scope development
-We will develop
-- Few form fields as Input box to collect user's salary criteria.
+## Developer facts
+This page consists of
+- Few form fields as Input box to collect user's salary criteria and associated slider.
 - A dropdown where user need to choose Province.
 - A table to show result.
 - Follow AA standard accessibility compliance
-- Support translation (Only from English to French or vice-versa)
+- Support mutil-language (available locales are English and French (Canada))
 
-Checkout feature [document](https://drive.google.com/file/d/1_-W8j9YhU49u-X0lTmwTFNDK2IkwZX1V/view?usp=sharing)
+Checkout our feature [document](https://drive.google.com/file/d/1_-W8j9YhU49u-X0lTmwTFNDK2IkwZX1V/view?usp=sharing) for more insights
 
-### Known limitation
-Right now we only support Canada.
-
-## Technology stack
-We are leveraging following application to build responsive UI
+### Technology stack
+We are exploring following tech stack to build responsive UI
 - UI
 ```bash
-HTML5, Bootstrap 4 CSS, React/Redux, JavaScript, Next JS
+HTML5, Bootstrap 4,  SCSS, React, React Hooks, Next JS, JavaScript
 ```
 -Module Builder
 ```bash
 Node, NPM, Next JS
 ```
-## Future enhancement
-- Deploy project using Expo SDK to create cross platform application supporting android, iOS
-- Use 3rd party API to retrieve salary market data for certain profession and compare with calculated value. 
-- Also graphical representation will be used to show the comparison. We will leverage function from HighChart JS library.
+### Known limitation
+Right now we only support Canadian tax income.
+
+### Future enhancement
+- Bring new feature to decorate self employment income section
+- Add graphical representation on salary section for visual display of gross income vs. net income
+- Breakdown of tax on gross income
+- Use 3rd party API to retrieve salary market data for certain profession and compare with calculated value.
+- Decorated 'Contact Us' section to notify us any kind of issues.
+- Allow user to create a profile and save the calculation
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
