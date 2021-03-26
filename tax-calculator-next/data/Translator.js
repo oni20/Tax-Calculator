@@ -91,7 +91,7 @@ const dictionary = {
                 }
             },
             "pieChart": {
-                "legendTitle": "Income",
+                "legendTitle": "% of Gross Income",
                 "headers": {
                     "income": "Gross Income",
                     "federal": "Federal tax",
@@ -212,7 +212,7 @@ const dictionary = {
                 }
             },
             "pieChart": {
-                "legendTitle": "Revenu",
+                "legendTitle": "% du revenu brut",
                 "headers": {
                     "income": "Revenu brut",
                     "federal": "Impôt fédéral",

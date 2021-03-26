@@ -2,56 +2,88 @@ import React, { useContext } from 'react';
 import ReactECharts from 'echarts-for-react';
 
 /* Custom import */
+import { convertStringToNumber } from '../../utility/helper';
 import { GlobalContext } from '../Context/GlobalContext';
+import { ResultContext } from '../Body/ResultContext';
 
 const PieChart = () => {
     const { content } = useContext(GlobalContext),
-        { pieChart } = content.body;
+        { salAfterTax } = useContext(ResultContext),
+        { pieChart } = content.body,
+        mirrorSalAfterTax = { ...salAfterTax },
+        grossIncome = '$' + salAfterTax.income;
+
+    delete mirrorSalAfterTax['income'];
+
+    const chartData = Object.keys(mirrorSalAfterTax).map(key => {
+        return {
+            value: convertStringToNumber(mirrorSalAfterTax[key]),
+            name: pieChart.headers[key] + ": $" + mirrorSalAfterTax[key]
+        }
+    });
 
     const options = {
+        aria: {
+            enabled: true
+        },
         title: {
             text: pieChart.headers.income,
-            subtext: '$110,000',
+            subtext: grossIncome,
             left: 'center',
-            top: 20,
+            top: 0,            
             textStyle: {
-                color: '#6d62f9'
+                color: '#6d62f9',
+                fontSize: 20
+            },
+            subtextStyle: {
+                fontSize: 16,
+                fontWeight: "bold"
             }
         },
         tooltip: {
-            trigger: 'item'
+            trigger: 'item',
+            formatter: function (tooltipObj) {
+                return tooltipObj.percent + tooltipObj.seriesName + "<br/>" + tooltipObj.marker + tooltipObj.data.name;
+            }
         },
         toolbox: {
             show: true,
+            right: 30,
             feature: {
                 mark: { show: true },
-                dataView: { show: true, readOnly: false },
-                saveAsImage: { show: true }
+                saveAsImage: { 
+                    show: true,
+                    title: 'Download'
+                }
             }
         },
         legend: {
-            orient: 'vertical',
-            left: 'left',
+            orient: 'horizontal',
+            bottom: 'bottom',
+            padding: [0,0],            
+            formatter: function (name) {
+                return name.split(':')[0];
+            }
         },
         series: [
             {
                 name: pieChart.legendTitle,
-                type: 'pie',
-                radius: '50%',
-                data: [
-                    { value: 20591.78, name: pieChart.headers.federal },
-                    { value: 11000, name: pieChart.headers.provincial },
-                    { value: 2898, name: pieChart.headers.cpp },
-                    { value: 856.36, name: pieChart.headers.ei },
-                    { value: 74653.86, name: pieChart.headers.annual }
-                ],
+                type: 'pie',                
+                radius: ["25%", "50%"],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },                
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
                         shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                }
+                },
+                data: chartData
             }
         ]
     };

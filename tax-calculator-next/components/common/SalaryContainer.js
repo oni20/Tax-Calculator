@@ -4,7 +4,7 @@ import SalaryContainerStyles from './salarycontainer.module.scss';
 const SalaryContainer = props => {
     return (
         <>  
-            <div className={`${props.display}`}>
+            <div className={props.display ? "${props.display}" : ""}>
             <h3 className={SalaryContainerStyles.income__caption}>{props.caption}</h3>
             < div className = {
                 `${SalaryContainerStyles.income__container} d-flex justify-content-between`
