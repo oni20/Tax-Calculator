@@ -18,8 +18,8 @@ const PieChart = () => {
     const chartData = Object.keys(mirrorSalAfterTax).map(key => {
         return {
             value: convertStringToNumber(mirrorSalAfterTax[key]),
-            name: pieChart.headers[key] + ": $" + mirrorSalAfterTax[key]
-        }
+            name: pieChart.headers[key] + ': $' + mirrorSalAfterTax[key]
+        };
     });
 
     const options = {
@@ -37,13 +37,13 @@ const PieChart = () => {
             },
             subtextStyle: {
                 fontSize: 16,
-                fontWeight: "bold"
+                fontWeight: 'bold'
             }
         },
         tooltip: {
             trigger: 'item',
             formatter: function (tooltipObj) {
-                return tooltipObj.percent + tooltipObj.seriesName + "<br/>" + tooltipObj.marker + tooltipObj.data.name;
+                return tooltipObj.percent + tooltipObj.seriesName + '<br/>' + tooltipObj.marker + tooltipObj.data.name;
             }
         },
         toolbox: {
@@ -69,7 +69,7 @@ const PieChart = () => {
             {
                 name: pieChart.legendTitle,
                 type: 'pie',                
-                radius: ["25%", "50%"],
+                radius: ['25%', '50%'],
                 avoidLabelOverlap: false,
                 itemStyle: {
                     borderRadius: 10,
