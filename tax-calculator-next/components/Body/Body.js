@@ -196,6 +196,7 @@ const Body = () => {
           'provincial': PROTAX_CA.toLocaleString(),
           'cpp': cppTotal.toLocaleString(),
           'ei': eiTotal.toLocaleString(),
+          'rrspsavings': rrspTaxSavings.toLocaleString(),
           'annual': TOTALTAX_CA.toLocaleString()
         };
       }

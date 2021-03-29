@@ -88,6 +88,7 @@ const dictionary = {
                     "provincial": "Provincial tax",
                     "cpp": "CPP Premiums",
                     "ei": "EI Premiums",
+                    "rrspsavings": "RRSP Savings",
                     "annual": "Net Income"
                 }
             },
@@ -99,6 +100,7 @@ const dictionary = {
                     "provincial": "Provincial tax",
                     "cpp": "CPP Premiums",
                     "ei": "EI Premiums",
+                    "rrspsavings": "RRSP Savings",
                     "annual": "Net Income"
                 }
             },
