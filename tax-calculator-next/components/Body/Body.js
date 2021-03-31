@@ -77,7 +77,8 @@ const Body = () => {
 
   const calculateSalary = () => {
     let form = document.getElementsByTagName('form')[0],
-      selectedProvince = form.formSelectProvince.value, income = null,
+      selectedProvince = form.formSelectProvince.value, 
+      income = null,
       isEmploymentIncomeQuery = form.incomeTypeRadio.value,
       selectedHoursForEmpIncome = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
 
@@ -104,14 +105,21 @@ const Body = () => {
         'provincial': 0,
         'cpp': 0,
         'ei': 0,
+        'rrspsavings': 0,
         'annual': 0
       } : {};
 
       if (income !== 0) {
-        const TAXRULES_CA = CanadaTaxRule.provincialTax;
+        const TAXRULES_CA = CanadaTaxRule.provincialTax,
+          RRSP = (form.formEmpIncomeRRSP.value).replace(',','');
         let selectedProvinceTax = [];
+        let rrspTaxSavings, incomeRrsp, protaxRrspCa, fedtaxRrspCa;
 
-        //Calculating Province tax 
+        if(RRSP > 0){
+          incomeRrsp = income - parseInt(RRSP);
+        }
+
+        //*** Calculating Province tax 
         for (let taxRule in TAXRULES_CA) {
           const TAXRULES_PROVINCES_CA = TAXRULES_CA[taxRule];
           if (selectedProvince === taxRule) {
@@ -123,9 +131,19 @@ const Body = () => {
 
         const PROTAX_CA = taxCal(income, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate);
 
-        //Calculating Federal tax 
+        //RRSP
+        if (RRSP > 0) {
+          protaxRrspCa = taxCal(incomeRrsp, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate);
+        }
+
+        //**** Calculating Federal tax 
 
         const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
+
+        //RRSP
+        if (RRSP > 0) {
+          fedtaxRrspCa = taxCal(incomeRrsp, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
+        }
 
         //Calculating CPP
         let cppTaxrate = CanadaTaxRule.federalTax.cpp.cpprate,
@@ -150,11 +168,14 @@ const Body = () => {
 
         ei < eiMaxContribute ? eiTotal = ei : eiTotal = eiMaxContribute;
 
-        //Calculating Total tax 
+        //Calculating Total tax
 
-        const TOTALTAX_CA = income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal);
-        let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS),
-          hourlyAmountAfterTax = (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
+        rrspTaxSavings = RRSP > 0 ? (FEDTAX_CA + PROTAX_CA) - (fedtaxRrspCa + protaxRrspCa) : 0;
+
+        const TOTALTAX_CA = RRSP > 0 ? income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal) + rrspTaxSavings : income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal);
+        let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS);
+        
+        //hourlyAmountAfterTax = (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
 
         // salAfterTax = {
         //   'income': income.toLocaleString(),
@@ -169,12 +190,14 @@ const Body = () => {
         //   'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountAfterTax
         // };
 
+
         salAfterTax = {
           'income': income.toLocaleString(),
           'federal': FEDTAX_CA.toLocaleString(),
           'provincial': PROTAX_CA.toLocaleString(),
           'cpp': cppTotal.toLocaleString(),
           'ei': eiTotal.toLocaleString(),
+          'rrspsavings': rrspTaxSavings.toLocaleString(),
           'annual': TOTALTAX_CA.toLocaleString()
         };
       }

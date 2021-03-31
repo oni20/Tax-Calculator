@@ -13,6 +13,7 @@ const dictionary = {
             "introDesc": "Use our tax calculator to estimate your $currYear$ federal and provincial taxes.",
             "employmentIncomeLabel": "Employment income",
             "hourlyRateLabel": "Hourly rate",
+            "RRSPLabel": "RRSP Contribution (Optional)",
             "workingHoursInWeekLabel": "Total hours in a week",
             "totalWorkingWeeksInAYear": "Total working weeks (annually)",
             "rrspDeductionLabel": "RRSP deduction",
@@ -87,6 +88,7 @@ const dictionary = {
                     "provincial": "Provincial tax",
                     "cpp": "CPP Premiums",
                     "ei": "EI Premiums",
+                    "rrspsavings": "RRSP Savings",
                     "annual": "Net Income"
                 }
             },
@@ -98,6 +100,7 @@ const dictionary = {
                     "provincial": "Provincial tax",
                     "cpp": "CPP Premiums",
                     "ei": "EI Premiums",
+                    "rrspsavings": "RRSP Savings",
                     "annual": "Net Income"
                 }
             },
@@ -135,6 +138,7 @@ const dictionary = {
             "employmentIncomeLabel": "Revenu d'emploi",
             "hourlyRateLabel": "Entrez le taux horaire",
             "workingHoursInWeekLabel": "Entrez le nombre total d'heures dans une semaine",
+            "RRSPLabel": "Cotisation REER (Optionnel)",
             "totalWorkingWeeksInAYear": "Entrez le nombre total de semaines de travail (base annuelle)",
             "rrspDeductionLabel": "RRSP deduction",
             "provinceDD": "Sélectionnez une province ou un territoire",

@@ -2,13 +2,8 @@ import React, { useContext } from "react";
 import Head from 'next/head';
 
 /* Importing GA */
-import ReactGA from 'react-ga';
-
-const trackingId = "GTM-5FVL3R9"; // https://github.com/react-ga/react-ga
-ReactGA.initialize(trackingId);
-ReactGA.pageview('/');
+import TagManager from 'react-gtm-module';
    
-
 /* Importing custom classes */
 import Header from '../components/Header/Header';
 import Body from '../components/Body/Body';
@@ -25,6 +20,12 @@ const Home = () => {
   const { content } = useContext(GlobalContext);
   const pageTitle = content.pageTitle.replace("$currYear$", currYear);
 
+  const tagManagerArgs = {
+    gtmId: 'GTM-5FVL3R9'
+  }
+  if (process.browser) {
+    TagManager.initialize(tagManagerArgs);
+  }
   return (
     <div className={HomeStyle.container}>
       <Head>
