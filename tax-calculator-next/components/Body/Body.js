@@ -105,6 +105,7 @@ const Body = () => {
         'provincial': 0,
         'cpp': 0,
         'ei': 0,
+        'rrspsavings': 0,
         'annual': 0
       } : {};
 
