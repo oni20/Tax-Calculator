@@ -4,11 +4,10 @@ import ReactECharts from 'echarts-for-react';
 /* Custom import */
 import { convertStringToNumber } from '../../utility/helper';
 import { GlobalContext } from '../Context/GlobalContext';
-import { ResultContext } from '../Body/ResultContext';
 
-const PieChart = () => {
+const PieChart = (props) => {
     const { content } = useContext(GlobalContext),
-        { salAfterTax } = useContext(ResultContext),
+        { salAfterTax } = props,
         { pieChart } = content.body,
         mirrorSalAfterTax = { ...salAfterTax },
         grossIncome = '$' + salAfterTax.income;

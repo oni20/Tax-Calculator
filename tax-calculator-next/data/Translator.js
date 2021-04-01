@@ -79,8 +79,8 @@ const dictionary = {
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
             "CalculationTitle": "Enter your details",
-            "resultTable": {
-                "beforeTaxCaption": "Income before tax",
+            "tabNames":["Annual", "Month", "Biweekly", "Week", "Day", "Hour"],
+            "resultTable": {                
                 "afterTaxCaption": "Income after tax",
                 "headers": {
                     "income": "Gross Income",
@@ -203,8 +203,8 @@ const dictionary = {
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
             "CalculationTitle": "Entrez vos coordonnées",
-            "resultTable": {
-                "beforeTaxCaption": "Revenu avant impôt",
+            "tabNames":["Année", "Mois", "Deux Semaines", "Semaine", "Journée", "Heure"],
+            "resultTable": {                
                 "afterTaxCaption": "Revenu après impôt",
                 "headers": {
                     "income": "Revenu brut",
@@ -212,6 +212,7 @@ const dictionary = {
                     "provincial": "Taxe provinciale",
                     "cpp": "Cotisations au RPC",
                     "ei": "Primes d'assurance-emploi",
+                    "rrspsavings": "Épargne REER",
                     "annual": "Revenu net"
                 }
             },
@@ -223,6 +224,7 @@ const dictionary = {
                     "provincial": "Taxe provinciale",
                     "cpp": "Cotisations au RPC",
                     "ei": "Primes d'assurance-emploi",
+                    "rrspsavings": "Épargne REER",
                     "annual": "Revenu net"
                 }
             },

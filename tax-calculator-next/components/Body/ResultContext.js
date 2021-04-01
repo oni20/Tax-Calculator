@@ -1,36 +1,18 @@
 import React, { createContext, useState, useMemo } from 'react';
+import { DEFAULT_SALARY_STATUS } from '../../utility/config';
 
 export const ResultContext = createContext();
 
 const ResultContextProvider = ({ children }) => {
-    const [salBeforeTax, setSalBeforeTax] = useState({
-        'income': 0,
-        'federal': 0,
-        'provincial': 0,
-        'cpp': 0,
-        'ei': 0,
-        'annual': 0
-    }),
-        [salAfterTax, setSalAfterTax] = useState({
-            'income': 0,
-            'federal': 0,
-            'provincial': 0,
-            'cpp': 0,
-            'ei': 0,
-            'rrspsavings': 0,
-            'annual': 0
-        });
+    const [salAfterTax, setSalAfterTax] = useState(DEFAULT_SALARY_STATUS);
 
-    const setSalaryStatus = (salBeforeTax, salAfterTax) => {
-        setSalBeforeTax(salBeforeTax);
+    const setSalaryStatus = (salAfterTax) => {
         setSalAfterTax(salAfterTax);
     };
 
-    const memoizedSalBeforeTax = useMemo(() => [salBeforeTax, setSalBeforeTax], [salBeforeTax]);
     const memoizedSalAfterTax = useMemo(() => [salAfterTax, setSalAfterTax], [salAfterTax]);
 
     const contextValue = {
-        salBeforeTax: memoizedSalBeforeTax[0],
         salAfterTax: memoizedSalAfterTax[0],
         setSalaryStatus
     };

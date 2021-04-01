@@ -9,6 +9,9 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 import {
   DEFAULT_ANNUAL_WEEKS,
   DEFAULT_ANNUAL_BI_WEEKS,
+  DEFAULT_ANNUAL_WORKING_DAYS,
+  DEFAULT_ANNUAL_WEEKLY_HOURS,
+  DEFAULT_SALARY_STATUS,
   InputControlList
 } from '../../utility/config';
 import { taxCal } from '../../utility/helper';
@@ -40,6 +43,7 @@ const Body = () => {
 
   const handleEmploymentTypeRadio = event => {
     setIsEmploymentIncomeQuery(event.target.value);
+    setSalaryStatus(DEFAULT_SALARY_STATUS);
   };
 
   const handleSubmit = (event) => {
@@ -77,7 +81,7 @@ const Body = () => {
 
   const calculateSalary = () => {
     let form = document.getElementsByTagName('form')[0],
-      selectedProvince = form.formSelectProvince.value, 
+      selectedProvince = form.formSelectProvince.value,
       income = null,
       isEmploymentIncomeQuery = form.incomeTypeRadio.value,
       selectedHoursForEmpIncome = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
@@ -89,33 +93,15 @@ const Body = () => {
         : null;
 
     if (income !== null && income !== undefined) {
-      let weeklyAmountBeforeTax = (income / DEFAULT_ANNUAL_WEEKS),
-        hourlyAmountBeforeTax = (weeklyAmountBeforeTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
-
-      let salBeforeTax = {
-        'annual': convertStringToLocale(income),
-        'monthly': convertStringToLocale(income / 12),
-        'biWeekly': convertStringToLocale(income / DEFAULT_ANNUAL_BI_WEEKS),
-        'weekly': convertStringToLocale(weeklyAmountBeforeTax),
-        'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountBeforeTax
-      },
-        salAfterTax = income === 0 ? {
-        'income': 0,
-        'federal': 0,
-        'provincial': 0,
-        'cpp': 0,
-        'ei': 0,
-        'rrspsavings': 0,
-        'annual': 0
-      } : {};
+      let salAfterTax = income === 0 ? DEFAULT_SALARY_STATUS : {};
 
       if (income !== 0) {
         const TAXRULES_CA = CanadaTaxRule.provincialTax,
-          RRSP = (form.formEmpIncomeRRSP.value).replace(',','');
+          RRSP = (form.formEmpIncomeRRSP.value).replace(',', '');
         let selectedProvinceTax = [];
         let rrspTaxSavings, incomeRrsp, protaxRrspCa, fedtaxRrspCa;
 
-        if(RRSP > 0){
+        if (RRSP > 0) {
           incomeRrsp = income - parseInt(RRSP);
         }
 
@@ -151,11 +137,11 @@ const Body = () => {
           cppMaxContribute = CanadaTaxRule.federalTax.cpp.maxContribution,
           cppTotal = 0;
 
-        if(income > cppExemption) {
+        if (income > cppExemption) {
           cppTotal = ((income - cppExemption) * cppTaxrate) / 100;
-          cppTotal > cppMaxContribute ? cppTotal = cppMaxContribute : cppTotal;
-        } 
-        else{ 
+          cppTotal = cppTotal > cppMaxContribute ? cppMaxContribute : cppTotal;
+        }
+        else {
           cppTotal;
         }
 
@@ -166,43 +152,72 @@ const Body = () => {
 
         let ei = (income * eiTaxrate) / 100;
 
-        ei < eiMaxContribute ? eiTotal = ei : eiTotal = eiMaxContribute;
+        eiTotal = ei < eiMaxContribute ? ei : eiMaxContribute;
 
         //Calculating Total tax
-
         rrspTaxSavings = RRSP > 0 ? (FEDTAX_CA + PROTAX_CA) - (fedtaxRrspCa + protaxRrspCa) : 0;
 
         const TOTALTAX_CA = RRSP > 0 ? income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal) + rrspTaxSavings : income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal);
-        let weeklyAmountAfterTax = (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS);
-        
-        //hourlyAmountAfterTax = (weeklyAmountAfterTax / parseFloat(selectedHoursForEmpIncome)).toLocaleString();
-
-        // salAfterTax = {
-        //   'income': income.toLocaleString(),
-        //   'federal': FEDTAX_CA.toLocaleString(),
-        //   'provincial': PROTAX_CA.toLocaleString(),
-        //   'cpp': cppTotal.toLocaleString(),
-        //   'ei': eiTotal.toLocaleString(),
-        //   'annual': TOTALTAX_CA.toLocaleString(),
-        //   'monthly': (TOTALTAX_CA / 12).toLocaleString(),
-        //   'biWeekly': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-        //   'weekly': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-        //   'hourly': ['', '0'].indexOf(selectedHoursForEmpIncome) > -1 ? '0' : hourlyAmountAfterTax
-        // };
-
 
         salAfterTax = {
-          'income': income.toLocaleString(),
-          'federal': FEDTAX_CA.toLocaleString(),
-          'provincial': PROTAX_CA.toLocaleString(),
-          'cpp': cppTotal.toLocaleString(),
-          'ei': eiTotal.toLocaleString(),
-          'rrspsavings': rrspTaxSavings.toLocaleString(),
-          'annual': TOTALTAX_CA.toLocaleString()
+          'year': {
+            'income': income.toLocaleString(),
+            'federal': FEDTAX_CA.toLocaleString(),
+            'provincial': PROTAX_CA.toLocaleString(),
+            'cpp': cppTotal.toLocaleString(),
+            'ei': eiTotal.toLocaleString(),
+            'rrspsavings': rrspTaxSavings.toLocaleString(),
+            'annual': TOTALTAX_CA.toLocaleString()
+          },
+          'month': {
+            'income': (income / 12).toLocaleString(),
+            'federal': (FEDTAX_CA / 12).toLocaleString(),
+            'provincial': (PROTAX_CA / 12).toLocaleString(),
+            'cpp': (cppTotal / 12).toLocaleString(),
+            'ei': (eiTotal / 12).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / 12).toLocaleString(),
+            'annual': (TOTALTAX_CA / 12).toLocaleString()
+          },
+          'biweekly': {
+            'income': (income / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'cpp': (cppTotal / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'ei': (eiTotal / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'annual': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString()
+          },
+          'week': {
+            'income': (income / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'cpp': (cppTotal / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'ei': (eiTotal / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'annual': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString()
+          },
+          'day': {
+            'income': (income / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'cpp': (cppTotal / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'ei': (eiTotal / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'annual': (TOTALTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString()
+          },
+          'hour': {
+            'income': (income / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'federal': (FEDTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'provincial': (PROTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'cpp': (cppTotal / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'ei': (eiTotal / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'annual': (TOTALTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString()
+          }
         };
       }
 
-      setSalaryStatus(salBeforeTax, salAfterTax);
+      setSalaryStatus(salAfterTax);
     }
   };
 
@@ -217,7 +232,7 @@ const Body = () => {
         <Row>
           <Col sm={5} xs={12}>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
-              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit} onChange={calculateSalary}>
+              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId='formSelectProvince'>
                   <Form.Label>{content.body.provinceDD}</Form.Label>
                   <Form.Control as='select' required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
@@ -226,7 +241,7 @@ const Body = () => {
                       content.body.provinceList.map((province, index) => {
                         return <option key={index} value={province.id}>{province.displayText}</option>;
                       })
-                    }  
+                    }
                   </Form.Control>
                   <Form.Control.Feedback type='invalid'>
                     {content.body.errorMessage.missingProvince}
@@ -290,7 +305,6 @@ const Body = () => {
                               : content.body.errorMessage[inputObj.errorMessageKeyName]
                           }
                           rangeMax={inputObj.rangeMax ? inputObj.rangeMax : null}
-                          calculateSalary={calculateSalary}
                         />
                       );
                     })
@@ -306,9 +320,11 @@ const Body = () => {
           </Col>
 
           <Col sm={7} xs={12}>
-            <ResultCard
-              isEmploymentIncomeQuery={isEmploymentIncomeQuery}
-            />
+            <div role="region" aria-live="polite">
+              <ResultCard
+                isEmploymentIncomeQuery={isEmploymentIncomeQuery}
+              />
+            </div>
           </Col>
         </Row>
       </Container>
