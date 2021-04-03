@@ -20,7 +20,7 @@
     box-shadow: 1px 2px 4px -1px $grey__dark;
     background-image: url(../../public/dropdown-arrow.png);
 
-    option {
+    option {        
         color: $grey__dark;
         margin: em(40px);
         background: $grey__light;
@@ -36,7 +36,7 @@
     }
 
     &:focus {
-        border: 3px solid $teal;
+        border: 3px solid $blue;
     }
 }
 
@@ -56,7 +56,7 @@
 
         &:focus {
             outline: 0;
-            border: 3px solid $teal;
+            border: 3px solid $blue;
         }
     }
 }

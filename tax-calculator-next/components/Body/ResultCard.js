@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 /* React Bootstrap */
 import { Col, Tab, Row, Nav } from 'react-bootstrap';
@@ -14,97 +14,78 @@ import PieChart from '../Chart/PieChart';
 import BodyStyle from './body.module.scss';
 
 const ResultCard = (props) => {
-  const { content } = useContext(GlobalContext),
-    { salBeforeTax, salAfterTax } = useContext(ResultContext),
-    { resultTable, resultTitle } = content.body,
-    { isEmploymentIncomeQuery } = props;
+  const [tabName, setTabName] = useState('tab-0'),
+    { content } = useContext(GlobalContext),
+    { salAfterTax } = useContext(ResultContext),
+    { resultTable, resultTitle, tabNames } = content.body,
+    { isEmploymentIncomeQuery } = props,
+    salaryRate = tabName === 'tab-0'
+      ? 'year'
+      : tabName === 'tab-1'
+        ? 'month'
+        : tabName === 'tab-2'
+          ? 'biweekly'
+          : tabName === 'tab-3'
+            ? 'week'
+            : tabName === 'tab-4'
+              ? 'day'
+              : 'hour';
+
+  const handleTabChange = tabName => {
+    setTabName(tabName);
+  };
 
   return (
     <CardUp cardTitle={resultTitle} cardAssent={BodyStyle.card_up__color__beige}>
-      {/* <Tab.Container id="left-tabs-example" defaultActiveKey={resultTable.headers.annual}>
+      <Tab.Container
+        id="salary-rate"
+        defaultActiveKey="tab-0"
+        activeKey={tabName}
+        onSelect={handleTabChange}
+      >
         <Row>
-          <Col sm={4}>
+          <Col sm={3}>
             <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link eventKey={resultTable.headers.annual}>{resultTable.headers.annual}</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey={resultTable.headers.monthly}>{resultTable.headers.monthly}</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey={resultTable.headers.biWeekly}>{resultTable.headers.biWeekly}</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey={resultTable.headers.weekly}>{resultTable.headers.weekly}</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey={resultTable.headers.hourly}>{resultTable.headers.hourly}</Nav.Link>
-              </Nav.Item>
+              {
+                tabNames.map((tab, index) => {
+                  return (
+                    <Nav.Item key={index}>
+                      <Nav.Link eventKey={`tab-${index}`}>{tab}</Nav.Link>
+                    </Nav.Item>
+                  );
+                })
+              }
             </Nav>
           </Col>
 
-          <Col sm={8}>
+          <Col sm={9}>
             <Tab.Content>
-              <Tab.Pane eventKey={resultTable.headers.annual}>
-                <div className={BodyStyle.salary_container}>
-                  <div className={`${BodyStyle.salary_line} ${BodyStyle.highlight}`}>
-                    <div>Salary</div>
-                    <div>$ 65,000</div>
-                  </div>
-                  <div className={BodyStyle.salary_line}>
-                    <div>Federal Tax deduction</div>
-                    <div>$ 7,922</div>
-                  </div>
-                  <div className={BodyStyle.salary_line}>
-                    <div>Provincial Tax deduction</div>
-                    <div>$ 3,979</div>
-                  </div>
-                  <div className={BodyStyle.salary_line}>
-                    <div>CPP deduction</div>
-                    <div>$ 2,898</div>
-                  </div>
-                  <div className={BodyStyle.salary_line}>
-                    <div>EI deduction</div>
-                    <div>$ 7,922</div>
-                  </div>
-                </div>
-              </Tab.Pane>
-              <Tab.Pane eventKey={resultTable.headers.monthly}>
-                asjkdhkasjd kajsdkasdksa khasdhj
-              </Tab.Pane>
-              <Tab.Pane eventKey={resultTable.headers.biWeekly}>
-                asjkdhkasjd kajsdkasdksa khasdhj
-              </Tab.Pane>
-              <Tab.Pane eventKey={resultTable.headers.weekly}>
-                asjkdhkasjd kajsdkasdksa khasdhj
-              </Tab.Pane>
-              <Tab.Pane eventKey={resultTable.headers.hourly}>
-                asjkdhkasjd kajsdkasdksa khasdhj
-              </Tab.Pane>
+              {
+                Object.keys(salAfterTax).map((salaryRate, index) => {
+                  return (
+                    <Tab.Pane key={index} eventKey={`tab-${index}`}>
+                      <Row>
+                        <Col xs={12}>
+                          <SalaryContainer
+                            caption={resultTable.afterTaxCaption}
+                            theader={resultTable.headers}
+                            tableBody={salAfterTax[salaryRate]}
+                            isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
+                          />
+                        </Col>
+                      </Row>
+                    </Tab.Pane>
+                  );
+                })
+              }
             </Tab.Content>
           </Col>
         </Row>
-      </Tab.Container> */}
-
+      </Tab.Container>
       <Row>
-        <Col xs={12}>
-          {/* <SalaryContainer
-            caption={resultTable.beforeTaxCaption}
-            theader={resultTable.headers}
-            tableBody={salBeforeTax}
-            isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
-            display={isEmploymentIncomeQuery === 'personalIncome' ? 'd-none' : ''}
-          /> */}
-          <SalaryContainer
-            caption={resultTable.afterTaxCaption}
-            theader={resultTable.headers}
-            tableBody={salAfterTax}
-            isShowHourly={isEmploymentIncomeQuery === '' ? false : isEmploymentIncomeQuery}
-          />
-        </Col>
         <Col>
-          {salAfterTax.income !== 0 &&
-            <PieChart />
+          {salAfterTax[salaryRate].income !== 0 &&
+            <PieChart salAfterTax={salAfterTax[salaryRate]} />
           }
         </Col>
       </Row>

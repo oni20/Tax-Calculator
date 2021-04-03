@@ -1,22 +1,17 @@
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 
-import { convertStringToLocale} from '../../utility/helper';
+import { convertStringToLocale } from '../../utility/helper';
 import Slider from '../common/Slider';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
-
-function shouldRender(prevProps, nextProps){
-    return prevProps.isEmploymentIncomeQuery === nextProps.isEmploymentIncomeQuery;
-}
 
 const FormInputRange = props => {
     const [inputState, setInputState] = useState(0);
 
     const updateControlValue = newVal => {
         setInputState(convertStringToLocale(newVal));
-        props.calculateSalary();
     };
 
     const handleInputChange = event => {
@@ -37,7 +32,7 @@ const FormInputRange = props => {
                     <FormControl
                         className={props.inputclassName}
                         disabled={props.isDisabled}
-                        required={props.isRequired}                        
+                        required={props.isRequired}
                         value={inputState}
                         onChange={handleInputChange}
                         aria-describedby={props.controlId + '_icon'}
@@ -64,4 +59,4 @@ const FormInputRange = props => {
     );
 };
 
-export default memo(FormInputRange, shouldRender);
+export default FormInputRange;

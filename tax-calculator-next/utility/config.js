@@ -3,8 +3,65 @@ to keep translation mechanism working */
 
 export const DEFAULT_ANNUAL_WEEKS = 52,
     DEFAULT_ANNUAL_BI_WEEKS = 26,
+    DEFAULT_ANNUAL_WORKING_DAYS = 260,
     DEFAULT_ANNUAL_WEEKLY_HOURS = 40,
     ERROR_IMAGE_LOTTIE = 'https://assets3.lottiefiles.com/packages/lf20_tolzoh5a.json',
+    DEFAULT_SALARY_STATUS = {
+        'year': {
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
+            'rrspsavings': 0,
+            'annual': 0
+        },
+        'month': {
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
+            'rrspsavings': 0,
+            'annual': 0
+        },
+        'biweekly': {
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
+            'rrspsavings': 0,
+            'annual': 0
+        },
+        'week': {
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
+            'rrspsavings': 0,
+            'annual': 0
+        },
+        'day': {
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
+            'rrspsavings': 0,
+            'annual': 0
+        },
+        'hour': {
+            'income': 0,
+            'federal': 0,
+            'provincial': 0,
+            'cpp': 0,
+            'ei': 0,
+            'rrspsavings': 0,
+            'annual': 0
+        }
+    },
     InputControlList = [
         {
             "controlId": "formEmpIncome",
@@ -15,7 +72,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
         },
         {
             "controlId": "formEmpIncomeRRSP",
-            "iconName": "savings",  
+            "iconName": "savings",
             "labelKeyName": "RRSPLabel",
             "isEmploymentIncomeQuery": 'personalIncome',
             "errorMessageKeyName": "missingWeeklyHours",
