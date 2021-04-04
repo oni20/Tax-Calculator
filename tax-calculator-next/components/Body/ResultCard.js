@@ -19,17 +19,15 @@ const ResultCard = (props) => {
     { salAfterTax } = useContext(ResultContext),
     { resultTable, resultTitle, tabNames } = content.body,
     { isEmploymentIncomeQuery } = props,
-    salaryRate = tabName === 'tab-0'
-      ? 'year'
-      : tabName === 'tab-1'
-        ? 'month'
-        : tabName === 'tab-2'
-          ? 'biweekly'
-          : tabName === 'tab-3'
-            ? 'week'
-            : tabName === 'tab-4'
-              ? 'day'
-              : 'hour';
+    tabMapper = {
+      'tab-0': 'year',
+      'tab-1': 'month',
+      'tab-2': 'biweekly',
+      'tab-3': 'week',
+      'tab-4': 'day',
+      'tab-5': 'hour'
+    },
+    salaryRate = tabMapper[tabName];
 
   const handleTabChange = tabName => {
     setTabName(tabName);

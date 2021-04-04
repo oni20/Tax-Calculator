@@ -14,6 +14,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             'cpp': 0,
             'ei': 0,
             'rrspsavings': 0,
+            'totalTax':0,
             'annual': 0
         },
         'month': {
@@ -23,6 +24,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             'cpp': 0,
             'ei': 0,
             'rrspsavings': 0,
+            'totalTax':0,
             'annual': 0
         },
         'biweekly': {
@@ -32,6 +34,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             'cpp': 0,
             'ei': 0,
             'rrspsavings': 0,
+            'totalTax':0,
             'annual': 0
         },
         'week': {
@@ -41,6 +44,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             'cpp': 0,
             'ei': 0,
             'rrspsavings': 0,
+            'totalTax':0,
             'annual': 0
         },
         'day': {
@@ -50,6 +54,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             'cpp': 0,
             'ei': 0,
             'rrspsavings': 0,
+            'totalTax':0,
             'annual': 0
         },
         'hour': {
@@ -59,6 +64,7 @@ export const DEFAULT_ANNUAL_WEEKS = 52,
             'cpp': 0,
             'ei': 0,
             'rrspsavings': 0,
+            'totalTax':0,
             'annual': 0
         }
     },

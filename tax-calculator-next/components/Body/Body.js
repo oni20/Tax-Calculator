@@ -7,14 +7,10 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 
 /* Custom component */
 import {
-  DEFAULT_ANNUAL_WEEKS,
-  DEFAULT_ANNUAL_BI_WEEKS,
-  DEFAULT_ANNUAL_WORKING_DAYS,
-  DEFAULT_ANNUAL_WEEKLY_HOURS,
   DEFAULT_SALARY_STATUS,
   InputControlList
 } from '../../utility/config';
-import { taxCal } from '../../utility/helper';
+import { taxCal, getSalaryAfterTax } from '../../utility/helper';
 import FormInputRange from './FormInputRange';
 import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 import Hero from '../common/Hero';
@@ -156,65 +152,15 @@ const Body = () => {
 
         //Calculating Total tax
         rrspTaxSavings = RRSP > 0 ? (FEDTAX_CA + PROTAX_CA) - (fedtaxRrspCa + protaxRrspCa) : 0;
-
-        const TOTALTAX_CA = RRSP > 0 ? income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal) + rrspTaxSavings : income - (FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal);
-
-        salAfterTax = {
-          'year': {
-            'income': income.toLocaleString(),
-            'federal': FEDTAX_CA.toLocaleString(),
-            'provincial': PROTAX_CA.toLocaleString(),
-            'cpp': cppTotal.toLocaleString(),
-            'ei': eiTotal.toLocaleString(),
-            'rrspsavings': rrspTaxSavings.toLocaleString(),
-            'annual': TOTALTAX_CA.toLocaleString()
-          },
-          'month': {
-            'income': (income / 12).toLocaleString(),
-            'federal': (FEDTAX_CA / 12).toLocaleString(),
-            'provincial': (PROTAX_CA / 12).toLocaleString(),
-            'cpp': (cppTotal / 12).toLocaleString(),
-            'ei': (eiTotal / 12).toLocaleString(),
-            'rrspsavings': (rrspTaxSavings / 12).toLocaleString(),
-            'annual': (TOTALTAX_CA / 12).toLocaleString()
-          },
-          'biweekly': {
-            'income': (income / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-            'cpp': (cppTotal / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-            'ei': (eiTotal / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
-            'annual': (TOTALTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString()
-          },
-          'week': {
-            'income': (income / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-            'cpp': (cppTotal / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-            'ei': (eiTotal / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
-            'annual': (TOTALTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString()
-          },
-          'day': {
-            'income': (income / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
-            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
-            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
-            'cpp': (cppTotal / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
-            'ei': (eiTotal / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
-            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
-            'annual': (TOTALTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString()
-          },
-          'hour': {
-            'income': (income / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
-            'federal': (FEDTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
-            'provincial': (PROTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
-            'cpp': (cppTotal / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
-            'ei': (eiTotal / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
-            'rrspsavings': (rrspTaxSavings / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
-            'annual': (TOTALTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString()
-          }
-        };
+       
+        salAfterTax = getSalaryAfterTax({
+          income,
+          FEDTAX_CA,
+          PROTAX_CA,
+          cppTotal,
+          eiTotal,
+          rrspTaxSavings
+        });
       }
 
       setSalaryStatus(salAfterTax);
@@ -257,6 +203,7 @@ const Body = () => {
                         content.body.incomeType.type.map((radioVal, index) => {
                           return (
                             <Form.Check
+                              className="mb-1"
                               key={index}
                               type='radio'
                               label={radioVal}

@@ -79,8 +79,8 @@ const dictionary = {
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
             "CalculationTitle": "Enter your details",
-            "tabNames":["Annual", "Month", "Biweekly", "Week", "Day", "Hour"],
-            "resultTable": {                
+            "tabNames": ["Annual", "Month", "Biweekly", "Week", "Day", "Hour"],
+            "resultTable": {
                 "afterTaxCaption": "Income after tax",
                 "headers": {
                     "income": "Gross Income",
@@ -89,6 +89,7 @@ const dictionary = {
                     "cpp": "CPP Premiums",
                     "ei": "EI Premiums",
                     "rrspsavings": "RRSP Savings",
+                    "totalTax": "Total tax",
                     "annual": "Net Income"
                 }
             },
@@ -101,6 +102,7 @@ const dictionary = {
                     "cpp": "CPP Premiums",
                     "ei": "EI Premiums",
                     "rrspsavings": "RRSP Savings",
+                    "totalTax": "Total tax",
                     "annual": "Net Income"
                 }
             },
@@ -203,8 +205,8 @@ const dictionary = {
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
             "CalculationTitle": "Entrez vos coordonnées",
-            "tabNames":["Année", "Mois", "Deux Semaines", "Semaine", "Journée", "Heure"],
-            "resultTable": {                
+            "tabNames": ["Année", "Mois", "Deux Semaines", "Semaine", "Journée", "Heure"],
+            "resultTable": {
                 "afterTaxCaption": "Revenu après impôt",
                 "headers": {
                     "income": "Revenu brut",
@@ -213,6 +215,7 @@ const dictionary = {
                     "cpp": "Cotisations au RPC",
                     "ei": "Primes d'assurance-emploi",
                     "rrspsavings": "Épargne REER",
+                    "totalTax": "Impôt total",
                     "annual": "Revenu net"
                 }
             },
@@ -225,6 +228,7 @@ const dictionary = {
                     "cpp": "Cotisations au RPC",
                     "ei": "Primes d'assurance-emploi",
                     "rrspsavings": "Épargne REER",
+                    "totalTax": "Impôt total",
                     "annual": "Revenu net"
                 }
             },
