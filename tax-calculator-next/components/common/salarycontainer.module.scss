@@ -32,7 +32,10 @@
     }
 
 }
-.income__highlight {
+.gross__income{
+    font-weight: bold;
+}
+.net__income {
     font-size: $f-22;
     font-weight: 600;
     margin-top: rem(35px);

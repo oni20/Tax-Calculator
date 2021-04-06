@@ -1,3 +1,11 @@
+import {
+    DEFAULT_ANNUAL_WEEKS,
+    DEFAULT_ANNUAL_BI_WEEKS,
+    DEFAULT_ANNUAL_WORKING_DAYS,
+    DEFAULT_ANNUAL_WEEKLY_HOURS,
+    DEFAULT_SALARY_STATUS
+} from './config';
+
 export const convertStringToLocale = param => {
     if (typeof (param) == 'number') {
         return param.toLocaleString();
@@ -44,3 +52,75 @@ export const taxCal = (income, tireMax1, tireMax2, tireMax3, tireMax4, tireMax5,
             return ((tireMax1 * tireTaxrate1) / 100) + (((tireMax2 - tireMax1) * tireTaxrate2) / 100) + (((income - tireMax2) * tireTaxrate3) / 100);
     }
 };
+
+// Return Salary after tax object
+export const getSalaryAfterTax = (salaryData) => {    
+    const { income, FEDTAX_CA, PROTAX_CA, cppTotal, eiTotal, rrspTaxSavings } = salaryData,
+        TOTAL_TAX = FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal,
+        NET_INCOME = rrspTaxSavings > 0 ? income - TOTAL_TAX + rrspTaxSavings : income - TOTAL_TAX;
+
+    const salAfterTax = {
+        'year': {
+            'income': income.toLocaleString(),
+            'federal': FEDTAX_CA.toLocaleString(),
+            'provincial': PROTAX_CA.toLocaleString(),
+            'cpp': cppTotal.toLocaleString(),
+            'ei': eiTotal.toLocaleString(),
+            'rrspsavings': rrspTaxSavings.toLocaleString(),
+            'totalTax': TOTAL_TAX.toLocaleString(),
+            'annual': NET_INCOME.toLocaleString()
+        },
+        'month': {
+            'income': (income / 12).toLocaleString(),
+            'federal': (FEDTAX_CA / 12).toLocaleString(),
+            'provincial': (PROTAX_CA / 12).toLocaleString(),
+            'cpp': (cppTotal / 12).toLocaleString(),
+            'ei': (eiTotal / 12).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / 12).toLocaleString(),
+            'totalTax': (TOTAL_TAX / 12).toLocaleString(),
+            'annual': (NET_INCOME / 12).toLocaleString()
+        },
+        'biweekly': {
+            'income': (income / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'cpp': (cppTotal / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'ei': (eiTotal / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'totalTax': (TOTAL_TAX / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString(),
+            'annual': (NET_INCOME / DEFAULT_ANNUAL_BI_WEEKS).toLocaleString()
+        },
+        'week': {
+            'income': (income / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'cpp': (cppTotal / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'ei': (eiTotal / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'totalTax': (TOTAL_TAX / DEFAULT_ANNUAL_WEEKS).toLocaleString(),
+            'annual': (NET_INCOME / DEFAULT_ANNUAL_WEEKS).toLocaleString()
+        },
+        'day': {
+            'income': (income / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'federal': (FEDTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'provincial': (PROTAX_CA / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'cpp': (cppTotal / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'ei': (eiTotal / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'totalTax': (TOTAL_TAX / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString(),
+            'annual': (NET_INCOME / DEFAULT_ANNUAL_WORKING_DAYS).toLocaleString()
+        },
+        'hour': {
+            'income': (income / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'federal': (FEDTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'provincial': (PROTAX_CA / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'cpp': (cppTotal / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'ei': (eiTotal / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'rrspsavings': (rrspTaxSavings / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'totalTax': (TOTAL_TAX / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString(),
+            'annual': (NET_INCOME / (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)).toLocaleString()
+        }
+    };
+
+    return salAfterTax;
+}

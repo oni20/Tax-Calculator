@@ -126,11 +126,95 @@ form .material-icons {
 		font-weight: bold;
 		margin: em(5px) auto;
 		text-align: center;
-		&:hover{
+		&:hover {
 			background-color: #6d62f92e;
 		}
 	}
-	.nav-link.active{
+	.nav-link.active {
 		background-color: $blue;
+	}
+}
+
+// Custom Radio button
+[type="radio"] {
+	&:checked {
+		position: absolute;
+		left: em(-9999px);
+		+ {
+			label {
+				position: relative;
+				padding-left: rem(28px);
+				cursor: pointer;
+				line-height: rem(20px);
+				display: inline-block;
+				color: #666;
+				&:before {
+					content: "";
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: rem(19px);
+					height: rem(19px);
+					border: rem(2px) solid $blue;
+					border-radius: 100%;
+					background: #fff;
+				}
+				&:after {
+					content: "";
+					width: rem(11px);
+					height: rem(11px);
+					background: $blue;
+					position: absolute;
+					top: rem(4px);
+					left: rem(4px);
+					border-radius: 100%;
+					-webkit-transition: all 0.2s ease;
+					transition: all 0.2s ease;
+					opacity: 1;
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+			}
+		}
+	}
+	&:not(:checked) {
+		position: absolute;
+		left: em(-9999px);
+		+ {
+			label {
+				position: relative;
+				padding-left: rem(28px);
+				cursor: pointer;
+				line-height: rem(20px);
+				display: inline-block;
+				color: #666;
+				&:before {
+					content: "";
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: rem(19px);
+					height: rem(19px);
+					border: rem(2px) solid $grey__disabled;
+					border-radius: 100%;
+					background: #fff;
+				}
+				&:after {
+					content: "";
+					width: rem(12px);
+					height: rem(12px);
+					background: $blue;
+					position: absolute;
+					top: rem(4px);
+					left: rem(4px);
+					border-radius: 100%;
+					-webkit-transition: all 0.2s ease;
+					transition: all 0.2s ease;
+					opacity: 0;
+					-webkit-transform: scale(0);
+					transform: scale(0);
+				}
+			}
+		}
 	}
 }

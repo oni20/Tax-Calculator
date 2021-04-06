@@ -4,7 +4,7 @@ import SalaryContainerStyles from './salarycontainer.module.scss';
 const SalaryContainer = props => {
     const { display, caption, theader, tableBody } = props,
         styleClass = display ? display : '';
-    
+
     return (
         <>
             <div className={styleClass}>
@@ -15,14 +15,27 @@ const SalaryContainer = props => {
                     <div className='income__title'>
                         {Object.keys(theader).map((head, index) => {
                             return (
-                                <p key={index} className={head === 'annual' ? SalaryContainerStyles.income__highlight : ''}>{theader[head]}</p>
+                                <p key={index}
+                                    className={head === 'annual'
+                                        ? SalaryContainerStyles.net__income
+                                        : (head === 'income' || head === 'totalTax')
+                                            ? SalaryContainerStyles.gross__income
+                                            : ''}>
+                                    {theader[head]}
+                                </p>
                             );
                         })}
                     </div>
                     <div>
                         {Object.keys(tableBody).map((body, index) => {
                             return (
-                                <p className={`${SalaryContainerStyles.income__amount} ${body === 'annual' ? SalaryContainerStyles.income__highlight : ''} `} key={index}>
+                                <p
+                                    key={index}
+                                    className={`${SalaryContainerStyles.income__amount} ${body === 'annual'
+                                        ? SalaryContainerStyles.net__income
+                                        : (body === 'income' || body === 'totalTax')
+                                            ? SalaryContainerStyles.gross__income
+                                            : ''} `} >
                                     {['income', 'annual', 'rrspsavings'].indexOf(body) > -1 ? '' : '-'} {body === 'rrspsavings' ? '+' : ''} $ {tableBody[body]}
                                 </p>
                             );
