@@ -1,194 +1,196 @@
 {
-    "federalTax": {
-        "tire1": {
-            "min": 0,
-            "max": 48535,
-            "taxRate": 15
-        },
-        "tire2": {
-            "min": 48536,
-            "max": 97069,
-            "taxRate": 20.5
-        },
-        "tire3": {
-            "min": 97070,
-            "max": 150473,
-            "taxRate": 26
-        },
-        "tire4": {
-            "min": 150474,
-            "max": 214368,
-            "taxRate": 29
-        },
-        "tire5": {
-            "min": 214369,
-            "max": null,
-            "taxRate": 33
-        },
+    "others": {
         "cpp": {
-            "cpprate": 5.25,
-            "maxContribution": 2898,
+            "cpprate": 5.45,
+            "maxContribution": 3166.45,
             "exemption": 3500
         },
         "ei": {
             "eirate": 1.58,
-            "maxContribution": 856.36
+            "maxContribution": 889.54
         }
     },
+    "federalTax": {
+        "tire1": {
+            "min": 0,
+            "max": 49020,
+            "taxRate": 15
+        },
+        "tire2": {
+            "min": 49020,
+            "max": 98040,
+            "taxRate": 20.5
+        },
+        "tire3": {
+            "min": 98040,
+            "max": 151978,
+            "taxRate": 26
+        },
+        "tire4": {
+            "min": 151978,
+            "max": 216511,
+            "taxRate": 29
+        },
+        "tire5": {
+            "min": 216511,
+            "max": null,
+            "taxRate": 33
+        } 
+    },
     "provincialTax": {
-        "al": [{
+        "al": {
+            "tire1": {
                 "min": 0,
                 "max": 131220,
                 "taxRate": 10
             },
-            {
-                "min": 131221,
+            "tire2": {
+                "min": 131220,
                 "max": 157464,
                 "taxRate": 12
             },
-            {
-                "min": 157465,
+            "tire3": {
+                "min": 157464,
                 "max": 209952,
                 "taxRate": 13
             },
-            {
-                "min": 209953,
+            "tire4": {
+                "min": 209952,
                 "max": 314928,
                 "taxRate": 14
             },
-            {
-                "min": 314929,
+            "tire5": {
+                "min": 314928,
                 "max": null,
                 "taxRate": 15
             }
-        ],
-        "bc": [{
+        },
+        "bc": {
+            "tire1": {
                 "min": 0,
-                "max": 41725,
+                "max": 42184,
                 "taxRate": 5.06
             },
-            {
-                "min": 41726,
-                "max": 83451,
+            "tire2": {
+                "min": 41724,
+                "max": 84369,
                 "taxRate": 7.7
             },
-            {
-                "min": 83452,
-                "max": 95812,
+            "tire3": {
+                "min": 84369,
+                "max": 96866,
                 "taxRate": 10.5
             },
-            {
-                "min": 95813,
-                "max": 116344,
+            "tire4": {
+                "min": 96866,
+                "max": 117623,
                 "taxRate": 12.29
             },
-            {
-                "min": 116345,
-                "max": 157748,
+            "tire5": {
+                "min": 117623,
+                "max": 159483,
                 "taxRate": 14.7
             },
-            {
-                "min": 157749,
+            "tire6": {
+                "min": 159483,
+                "max": 222420,
+                "taxRate": 16.8
+            },
+            "tire7": {
+                "min": 222420,
                 "max": null,
-                "taxRate": 16.7
+                "taxRate": 20.5
             }
-        ],
-        "ma": [{
+        },
+        "ma": {
+            "tire1": {
                 "min": 0,
-                "max": 33389,
+                "max": 33723,
                 "taxRate": 10.8
             },
-            {
-                "min": 33390,
-                "max": 72164,
+            "tire2": {
+                "min": 33723,
+                "max": 72885,
                 "taxRate": 12.75
             },
-            {
-                "min": 72165,
+            "tire3": {
+                "min": 72885,
                 "max": null,
                 "taxRate": 17.4
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
             }
-        ],
-        "nb": [{
+        },
+        "nb": {
+            "tire1": {
                 "min": 0,
-                "max": 43401,
+                "max": 43835,
                 "taxRate": 9.68
             },
-            {
-                "min": 43402,
-                "max": 86803,
+            "tire2": {
+                "min": 43835,
+                "max": 87671,
                 "taxRate": 14.82
             },
-            {
-                "min": 86804,
-                "max": 141122,
+            "tire3": {
+                "min": 87671,
+                "max": 142534,
                 "taxRate": 16.52
             },
-            {
-                "min": 141123,
-                "max": 160776,
+            "tire4": {
+                "min": 142534,
+                "max": 162383,
                 "taxRate": 17.84
             },
-            {
-                "min": 160777,
+            "tire5": {
+                "min": 162383,
                 "max": null,
                 "taxRate": 20.3
             }
-        ],
-        "ns": [{
+        },
+        "ns": {
+            "tire1": {
                 "min": 0,
-                "max": 131220,
-                "taxRate": 10
+                "max": 29590,
+                "taxRate": 8.79
             },
-            {
-                "min": 131221,
-                "max": 157464,
-                "taxRate": 12
+            "tire2": {
+                "min": 29590,
+                "max": 59180,
+                "taxRate": 14.95
             },
-            {
-                "min": 157465,
-                "max": 209952,
-                "taxRate": 13
+            "tire3": {
+                "min": 59180,
+                "max": 93000,
+                "taxRate": 16.67
             },
-            {
-                "min": 209953,
-                "max": 314928,
-                "taxRate": 14
+            "tire4": {
+                "min": 93000,
+                "max": 150000,
+                "taxRate": 17.5
             },
-            {
-                "min": 314929,
+            "tire5": {
+                "min": 150000,
                 "max": null,
-                "taxRate": 15
+                "taxRate": 21
             }
-        ],
+        },
         "on": {
             "tire1": {
                 "min": 0,
-                "max": 44740,
+                "max": 45142,
                 "taxRate": 5.05
             },
             "tire2": {
-                "min": 44741,
-                "max": 89482,
+                "min": 45142,
+                "max": 90287,
                 "taxRate": 9.15
             },
             "tire3": {
-                "min": 89483,
+                "min": 90287,
                 "max": 150000,
                 "taxRate": 11.16
             },
             "tire4": {
-                "min": 150001,
+                "min": 150000,
                 "max": 220000,
                 "taxRate": 12.16
             },
@@ -198,187 +200,159 @@
                 "taxRate": 13.16
             }
         },
-        "qc": [{
+        "qc": {
+            "tire1": {
                 "min": 0,
-                "max": 131220,
-                "taxRate": 10
-            },
-            {
-                "min": 131221,
-                "max": 157464,
-                "taxRate": 12
-            },
-            {
-                "min": 157465,
-                "max": 209952,
-                "taxRate": 13
-            },
-            {
-                "min": 209953,
-                "max": 314928,
-                "taxRate": 14
-            },
-            {
-                "min": 314929,
-                "max": null,
+                "max": 45105,
                 "taxRate": 15
+            },
+            "tire2": {
+                "min": 45105,
+                "max": 90200,
+                "taxRate": 20
+            },
+            "tire3": {
+                "min": 90200,
+                "max": 109755,
+                "taxRate": 24
+            },
+            "tire4": {
+                "min": 109755,
+                "max": null,
+                "taxRate": 25.75
             }
-        ],
-        "sk": [{
+        },
+        "sk": {
+            "tire1": {
                 "min": 0,
-                "max": 45225,
+                "max": 45677,
                 "taxRate": 10.5
             },
-            {
-                "min": 45226,
-                "max": 129214,
+            "tire2": {
+                "min": 45677,
+                "max": 130506,
                 "taxRate": 12.5
             },
-            {
-                "min": 129215,
+            "tire3": {
+                "min": 130506,
                 "max": null,
                 "taxRate": 14.5
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
             }
-        ],
-        "nl": [{
+        },
+        "nl": {
+            "tire1": {
                 "min": 0,
-                "max": 37929,
+                "max": 38081,
                 "taxRate": 8.7
             },
-            {
-                "min": 37930,
-                "max": 75858,
+            "tire2": {
+                "min": 38081,
+                "max": 76161,
                 "taxRate": 14.5
             },
-            {
-                "min": 75859,
-                "max": 135432,
+            "tire3": {
+                "min": 76161,
+                "max": 135973,
                 "taxRate": 15.8
             },
-            {
-                "min": 135433,
-                "max": 189604,
+            "tire4": {
+                "min": 135973,
+                "max": 190363,
                 "taxRate": 17.3
             },
-            {
-                "min": 189605,
+            "tire5": {
+                "min": 190363,
                 "max": null,
                 "taxRate": 18.3
             }
-        ],
-        "pei": [{
+        },
+        "pei": {
+            "tire1": {
                 "min": 0,
                 "max": 31984,
                 "taxRate": 9.8
             },
-            {
-                "min": 31985,
+            "tire2": {
+                "min": 31984,
                 "max": 63969,
                 "taxRate": 13.8
             },
-            {
-                "min": 63970,
+            "tire3": {
+                "min": 63969,
                 "max": null,
                 "taxRate": 16.7
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
             }
-        ],
-        "yk": [{
+        },
+        "yk": {
+            "tire1": {
                 "min": 0,
-                "max": 48535,
+                "max": 49020,
                 "taxRate": 6.4
             },
-            {
-                "min": 48536,
-                "max": 97069,
+            "tire2": {
+                "min": 49020,
+                "max": 98040,
                 "taxRate": 9
             },
-            {
-                "min": 97070,
-                "max": 151473,
+            "tire3": {
+                "min": 98040,
+                "max": 151978,
                 "taxRate": 10.9
             },
-            {
-                "min": 151474,
-                "max": 501000,
+            "tire4": {
+                "min": 151978,
+                "max": 500000,
                 "taxRate": 12.8
             },
-            {
-                "min": 501001,
+            "tire5": {
+                "min": 500000,
                 "max": null,
                 "taxRate": 15
             }
-        ],
-        "nt": [{
+        },
+        "nt": {
+            "tire1": {
                 "min": 0,
-                "max": 43957,
+                "max": 44396,
                 "taxRate": 5.9
             },
-            {
-                "min": 43958,
-                "max": 87916,
+            "tire2": {
+                "min": 44396,
+                "max": 88796,
                 "taxRate": 8.6
             },
-            {
-                "min": 87917,
-                "max": 149232,
+            "tire3": {
+                "min": 88796,
+                "max": 144362,
                 "taxRate": 12.2
             },
-            {
-                "min": 149233,
+            "tire4": {
+                "min": 144362,
                 "max": null,
                 "taxRate": 14.05
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
             }
-        ],
-        "nv": [{
+        },
+        "nv": {
+            "tire1": {
                 "min": 0,
-                "max": 46277,
+                "max": 46740,
                 "taxRate": 4
             },
-            {
-                "min": 46278,
-                "max": 92555,
+            "tire2": {
+                "min": 46740,
+                "max": 93480,
                 "taxRate": 7
             },
-            {
-                "min": 92556,
-                "max": 150473,
+            "tire3": {
+                "min": 93480,
+                "max": 151978,
                 "taxRate": 9
             },
-            {
-                "min": 150474,
+            "tire4": {
+                "min": 151978,
                 "max": null,
                 "taxRate": 11.5
-            },
-            {
-                "min": null,
-                "max": null,
-                "taxRate": null
             }
-        ]
+        }
     }
 }

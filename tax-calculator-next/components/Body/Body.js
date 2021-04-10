@@ -1,8 +1,4 @@
 import React, { useState, useContext } from 'react';
-
-import CanadaTaxRule from '../../data/CanadaTaxRule.json';
-
-/* React Bootstrap */
 import { Container, Row, Col, Form } from 'react-bootstrap';
 
 /* Custom component */
@@ -10,7 +6,7 @@ import {
   DEFAULT_SALARY_STATUS,
   InputControlList
 } from '../../utility/config';
-import { taxCal, getSalaryAfterTax } from '../../utility/helper';
+import { CalculateTax, GetCPPAndEI, GetSalaryAfterTax } from '../../utility/helper';
 import FormInputRange from './FormInputRange';
 import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 import Hero from '../common/Hero';
@@ -77,9 +73,7 @@ const Body = () => {
 
   const calculateSalary = () => {
     let form = document.getElementsByTagName('form')[0],
-      selectedProvince = form.formSelectProvince.value,
       income = null,
-      isEmploymentIncomeQuery = form.incomeTypeRadio.value,
       selectedHoursForEmpIncome = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
 
     income = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncome
@@ -92,68 +86,29 @@ const Body = () => {
       let salAfterTax = income === 0 ? DEFAULT_SALARY_STATUS : {};
 
       if (income !== 0) {
-        const TAXRULES_CA = CanadaTaxRule.provincialTax,
-          RRSP = (form.formEmpIncomeRRSP.value).replace(',', '');
-        let selectedProvinceTax = [];
-        let rrspTaxSavings, incomeRrsp, protaxRrspCa, fedtaxRrspCa;
+        let rrspTaxSavings = 0;
+
+        // Calculating Provincial Tax
+        const PROTAX_CA = CalculateTax(income, 'provincialTax', provinceDDVal);
+
+        // Calculating Federal tax 
+        const FEDTAX_CA = CalculateTax(income, 'federalTax');
+
+        // Calculating RRSP
+        const RRSP = convertStringToNumber(form.formEmpIncomeRRSP.value);
 
         if (RRSP > 0) {
-          incomeRrsp = income - parseInt(RRSP);
+          const incomeRrsp = income - RRSP,
+            protaxRrspCa = CalculateTax(incomeRrsp, 'provincialTax', provinceDDVal),
+            fedtaxRrspCa = CalculateTax(incomeRrsp, 'federalTax');
+
+          rrspTaxSavings = (FEDTAX_CA + PROTAX_CA) - (fedtaxRrspCa + protaxRrspCa);
         }
 
-        //*** Calculating Province tax 
-        for (let taxRule in TAXRULES_CA) {
-          const TAXRULES_PROVINCES_CA = TAXRULES_CA[taxRule];
-          if (selectedProvince === taxRule) {
-            for (let taxrulesProvince in TAXRULES_PROVINCES_CA) {
-              selectedProvinceTax.push(TAXRULES_PROVINCES_CA[taxrulesProvince]);
-            }
-          }
-        }
-
-        const PROTAX_CA = taxCal(income, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate);
-
-        //RRSP
-        if (RRSP > 0) {
-          protaxRrspCa = taxCal(incomeRrsp, selectedProvinceTax[0].max, selectedProvinceTax[1].max, selectedProvinceTax[2].max, selectedProvinceTax[3].max, selectedProvinceTax[4].max, selectedProvinceTax[0].taxRate, selectedProvinceTax[1].taxRate, selectedProvinceTax[2].taxRate, selectedProvinceTax[3].taxRate, selectedProvinceTax[4].taxRate);
-        }
-
-        //**** Calculating Federal tax 
-
-        const FEDTAX_CA = taxCal(income, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
-
-        //RRSP
-        if (RRSP > 0) {
-          fedtaxRrspCa = taxCal(incomeRrsp, CanadaTaxRule.federalTax.tire1.max, CanadaTaxRule.federalTax.tire2.max, CanadaTaxRule.federalTax.tire3.max, CanadaTaxRule.federalTax.tire4.max, CanadaTaxRule.federalTax.tire5.max, CanadaTaxRule.federalTax.tire1.taxRate, CanadaTaxRule.federalTax.tire2.taxRate, CanadaTaxRule.federalTax.tire3.taxRate, CanadaTaxRule.federalTax.tire4.taxRate, CanadaTaxRule.federalTax.tire5.taxRate);
-        }
-
-        //Calculating CPP
-        let cppTaxrate = CanadaTaxRule.federalTax.cpp.cpprate,
-          cppExemption = CanadaTaxRule.federalTax.cpp.exemption,
-          cppMaxContribute = CanadaTaxRule.federalTax.cpp.maxContribution,
-          cppTotal = 0;
-
-        if (income > cppExemption) {
-          cppTotal = ((income - cppExemption) * cppTaxrate) / 100;
-          cppTotal = cppTotal > cppMaxContribute ? cppMaxContribute : cppTotal;
-        }
-        else {
-          cppTotal;
-        }
-
-        //Calculating EI
-        let eiTaxrate = CanadaTaxRule.federalTax.ei.eirate,
-          eiMaxContribute = CanadaTaxRule.federalTax.ei.maxContribution,
-          eiTotal = 0;
-
-        let ei = (income * eiTaxrate) / 100;
-
-        eiTotal = ei < eiMaxContribute ? ei : eiMaxContribute;
-
-        //Calculating Total tax
-        rrspTaxSavings = RRSP > 0 ? (FEDTAX_CA + PROTAX_CA) - (fedtaxRrspCa + protaxRrspCa) : 0;
-       
-        salAfterTax = getSalaryAfterTax({
+        //Calculating CPP and EI
+        const { cppTotal, eiTotal } = GetCPPAndEI(income);
+        
+        salAfterTax = GetSalaryAfterTax({
           income,
           FEDTAX_CA,
           PROTAX_CA,
