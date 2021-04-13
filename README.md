@@ -26,7 +26,7 @@ Checkout our feature [document](https://drive.google.com/file/d/1_-W8j9YhU49u-X0
 We are exploring following tech stack to build responsive UI
 - UI
 ```bash
-HTML5, Bootstrap 4,  SCSS, React, React Hooks, Next JS, JavaScript
+HTML5, Bootstrap 4,  SCSS, React, React Hooks, Next JS, JavaScript, Echart
 ```
 -Module Builder
 ```bash
