@@ -79,7 +79,7 @@ const dictionary = {
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
             "CalculationTitle": "Enter your details",
-            "tabNames": ["Annual", "Month", "Biweekly", "Week", "Day", "Hour"],
+            "tabNames": ["Annual", "Month", "Biweekly", "Week", "Hour"],
             "resultTable": {
                 "afterTaxCaption": "Income after tax",
                 "headers": {
@@ -205,7 +205,7 @@ const dictionary = {
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",
             "CalculationTitle": "Entrez vos coordonnées",
-            "tabNames": ["Année", "Mois", "Deux Semaines", "Semaine", "Journée", "Heure"],
+            "tabNames": ["Année", "Mois", "Deux Semaines", "Semaine", "Heure"],
             "resultTable": {
                 "afterTaxCaption": "Revenu après impôt",
                 "headers": {
