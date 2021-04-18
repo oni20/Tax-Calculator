@@ -63,6 +63,11 @@ form .material-icons {
 		font-weight: bold;
 		font-size: $f-12;
 	}
+
+	.form-label{
+		font-size: $f-16;
+		font-weight: 500;
+	}
 }
 
 //heading
@@ -218,3 +223,13 @@ form .material-icons {
 		}
 	}
 }
+
+//Nav bootstrap override
+.nav-link {
+	border: 1px solid #6d62f9;
+}   
+
+.nav-fill>.nav-link,
+.nav-fill .nav-item{
+	flex: 0 1 auto;
+}     

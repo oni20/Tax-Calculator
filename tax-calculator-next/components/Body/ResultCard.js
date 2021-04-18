@@ -24,8 +24,7 @@ const ResultCard = (props) => {
       'tab-1': 'month',
       'tab-2': 'biweekly',
       'tab-3': 'week',
-      'tab-4': 'day',
-      'tab-5': 'hour'
+      'tab-4': 'hour'
     },
     salaryRate = tabMapper[tabName];
 
@@ -42,8 +41,8 @@ const ResultCard = (props) => {
         onSelect={handleTabChange}
       >
         <Row>
-          <Col sm={3}>
-            <Nav variant="pills" className="flex-column">
+          <Col sm={12}>
+            <Nav fill variant="pills" className="flex-row mb-4 justify-content-between">
               {
                 tabNames.map((tab, index) => {
                   return (
@@ -56,7 +55,7 @@ const ResultCard = (props) => {
             </Nav>
           </Col>
 
-          <Col sm={9}>
+          <Col sm={12}>
             <Tab.Content>
               {
                 Object.keys(salAfterTax).map((salaryRate, index) => {

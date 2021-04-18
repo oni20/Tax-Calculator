@@ -14,10 +14,11 @@
     -moz-appearance: none;
     appearance: none;
     font-weight: 500;
-    background-color: $grey__light;
+    //background-color: $grey__medium;
+    border: 0.1rem solid $grey__disabled;
     background-repeat: no-repeat;
     background-position: 95% 50%;
-    box-shadow: 1px 2px 4px -1px $grey__dark;
+    //box-shadow: 1px 2px 4px -1px $grey__dark;
     background-image: url(../../public/dropdown-arrow.png);
 
     option {        
@@ -31,12 +32,12 @@
         padding: 0px em(2px) em(1px);
 
         &:disabled {
-            color: #838383;
+            color: $grey__disabled;
         }
     }
 
     &:focus {
-        border: 3px solid $blue;
+        border: 0.1rem solid $blue;
     }
 }
 
@@ -56,7 +57,7 @@
 
         &:focus {
             outline: 0;
-            border: 3px solid $blue;
+            border: 0.1rem solid $blue;
         }
     }
 }
