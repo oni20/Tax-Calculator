@@ -42,13 +42,13 @@ export const CalculateTax = (income, taxType, selectedProvince = null) => {
         TaxRuleObj = selectedProvince ? CanadaTaxRule[taxType][selectedProvince] : CanadaTaxRule[taxType];
 
     for (let key in TaxRuleObj) {
-        let isUnderRightBracket = (TaxRuleObj[key].min && income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || !TaxRuleObj[key].max);
-
+        let isUnderRightBracket = (TaxRuleObj[key].min && income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || TaxRuleObj[key].max);
+    
         if (isUnderRightBracket) {
             bracketTaxAmount = (income - TaxRuleObj[key].min) * (TaxRuleObj[key].taxRate / 100);
             break;
         } else {
-            previousTireTaxAmount += (TaxRuleObj[key].max - TaxRuleObj[key].min) * (TaxRuleObj[key].taxRate / 100)
+            income > TaxRuleObj[key].min && (previousTireTaxAmount += ((TaxRuleObj[key].max - TaxRuleObj[key].min) * (TaxRuleObj[key].taxRate / 100)))
         }
     }
     return previousTireTaxAmount + bracketTaxAmount;
