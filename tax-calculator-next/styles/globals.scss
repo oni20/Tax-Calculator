@@ -226,10 +226,19 @@ form .material-icons {
 
 //Nav bootstrap override
 .nav-link {
-	border: 1px solid #6d62f9;
+	border: rem(1px) solid #6d62f9;
 }   
 
 .nav-fill>.nav-link,
 .nav-fill .nav-item{
 	flex: 0 1 auto;
-}     
+}
+
+.nav{
+	.nav-item{
+		margin-right: rem(8px);
+		&:last-of-type{
+			margin-right: 0;
+		}
+	}
+}

@@ -15,7 +15,7 @@
     appearance: none;
     font-weight: 500;
     //background-color: $grey__medium;
-    border: 0.1rem solid $grey__disabled;
+    border: rem(1px) solid $grey__disabled;
     background-repeat: no-repeat;
     background-position: 95% 50%;
     //box-shadow: 1px 2px 4px -1px $grey__dark;
@@ -37,7 +37,7 @@
     }
 
     &:focus {
-        border: 0.1rem solid $blue;
+        border: rem(1px) solid $blue;
     }
 }
 
@@ -57,7 +57,7 @@
 
         &:focus {
             outline: 0;
-            border: 0.1rem solid $blue;
+            border: rem(1px) solid $blue;
         }
     }
 }

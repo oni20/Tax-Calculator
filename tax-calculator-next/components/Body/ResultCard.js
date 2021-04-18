@@ -42,7 +42,7 @@ const ResultCard = (props) => {
       >
         <Row>
           <Col sm={12}>
-            <Nav fill variant="pills" className="flex-row mb-4 justify-content-between">
+            <Nav fill variant="pills" className="flex-row mb-4 justify-content-md-between justify-content-start">
               {
                 tabNames.map((tab, index) => {
                   return (

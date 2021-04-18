@@ -27,7 +27,7 @@
         width: rem(200px);
         text-align: right;
         @media screen and (min-width: em(200px)) and (max-width: em(767px)) {
-            width: rem(120px);        
+            width: rem(160px);        
         }
     }
 
@@ -39,4 +39,7 @@
     font-size: $f-22;
     font-weight: 600;
     margin-top: rem(35px);
+     @media screen and (min-width: em(200px)) and (max-width: em(500px)) {
+         font-size: $f-18;
+     }
 }

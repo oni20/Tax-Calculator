@@ -131,7 +131,7 @@ const Body = () => {
 
       <Container className='mt-5'>
         <Row>
-          <Col sm={5} xs={12}>
+          <Col lg={5} xs={12}>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
               <Form action='#' noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId='formSelectProvince'>
@@ -221,7 +221,7 @@ const Body = () => {
             </CardUp>
           </Col>
 
-          <Col sm={7} xs={12}>
+          <Col lg={7} xs={12}>
             <div role="region" aria-live="polite">
               <ResultCard
                 isEmploymentIncomeQuery={isEmploymentIncomeQuery}
