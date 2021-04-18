@@ -38,17 +38,20 @@ export const GetCPPAndEI = income => {
 
 //Calculate both federal and provience tax
 export const CalculateTax = (income, taxType, selectedProvince = null) => {
-    let previousTireTaxAmount = 0, bracketTaxAmount = 0,
+    let previousTireTaxAmount = 0, bracketTaxAmount = 0, previousTireAmount = 0,
         TaxRuleObj = selectedProvince ? CanadaTaxRule[taxType][selectedProvince] : CanadaTaxRule[taxType];
 
     for (let key in TaxRuleObj) {
-        let isUnderRightBracket = (TaxRuleObj[key].min && income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || TaxRuleObj[key].max);
-    
+        //let isUnderRightBracket = (TaxRuleObj[key].min && income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || !TaxRuleObj[key].max);
+        
+        let isUnderRightBracket = (income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || TaxRuleObj[key].max === null);
+
         if (isUnderRightBracket) {
             bracketTaxAmount = (income - TaxRuleObj[key].min) * (TaxRuleObj[key].taxRate / 100);
             break;
         } else {
-            income > TaxRuleObj[key].min && (previousTireTaxAmount += ((TaxRuleObj[key].max - TaxRuleObj[key].min) * (TaxRuleObj[key].taxRate / 100)))
+            previousTireAmount = selectedProvince ? TaxRuleObj[key].max : (TaxRuleObj[key].max - TaxRuleObj[key].min);
+            previousTireTaxAmount += previousTireAmount * (TaxRuleObj[key].taxRate / 100);
         }
     }
     return previousTireTaxAmount + bracketTaxAmount;

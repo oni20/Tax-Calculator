@@ -88,11 +88,11 @@ const Body = () => {
       if (income !== 0) {
         let rrspTaxSavings = 0;
 
-        // Calculating Provincial Tax
-        const PROTAX_CA = CalculateTax(income, 'provincialTax', provinceDDVal);
-
         // Calculating Federal tax 
         const FEDTAX_CA = CalculateTax(income, 'federalTax');
+
+        // Calculating Provincial Tax
+        const PROTAX_CA = CalculateTax(income, 'provincialTax', provinceDDVal);
 
         // Calculating RRSP
         const RRSP = convertStringToNumber(form.formEmpIncomeRRSP.value);
