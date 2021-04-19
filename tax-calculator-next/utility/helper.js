@@ -1,7 +1,6 @@
 import {
     DEFAULT_ANNUAL_WEEKS,
     DEFAULT_ANNUAL_BI_WEEKS,
-    DEFAULT_ANNUAL_WORKING_DAYS,
     DEFAULT_ANNUAL_WEEKLY_HOURS
 } from './config';
 
@@ -42,8 +41,6 @@ export const CalculateTax = (income, taxType, selectedProvince = null) => {
         TaxRuleObj = selectedProvince ? CanadaTaxRule[taxType][selectedProvince] : CanadaTaxRule[taxType];
 
     for (let key in TaxRuleObj) {
-        //let isUnderRightBracket = (TaxRuleObj[key].min && income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || !TaxRuleObj[key].max);
-        
         let isUnderRightBracket = (income > TaxRuleObj[key].min) && (income <= TaxRuleObj[key].max || TaxRuleObj[key].max === null);
 
         if (isUnderRightBracket) {
@@ -63,13 +60,12 @@ export const GetSalaryAfterTax = (salaryData) => {
     const { income, FEDTAX_CA, PROTAX_CA, cppTotal, eiTotal, rrspTaxSavings } = salaryData,
         TOTAL_TAX = FEDTAX_CA + PROTAX_CA + cppTotal + eiTotal,
         NET_INCOME = rrspTaxSavings > 0 ? income - TOTAL_TAX + rrspTaxSavings : income - TOTAL_TAX,
-        frequency = ['year', 'month', 'biweekly', 'week', 'day', 'hour'],
+        frequency = ['year', 'month', 'biweekly', 'week', 'hour'],
         divisibleMapper = {
             'year': 1,
             'month': 12,
             'biweekly': DEFAULT_ANNUAL_BI_WEEKS,
-            'week': DEFAULT_ANNUAL_WEEKS,
-            'day': DEFAULT_ANNUAL_WORKING_DAYS,
+            'week': DEFAULT_ANNUAL_WEEKS,            
             'hour': (DEFAULT_ANNUAL_WEEKS * DEFAULT_ANNUAL_WEEKLY_HOURS)
         }, salAfterTax = {};
 
