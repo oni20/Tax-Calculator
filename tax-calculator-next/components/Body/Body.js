@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useReducer } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 
 /* Custom component */
@@ -6,9 +6,14 @@ import {
   DEFAULT_SALARY_STATUS,
   InputControlList
 } from '../../utility/config';
-import { CalculateTax, GetCPPAndEI, GetSalaryAfterTax } from '../../utility/helper';
+import {
+  CalculateTax,
+  GetCPPAndEI,
+  GetSalaryAfterTax,
+  convertStringToLocale,
+  convertStringToNumber
+} from '../../utility/helper';
 import FormInputRange from './FormInputRange';
-import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 import Hero from '../common/Hero';
 import CardUp from '../common/CardUp';
 import ResultCard from './ResultCard';
@@ -16,25 +21,44 @@ import { GlobalContext } from '../Context/GlobalContext';
 import { ResultContext } from './ResultContext';
 import AlertMessage from '../common/AlertMessage';
 import LottiePlayer from '../common/LottiePlayer';
+import {
+  initialState,
+  BodyReducer
+} from './Reducer/BodyReducer';
+import {
+  SET_VALIDATION,
+  SET_EMPLOYMENTINCOMEQUERY,
+  SET_DISABLECONTROL,
+  SET_PROVINCE
+} from '../Constants';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
 
 const Body = () => {
+  const [state, dispatch] = useReducer(BodyReducer, initialState);
+
   const { content } = useContext(GlobalContext),
-    { setSalaryStatus } = useContext(ResultContext),
-    [validated, setValidated] = useState(false),
-    [isEmploymentIncomeQuery, setIsEmploymentIncomeQuery] = useState(null),
-    [isDisableControl, setIsDisableControl] = useState(true),
-    [provinceDDVal, setProvinceDDVal] = useState('');
+    { setSalaryStatus } = useContext(ResultContext);
 
   const handleDDChange = event => {
-    setIsDisableControl(event.target.value === '');
-    setProvinceDDVal(event.target.value);
+    dispatch({
+      type: SET_DISABLECONTROL,
+      isDisableControl: event.target.value === ''
+    });
+
+    dispatch({
+      type: SET_PROVINCE,
+      provinceDDVal: event.target.value
+    });
   };
 
   const handleEmploymentTypeRadio = event => {
-    setIsEmploymentIncomeQuery(event.target.value);
+    dispatch({
+      type: SET_EMPLOYMENTINCOMEQUERY,
+      isEmploymentIncomeQuery: event.target.value
+    });
+
     setSalaryStatus(DEFAULT_SALARY_STATUS);
   };
 
@@ -44,11 +68,17 @@ const Body = () => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (form.checkValidity()) {
+    let isFormValid = form.checkValidity();
+
+    if (isFormValid) {
       // Calculate tax information
       calculateSalary();
     }
-    setValidated(true);
+
+    dispatch({
+      type: SET_VALIDATION,
+      validated: isFormValid
+    });
   };
 
   const calculateSelfIncomeSal = (form) => {
@@ -74,11 +104,11 @@ const Body = () => {
   const calculateSalary = () => {
     let form = document.getElementsByTagName('form')[0],
       income = null,
-      selectedHoursForEmpIncome = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
+      selectedHoursForEmpIncome = state.isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncomeHourly ? form.formEmpIncomeHourly.value : '';
 
-    income = isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncome
+    income = state.isEmploymentIncomeQuery === 'personalIncome' && form.formEmpIncome
       ? form.formEmpIncome.value === '' ? null : convertStringToNumber(form.formEmpIncome.value)
-      : isEmploymentIncomeQuery === 'selfIncome'
+      : state.isEmploymentIncomeQuery === 'selfIncome'
         ? null //calculateSelfIncomeSal(form) code is closed for now
         : null;
 
@@ -92,14 +122,14 @@ const Body = () => {
         const FEDTAX_CA = CalculateTax(income, 'federalTax');
 
         // Calculating Provincial Tax
-        const PROTAX_CA = CalculateTax(income, 'provincialTax', provinceDDVal);
+        const PROTAX_CA = CalculateTax(income, 'provincialTax', state.provinceDDVal);
 
         // Calculating RRSP
         const RRSP = convertStringToNumber(form.formEmpIncomeRRSP.value);
 
         if (RRSP > 0) {
           const incomeRrsp = income - RRSP,
-            protaxRrspCa = CalculateTax(incomeRrsp, 'provincialTax', provinceDDVal),
+            protaxRrspCa = CalculateTax(incomeRrsp, 'provincialTax', state.provinceDDVal),
             fedtaxRrspCa = CalculateTax(incomeRrsp, 'federalTax');
 
           rrspTaxSavings = (FEDTAX_CA + PROTAX_CA) - (fedtaxRrspCa + protaxRrspCa);
@@ -107,7 +137,7 @@ const Body = () => {
 
         //Calculating CPP and EI
         const { cppTotal, eiTotal } = GetCPPAndEI(income);
-        
+
         salAfterTax = GetSalaryAfterTax({
           income,
           FEDTAX_CA,
@@ -133,10 +163,10 @@ const Body = () => {
         <Row>
           <Col lg={5} xs={12}>
             <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
-              <Form action='#' noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form action='#' noValidate validated={state.validated} onSubmit={handleSubmit}>
                 <Form.Group controlId='formSelectProvince'>
                   <Form.Label>{content.body.provinceDD}</Form.Label>
-                  <Form.Control as='select' required value={provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
+                  <Form.Control as='select' required value={state.provinceDDVal} onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
                     <option value='' disabled>{content.body.provinceDD}</option>
                     {
                       content.body.provinceList.map((province, index) => {
@@ -166,7 +196,7 @@ const Body = () => {
                               value={index === 0 ? 'personalIncome' : 'selfIncome'}
                               id={'incomeTypeRadio' + index}
                               onChange={handleEmploymentTypeRadio}
-                              disabled={isDisableControl}
+                              disabled={state.isDisableControl}
                             />
                           );
                         })
@@ -177,7 +207,7 @@ const Body = () => {
 
                 {/* Input controls with Range */}
                 {
-                  isEmploymentIncomeQuery === 'selfIncome' ?
+                  state.isEmploymentIncomeQuery === 'selfIncome' ?
                     <>
                       <LottiePlayer
                         imageSource="https://assets3.lottiefiles.com/packages/lf20_hntzYU.json"
@@ -191,12 +221,12 @@ const Body = () => {
                     :
                     InputControlList.map((inputObj, idx) => {
                       return (
-                        isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
+                        state.isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
                         <FormInputRange
                           key={idx}
-                          isEmploymentIncomeQuery={isEmploymentIncomeQuery}
+                          isEmploymentIncomeQuery={state.isEmploymentIncomeQuery}
                           isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                          isDisabled={isDisableControl}
+                          isDisabled={state.isDisableControl}
                           inputclassName={BodyStyle.customInput}
                           controlId={inputObj.controlId}
                           iconName={inputObj.iconName}
@@ -213,7 +243,7 @@ const Body = () => {
                 }
 
                 <div className='mt-5 d-flex justify-content-center'>
-                  <button className='button__primary' type='submit' disabled={isEmploymentIncomeQuery === '' || isEmploymentIncomeQuery === 'selfIncome'}>
+                  <button className='button__primary' type='submit' disabled={state.isEmploymentIncomeQuery === '' || state.isEmploymentIncomeQuery === 'selfIncome'}>
                     {content.body.calculateBtn}
                   </button>
                 </div>
@@ -224,7 +254,7 @@ const Body = () => {
           <Col lg={7} xs={12}>
             <div role="region" aria-live="polite">
               <ResultCard
-                isEmploymentIncomeQuery={isEmploymentIncomeQuery}
+                isEmploymentIncomeQuery={state.isEmploymentIncomeQuery}
               />
             </div>
           </Col>
