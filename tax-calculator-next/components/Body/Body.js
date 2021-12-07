@@ -1,12 +1,28 @@
 import React, { useContext, useReducer } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 /* Custom component */
 import Layout from './Layout';
+import CardUp from '../common/CardUp';
+import ResultCard from './ResultCard';
+import ProvinceContainer from './ProvinceContainer';
+import EmploymentTypeContainer from './EmploymentTypeContainer';
+import MonetaryInfoContainer from './MonetaryInfoContainer';
+
+/* Reducers */
 import {
-  DEFAULT_SALARY_STATUS,
-  InputControlList
-} from '../../utility/config';
+  initialState,
+  BodyReducer
+} from './Reducer/BodyReducer';
+import { SET_VALIDATION } from '../Constants';
+
+/* Contexts */
+import { GlobalContext } from '../Context/GlobalContext';
+import { ResultContext } from './ResultContext';
+import FormContext from './FormContext';
+
+/* Config */
+import { DEFAULT_SALARY_STATUS } from '../../utility/config';
 import {
   CalculateTax,
   GetCPPAndEI,
@@ -14,57 +30,22 @@ import {
   convertStringToLocale,
   convertStringToNumber
 } from '../../utility/helper';
-import FormInputRange from './FormInputRange';
-import CardUp from '../common/CardUp';
-import ResultCard from './ResultCard';
-import { GlobalContext } from '../Context/GlobalContext';
-import { ResultContext } from './ResultContext';
-import AlertMessage from '../common/AlertMessage';
-import LottiePlayer from '../common/LottiePlayer';
-import EmploymentTypeContainer from './EmploymentTypeContainer';
-import {
-  initialState,
-  BodyReducer
-} from './Reducer/BodyReducer';
-import {
-  SET_VALIDATION,
-  SET_EMPLOYMENTINCOMEQUERY,
-  SET_PROVINCE
-} from '../Constants';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
 
 const Body = () => {
   const [state, dispatch] = useReducer(BodyReducer, initialState);
+  const formState = { state, dispatch };
 
-  const { content } = useContext(GlobalContext),
-    { setSalaryStatus } = useContext(ResultContext);
-
-  const handleDDChange = event => {
-    dispatch({
-      type: SET_PROVINCE,
-      isDisableControl: (event.target.value === ''),
-      provinceDDVal: event.target.value
-    });
-  };
-
-  const handleEmploymentTypeRadio = event => {
-    dispatch({
-      type: SET_EMPLOYMENTINCOMEQUERY,
-      incomeType: event.target.value,
-      isEmploymentIncomeQuery: event.target.value
-    });
-
-    setSalaryStatus(DEFAULT_SALARY_STATUS);
-  };
+  const { content } = useContext(GlobalContext);
+  const { setSalaryStatus } = useContext(ResultContext);
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
-
     event.preventDefault();
     event.stopPropagation();
 
+    const form = event.currentTarget;
     let isFormValid = form.checkValidity();
 
     if (isFormValid) {
@@ -154,69 +135,19 @@ const Body = () => {
       <CardUp cardTitle={content.body.CalculationTitle} cardAssent={BodyStyle.card_up__color__teal}>
         <Form action='#' noValidate validated={state.validated} onSubmit={handleSubmit}>
 
-          <Form.Group controlId='formSelectProvince'>
-            <Form.Label>{content.body.provinceDD}</Form.Label>
-            <Form.Control as='select' required value={state.provinceDDVal}
-              onChange={handleDDChange} className={BodyStyle.gotax_dropdown}>
-              <option value='' disabled>{content.body.provinceDD}</option>
-              {
-                content.body.provinceList.map((province, index) => {
-                  return <option key={index} value={province.id}>{province.displayText}</option>;
-                })
-              }
-            </Form.Control>
-            <Form.Control.Feedback type='invalid'>
-              {content.body.errorMessage.missingProvince}
-            </Form.Control.Feedback>
-          </Form.Group>
+          {/* Province Dropdown */}
+          <ProvinceContainer styleClass={BodyStyle.gotax_dropdown} />
 
           {/* Employment Type */}
-          <EmploymentTypeContainer
-            currentValue={state.incomeType}
-            onChange={handleEmploymentTypeRadio}
-            isDisabled={state.isDisableControl}
-          />
+          <EmploymentTypeContainer />
 
           {/* Input controls with Range */}
-          {
-            state.isEmploymentIncomeQuery === 'selfIncome' ?
-              <>
-                <LottiePlayer
-                  imageSource="https://assets3.lottiefiles.com/packages/lf20_hntzYU.json"
-                />
-                <AlertMessage
-                  alertType='warning'
-                  message={content.body.screenMessage.warningMsg}
-                  icon='<span class="material-icons">engineering</span>'
-                  countDown='May 1, 2022 00:00:00' />
-              </>
-              :
-              InputControlList.map((inputObj, idx) => {
-                return (
-                  state.isEmploymentIncomeQuery === inputObj.isEmploymentIncomeQuery &&
-                  <FormInputRange
-                    key={idx}
-                    isEmploymentIncomeQuery={state.isEmploymentIncomeQuery}
-                    isRequired={inputObj.isRequired ? inputObj.isRequired : false}
-                    isDisabled={state.isDisableControl}
-                    inputclassName={BodyStyle.customInput}
-                    controlId={inputObj.controlId}
-                    iconName={inputObj.iconName}
-                    label={content.body[inputObj.labelKeyName]}
-                    errorMessage={
-                      inputObj.errorMessageKeyName && inputObj.errorMessageKeyName === ''
-                        ? ''
-                        : content.body.errorMessage[inputObj.errorMessageKeyName]
-                    }
-                    rangeMax={inputObj.rangeMax}
-                  />
-                );
-              })
-          }
+          <MonetaryInfoContainer styleInputClass={BodyStyle.customInput} />
 
+          {/* Form Submit button */}
           <div className='mt-5 d-flex justify-content-center'>
             <button className='button__primary' type='submit'
-              disabled={state.isEmploymentIncomeQuery === '' || state.isEmploymentIncomeQuery === 'selfIncome'}>
+              disabled={[null, '', 'selfIncome'].includes(state.isEmploymentIncomeQuery)}>
               {content.body.calculateBtn}
             </button>
           </div>
@@ -228,24 +159,24 @@ const Body = () => {
   const RightHandComponent = () => {
     return (
       <div role="region" aria-live="polite">
-        <ResultCard
-          isEmploymentIncomeQuery={state.isEmploymentIncomeQuery}
-        />
+        <ResultCard />
       </div>
     );
   };
 
   return (
-    <Layout leftOrientation={{
-      desktopScreen: 5,
-      mobileScreen: 12
-    }} rightOrientation={{
-      desktopScreen: 7,
-      mobileScreen: 12
-    }} >
-      <LeftHandComponent />
-      <RightHandComponent />
-    </Layout >
+    <FormContext.Provider value={formState}>
+      <Layout leftOrientation={{
+        desktopScreen: 5,
+        mobileScreen: 12
+      }} rightOrientation={{
+        desktopScreen: 7,
+        mobileScreen: 12
+      }} >
+        <LeftHandComponent />
+        <RightHandComponent />
+      </Layout >
+    </FormContext.Provider>
   );
 };
 

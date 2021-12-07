@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
+/* Custom components */
 import Slider from '../common/Slider';
 import InputBox from '../common/InputBox';
 

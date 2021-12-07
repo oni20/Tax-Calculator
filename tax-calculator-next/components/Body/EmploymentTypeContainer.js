@@ -2,10 +2,26 @@ import React, { useContext } from 'react';
 import { Col, Form } from 'react-bootstrap';
 import RadioButton from '../common/RadioButton';
 import { GlobalContext } from '../Context/GlobalContext';
+import { useFormContext } from './FormContext';
+import { ResultContext } from './ResultContext';
+import { SET_EMPLOYMENTINCOMEQUERY } from '../Constants';
+import { DEFAULT_SALARY_STATUS } from '../../utility/config';
 
-export default function EmploymentTypeContainer(props) {
+export default function EmploymentTypeContainer() {
     const { content } = useContext(GlobalContext);
-    const { currentValue, onChange, isDisabled } = props;
+    const { state, dispatch } = useFormContext();
+    const { setSalaryStatus } = useContext(ResultContext);  
+    const { incomeType, isDisableControl } = state;
+
+    const handleEmploymentTypeRadio = event => {
+        dispatch({
+            type: SET_EMPLOYMENTINCOMEQUERY,
+            incomeType: event.target.value,
+            isEmploymentIncomeQuery: event.target.value
+        });
+
+        setSalaryStatus(DEFAULT_SALARY_STATUS);
+    };
 
     return (
         <fieldset>
@@ -21,10 +37,10 @@ export default function EmploymentTypeContainer(props) {
                                     label={radioVal.label}
                                     name='incomeTypeRadio'
                                     value={radioVal.value}
-                                    currentValue={currentValue}
+                                    currentValue={incomeType}
                                     id={'incomeTypeRadio' + index}
-                                    onChange={onChange}
-                                    isDisabled={isDisabled}
+                                    onChange={handleEmploymentTypeRadio}
+                                    isDisabled={isDisableControl}
                                 />
                             );
                         })
