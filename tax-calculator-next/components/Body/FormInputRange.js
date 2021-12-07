@@ -1,58 +1,46 @@
-import React, { useState } from 'react';
-import { Form, FormControl, InputGroup } from 'react-bootstrap';
+import React from 'react';
+import { Form } from 'react-bootstrap';
 
-import { convertStringToLocale } from '../../utility/helper';
 import Slider from '../common/Slider';
+import InputBox from '../common/InputBox';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
 
 const FormInputRange = props => {
-    const [inputState, setInputState] = useState(0);
-
-    const updateControlValue = newVal => {
-        setInputState(convertStringToLocale(newVal));
-    };
-
-    const handleInputChange = event => {
-        updateControlValue(event.target.value);
-    };
+    const {
+        controlId,
+        label,
+        iconName,
+        inputclassName,
+        isDisabled,
+        isRequired,
+        errorMessage,
+        rangeMax,
+    } = props;
 
     return (
         <div className={BodyStyle.input_range_group}>
-            <Form.Group controlId={props.controlId}>
-                <Form.Label>{props.label}</Form.Label>
-                <InputGroup className={'mb-3 ' + BodyStyle.customInput_group}>
-                    <InputGroup.Prepend>
-                        <InputGroup.Text id={props.controlId + '_icon'} className='no-bg'>
-                            <i className='material-icons prefix'>{props.iconName}</i>
-                        </InputGroup.Text>
-                    </InputGroup.Prepend>
-
-                    <FormControl
-                        className={props.inputclassName}
-                        disabled={props.isDisabled}
-                        required={props.isRequired}
-                        value={inputState}
-                        onChange={handleInputChange}
-                        aria-describedby={props.controlId + '_icon'}
-                    />
-                    <Form.Control.Feedback type='invalid'>
-                        {props.errorMessage}
-                    </Form.Control.Feedback>
-                </InputGroup>
-            </Form.Group>
+            <InputBox
+                controlId={controlId}
+                label={label}
+                inputGroupClassName={BodyStyle.customInput_group}
+                iconName={iconName}
+                inputclassName={inputclassName}
+                isDisabled={isDisabled}
+                isRequired={isRequired}
+                errorMessage={errorMessage}
+            />
 
             {/* Range */}
-            {(props.rangeMax && props.rangeMax !== '') &&
-                <Form.Group controlId={props.controlId + 'Range'}>
+            {(rangeMax && rangeMax !== '') &&
+                <Form.Group controlId={controlId + 'Range'}>
                     <Slider
-                        uniqueID={props.controlId + 'Range'}
-                        label={props.label}
+                        controlId={controlId}
+                        label={label}
                         labelClass='sr-only'
-                        valueNow={inputState === '' ? 0 : parseInt(inputState)}
-                        max={parseInt(props.rangeMax)}
-                        updateControlValue={updateControlValue} />
+                        max={parseInt(rangeMax)}
+                    />
                 </Form.Group>
             }
         </div>

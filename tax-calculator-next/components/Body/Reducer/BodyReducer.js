@@ -1,13 +1,13 @@
 import {
     SET_VALIDATION,
     SET_EMPLOYMENTINCOMEQUERY,
-    SET_DISABLECONTROL,
     SET_PROVINCE
 } from '../../Constants';
 
 export const initialState = {
     validated: false,
     isEmploymentIncomeQuery: null,
+    incomeType: '',
     isDisableControl: true,
     provinceDDVal: ''
 };
@@ -23,18 +23,14 @@ export const BodyReducer = (state, action) => {
         case SET_EMPLOYMENTINCOMEQUERY:
             return {
                 ...state,
+                incomeType: action.incomeType,
                 isEmploymentIncomeQuery: action.isEmploymentIncomeQuery
-            };
-
-        case SET_DISABLECONTROL:
-            return {
-                ...state,
-                isDisableControl: action.isDisableControl
             };
 
         case SET_PROVINCE:
             return {
                 ...state,
+                isDisableControl: action.isDisableControl,
                 provinceDDVal: action.provinceDDVal
             };
         default:
