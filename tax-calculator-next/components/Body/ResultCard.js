@@ -6,9 +6,12 @@ import { Col, Tab, Row, Nav } from 'react-bootstrap';
 /* Custom component */
 import SalaryContainer from '../common/SalaryContainer';
 import CardUp from '../common/CardUp';
+import PieChart from '../Chart/PieChart';
+
+/* Contexts */
 import { GlobalContext } from '../Context/GlobalContext';
 import { ResultContext } from './ResultContext';
-import PieChart from '../Chart/PieChart';
+import { useFormContext } from './FormContext';
 
 /* Styling */
 import BodyStyle from './body.module.scss';
@@ -17,8 +20,9 @@ const ResultCard = (props) => {
   const [tabName, setTabName] = useState('tab-0'),
     { content } = useContext(GlobalContext),
     { salAfterTax } = useContext(ResultContext),
+    { state } = useFormContext(),
     { resultTable, resultTitle, tabNames } = content.body,
-    { isEmploymentIncomeQuery } = props,
+    { isEmploymentIncomeQuery } = state,
     tabMapper = {
       'tab-0': 'year',
       'tab-1': 'month',

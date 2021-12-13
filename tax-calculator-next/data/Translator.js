@@ -74,7 +74,16 @@ const dictionary = {
             ],
             "incomeType": {
                 "labelText": "Income type",
-                "type": ["Employment Income", "Self-employment Income"]
+                "type": [
+                    {
+                        "value": "personalIncome",
+                        "label": "Employment Income"
+                    },
+                    {
+                        "value": "selfIncome",
+                        "label": "Self-employment Income"
+                    }
+                ]
             },
             "calculateBtn": "Calculate",
             "resultTitle": "Results",
@@ -200,7 +209,16 @@ const dictionary = {
             ],
             "incomeType": {
                 "labelText": "Type de revenu",
-                "type": ["Revenu d'emploi", "Revenu du travail indépendant"]
+                "type": [
+                    {
+                        "value": "personalIncome",
+                        "label": "Revenu d'emploi"
+                    },
+                    {
+                        "value": "selfIncome",
+                        "label": "Revenu du travail indépendant"
+                    }
+                ]
             },
             "calculateBtn": "Calculer",
             "resultTitle": "Résultats",

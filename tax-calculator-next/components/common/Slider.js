@@ -1,10 +1,9 @@
-import React, { memo, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
+/* Custom Imports */
 import SliderStyle from './slider.module.scss';
-
-function shouldRender(prevProps, nextProps){
-    return prevProps.valueNow === nextProps.valueNow;
-}
+import { useInputSliderSharedState } from '../SharedState/InputSliderSharedState';
+import { convertStringToLocale, convertStringToNumber } from '../../utility/helper';
 
 const Slider = props => {
     const domNode = useRef(null),
@@ -25,19 +24,22 @@ const Slider = props => {
         }),
         [valueNow, setValueNow] = useState(0);
 
+    const { inputState, setInputState } = useInputSliderSharedState();
+
     useEffect(() => {
-        setValueNow(props.valueNow);
-    }, [props]);
+        setValueNow(
+            inputState[props.controlId] ? convertStringToNumber(inputState[props.controlId]) : valueNow)
+    }, [inputState[props.controlId]]);
 
     useEffect(() => {
         if (domNode.current.tabIndex !== 0) {
             domNode.current.tabIndex = 0;
         }
 
-        domNode.current.style.cssText = 'width: ' + thumbWidth + 'px; ' + 'height: ' + thumbHeight + 'px; ' + 'top: ' + (thumbHeight / -2) + 'px';       
+        domNode.current.style.cssText = 'width: ' + thumbWidth + 'px; ' + 'height: ' + thumbHeight + 'px; ' + 'top: ' + (thumbHeight / -2) + 'px';
         moveSliderTo(valueNow);
 
-        return function cleanup() {
+        return () => {
             if (domNode.current) {
                 domNode.current.removeEventListener('keydown', handleKeyDown);
                 domNode.current.removeEventListener('mousedown', handleMouseDown);
@@ -53,7 +55,10 @@ const Slider = props => {
     }, [valueNow]);
 
     const UpdateInputVal = newVal => {
-        props.updateControlValue(newVal);
+        setInputState({
+            ...inputState,
+            [props.controlId]: convertStringToLocale(newVal)
+        });
     };
 
     const moveSliderTo = value => {
@@ -156,7 +161,7 @@ const Slider = props => {
 
         // bind a mouseup event handler to stop tracking mouse movements
         document.addEventListener('mouseup', handleMouseUp);
-        
+
         event.preventDefault();
         event.stopPropagation();
 
@@ -176,7 +181,7 @@ const Slider = props => {
 
         // bind a touchmove event handler to move pointer
         domNode.current.addEventListener('touchmove', handleTouchMove);
-        
+
         // bind a touchend event handler to stop tracking touch movements
         domNode.current.addEventListener('touchend', cancelTouchEvents);
 
@@ -193,7 +198,7 @@ const Slider = props => {
 
     return (
         <>
-            <div id={props.uniqueID} className={props.labelClass}>{props.label}</div>
+            <div id={props.controlId + 'Range'} className={props.labelClass}>{props.label}</div>
             <div className={SliderStyle.aria_widget_slider}>
                 <div className={SliderStyle.rail} ref={raildomNode} onClick={handleClick}>
                     <div
@@ -204,7 +209,7 @@ const Slider = props => {
                         aria-valuemin='0'
                         aria-valuenow={valueNow}
                         aria-valuemax={props.max}
-                        aria-labelledby={props.uniqueID}
+                        aria-labelledby={props.controlId + 'Range'}
                         onKeyDown={handleKeyDown}
                         onMouseDown={handleMouseDown}
                         onTouchStart={handleTouchStart}
@@ -212,10 +217,10 @@ const Slider = props => {
                         onBlur={handleBlur}
                     >
                     </div>
-                </div>                
+                </div>
             </div>
         </>
     );
 };
 
-export default memo(Slider, shouldRender);
+export default Slider;
